@@ -19,6 +19,7 @@
 \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{datetime}
+\usepackage[authoryear,round]{natbib}
 
 
 \newdateformat{monthyeardate}{%
@@ -42,6 +43,13 @@
 \def\degree#1{\gdef\@degree{#1}}
 % The name of your Oxford college (e.g. Christ Church, Pembroke)
 \def\college#1{\gdef\@college{#1}}
+
+\def\company#1{\gdef\@company{#1}}
+\def\firstExaminer#1{\gdef\@firstExaminer{#1}}
+\def\firstExaminerLocation#1{\gdef\@firstExaminerLocation{#1}}
+\def\secondExaminer#1{\gdef\@secondExaminer{#1}}
+\def\secondExaminerLocation#1{\gdef\@secondExaminerLocation{#1}}
+\def\course#1{\gdef\@course{#1}}
 
 \def\thkoelnlogo{{\includegraphics[width=33mm]{support/thkoeln}}}
 \def\inovexlogo{{\includegraphics[height=19mm]{support/inovex}}}
@@ -93,7 +101,7 @@
   \begin{center}
     \scshape
     \Large
-    Masterthesis
+    \@degree
   \end{center}
   
   \begin{center}
@@ -108,39 +116,36 @@
     \vspace{5 mm}
     \large
     vorgelegt and der\\
-
     \scshape
-    Technischen Hochschule Köln\\
-    Ingenieurwissenschaftliches Zentrum\\
-    Fakultät für Informations-,\\Medien- und Elektrotechnik
+    \@college
   \end{center}
 
   \begin{center}
     \large
     im Studiengang\\
     \scshape
-    Technische Informatik (Master)
+    \@course
   \end{center}
 
   \begin{center}
     \large
     in Koorperation mit der\\
-    \textbf{inovex GmbH}
+    \textbf{\@company}
   \end{center}
 
   \begin{center}
     \begin{tabular}{rl}
-      Erster Prüfer:  &  Prof. Dr. Martin Eisemann\\
-                      &  \small Technische Hochschule Köln \\[1.0em]
-      Zweiter Prüfer:  &  Christian Meder\\
-                      &  \small inovex GmbH\\
+      Erster Prüfer:  &  \@firstExaminer \\
+                      &  \small \@firstExaminerLocation \\[1.0em]
+      Zweiter Prüfer:  &  \@secondExaminer\\
+                      &  \small \@secondExaminerLocation\\
     \end{tabular}
   \end{center}
 
 \begin{center}
     \large
-    Köln, im 
-    \monthyeardate\today
+    \@degreedate
+    
   \end{center}
 
 
@@ -152,25 +157,26 @@
   %Kontaktmöglichkeiten des Autors und der Prüfer
   \begin{center}
   \begin{tabular}{rl}
-                                                          &  \\[30.0em]
+  &  \\[30.0em]
   
-  \large \textbf{Adressen:}       &       \quad Steffen Tröster\\
-                                                          &       \quad Ennest 30\\
-                                                          &       \quad 57392 Schmallenberg\\
-                                                          &       \quad steffen.troester@googlemail.com\\[2.0em]
-  
-                                                          &       \quad Prof. Dr. Martin Eisemann\\
-                                                          &       \quad Technische Hochschule Köln\\
-                                                          &       \quad Institut für Informatik\\
-                                                          &       \quad Steinmüllerallee 1\\
-                                                          &       \quad 51643 Gummersbach\\
-                                                          &       \quad martin.eisemann@th-koeln.de\\[2.0em]
-  
-                                                          &       \quad Christian Meder\\
-                                                          &       \quad inovex GmbH\\
-                                                          &       \quad Ludwig-Erhard-Allee 6\\
-                                                          &       \quad 76131 Karlsruhe\\
-                                                          &       \quad christian.meder@inovex.de\\[2.0em]
+  \large \textbf{Adressen:}
+  & \quad Steffen Tröster\\
+  & \quad Ennest 30\\
+  & \quad 57392 Schmallenberg\\
+  & \quad steffen.troester@googlemail.com\\[2.0em]
+
+  & \quad Prof. Dr. Martin Eisemann\\
+  & \quad Technische Hochschule Köln\\
+  & \quad Institut für Informatik\\
+  & \quad Steinmüllerallee 1\\
+  & \quad 51643 Gummersbach\\
+  & \quad martin.eisemann@th-koeln.de\\[2.0em]
+
+  & \quad Christian Meder\\
+  & \quad inovex GmbH\\
+  & \quad Ludwig-Erhard-Allee 6\\
+  & \quad 76131 Karlsruhe\\
+  & \quad christian.meder@inovex.de\\[2.0em]
   \end{tabular}
   \end{center}
 

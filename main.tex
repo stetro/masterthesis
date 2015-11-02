@@ -1,56 +1,58 @@
-\documentclass[12pt]{support/thcolognethesis}  % default square logo 
-%\documentclass[12pt,beltcrest]{ociamthesis} % use old belt crest logo
-%\documentclass[12pt,shieldcrest]{ociamthesis} % use older shield crest logo
+\documentclass[12pt]{support/thcolognethesis} 
 
-%load any additional packages
 \usepackage{amssymb}
-
-%input macros (i.e. write your own macros file called mymacros.tex 
-%and uncomment the next line)
-%\include{mymacros}
 
 \title{Optimierung von Augmented Reality Anwendungen durch die Berücksichtigung von Tiefeninformationen mit Googles Project Tango}
 
-\author{Steffen Tröster}
-\college{foo}  
+\degree{Masterthesis}
 
-%\renewcommand{\submittedtext}{change the default text here if needed}
-\degree{Doctor of Philosophy}     %the degree
-\degreedate{Trinity 1998}         %the degree date
+\author{Steffen Tröster}
+
+\college{
+	Technischen Hochschule Köln\\
+    Ingenieurwissenschaftliches Zentrum\\
+    Fakultät für Informations-,\\
+    Medien- und Elektrotechnik}
+
+\course{Technische Informatik (Master)}
+
+\company{inovex GmbH}  
+
+\firstExaminer{Prof. Dr. Martin Eisemann}
+\firstExaminerLocation{Technische Hochschule Köln}
+\secondExaminer{Christian Meder}
+\secondExaminerLocation{inovex GmbH}
+
+\degreedate{Köln, im \monthyeardate\today}
 	
-%end the preamble and start the document
 \begin{document}
 
-%this baselineskip gives sufficient line spacing for an examiner to easily
-%markup the thesis with comments
 \baselineskip=18pt plus1pt
 
-%set the number of sectioning levels that get number and appear in the contents
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
+\maketitle                 
 
-\maketitle                  % create a title page from the preamble info
+\include{content/abstract}         
 
-\include{content/abstract}          % include the abstract
-
-\begin{romanpages}          % start roman page numbering
-\tableofcontents            % generate and include a table of contents
-\end{romanpages}            % end roman page numbering
+\begin{romanpages}         
+\tableofcontents            
+\end{romanpages}          
 
 \include{content/introduction}
+\include{content/theory}
 
 \appendix
-\listoffigures              % generate and include a list of figures
+\listoffigures            
 \include{content/acknowlegements}
 \include{content/appendix}
 
-%next line adds the Bibliography to the contents page
+
 \addcontentsline{toc}{chapter}{Bibliography}
-%uncomment next line to change bibliography name to references
-%\renewcommand{\bibname}{References}
-\bibliography{main}        %use a bibtex bibliography file refs.bib
-\bibliographystyle{plain}  %use the plain bibliography style
+
+\bibliography{main}        
+\bibliographystyle{natdin} 
 
 \end{document}
 
