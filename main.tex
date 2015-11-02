@@ -31,19 +31,18 @@
 
 
 \maketitle                  % create a title page from the preamble info
-\include{content/acknowlegements}   % include an acknowledgements.tex file
+
 \include{content/abstract}          % include the abstract
 
 \begin{romanpages}          % start roman page numbering
 \tableofcontents            % generate and include a table of contents
-\listoffigures              % generate and include a list of figures
 \end{romanpages}            % end roman page numbering
 
-%now include the files of latex for each of the chapters etc
-\include{content/chapter1}
+\include{content/introduction}
 
-%now enable appendix numbering format and include any appendices
 \appendix
+\listoffigures              % generate and include a list of figures
+\include{content/acknowlegements}
 \include{content/appendix}
 
 %next line adds the Bibliography to the contents page
