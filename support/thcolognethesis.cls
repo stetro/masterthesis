@@ -6,9 +6,6 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{support/thcolognethesis}[2010/11/22 v2.2 OCIAM thesis class]
 %-------------------------- initial code -----------------------
-\def\logoversion{squarelogo}
-\DeclareOption{beltcrest}{\def\logoversion{beltcrest}}
-\DeclareOption{shieldcrest}{\def\logoversion{shieldcrest}}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
 \ProcessOptions\relax
 \LoadClass[a4paper]{report}
@@ -17,6 +14,16 @@
 
 \RequirePackage{graphicx} % needed for latest frontpage logo
 \RequirePackage{ifthen}   % needed for option parsing for logo
+
+% Custom Packages
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{datetime}
+
+
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH] \THEYEAR}
+
 
 \raggedbottom
 
@@ -36,37 +43,8 @@
 % The name of your Oxford college (e.g. Christ Church, Pembroke)
 \def\college#1{\gdef\@college{#1}}
 
-
-%
-% Setup choosen crest/logo
-%
-
-\ifthenelse{\equal{\logoversion}{shieldcrest}}%
-{
-% Traditional Oxford shield crest
-%Using latex metafont (Mathematical Institute system)
-\font\crestfont=oxcrest40 scaled\magstep3
-\def\logo{{\crestfont \char1}}
-%For comlab system replace 1st line above with
-%\font\crestfont=crest scaled\magstep3
-}{}
-
-\ifthenelse{\equal{\logoversion}{beltcrest}}%
-{
-% Newer Oxford Belt crest
-%Using latex metafont (Mathematical Institute system)
-\font\beltcrestfont=oxbeltcrest
-\def\logo{{\beltcrestfont \char0}}
-%For comlab system replace 1st line above with
-%\font\beltcrestfont=newcrest
-}{}
-
-\ifthenelse{\equal{\logoversion}{squarelogo}}%
-{
-% Latest Logo, Square version (the default!)
-% you need an oxlogo.eps or oxlogo.pdf file as appropriate
-\def\logo{{\includegraphics[width=32mm]{support/thkoeln}}}
-}{}
+\def\thkoelnlogo{{\includegraphics[width=33mm]{support/thkoeln}}}
+\def\inovexlogo{{\includegraphics[height=19mm]{support/inovex}}}
 
 %
 % Define text area of page and margin offsets
@@ -98,40 +76,105 @@
     \renewcommand{\footnotesize}{\small}
     \renewcommand{\footnoterule}{\relax}
     \thispagestyle{empty}
-  \null\vfill
   \begin{center}
-    { \Huge {\bfseries {\@title}} \par}
-{\large \vspace*{40mm} {\logo \par} \vspace*{25mm}}
-    {{\Large \@author} \par}
-{\large \vspace*{1ex}
-    {{\@college} \par}
-\vspace*{1ex}
-    {University of Oxford \par}
-\vspace*{25mm}
-    {{\submittedtext} \par}
-\vspace*{1ex}
-    {\it {\@degree} \par}
-\vspace*{2ex}
-    {\@degreedate}}
+    \thkoelnlogo
+    \hfill
+    \inovexlogo
+  \end{center}  
+
+  \begin{center}
+    \vspace{18 mm}
+    \Large
+    \textbf
+    \@title
+    \vspace{8 mm}
   \end{center}
-  \null\vfill
-\end{alwayssingle}}
+  
+  \begin{center}
+    \scshape
+    \Large
+    Masterthesis
+  \end{center}
+  
+  \begin{center}
+    \vspace{5 mm}
+    \large
+    ausgearbeitet von\\
+    \large
+    \textbf{\@author}
+  \end{center}
 
-% DEDICATION
-%
-% The dedication environment makes sure the dedication gets its
-% own page and is set out in verse format.
+  \begin{center}
+    \vspace{5 mm}
+    \large
+    vorgelegt and der\\
 
-\newenvironment{dedication}
-{\begin{alwayssingle}
+    \scshape
+    Technischen Hochschule Köln\\
+    Ingenieurwissenschaftliches Zentrum\\
+    Fakultät für Informations-,\\Medien- und Elektrotechnik
+  \end{center}
+
+  \begin{center}
+    \large
+    im Studiengang\\
+    \scshape
+    Technische Informatik (Master)
+  \end{center}
+
+  \begin{center}
+    \large
+    in Koorperation mit der\\
+    \textbf{inovex GmbH}
+  \end{center}
+
+  \begin{center}
+    \begin{tabular}{rl}
+      Erster Prüfer:  &  Prof. Dr. Martin Eisemann\\
+                      &  \small Technische Hochschule Köln \\[1.0em]
+      Zweiter Prüfer:  &  Christian Meder\\
+                      &  \small inovex GmbH\\
+    \end{tabular}
+  \end{center}
+
+\begin{center}
+    \large
+    Köln, im 
+    \monthyeardate\today
+  \end{center}
+
+
+  \vfill
+
+  \newpage
   \thispagestyle{empty}
+  
+  %Kontaktmöglichkeiten des Autors und der Prüfer
   \begin{center}
-  \vspace*{1.5cm}
-  {\LARGE }
+  \begin{tabular}{rl}
+                                                          &  \\[30.0em]
+  
+  \large \textbf{Adressen:}       &       \quad Steffen Tröster\\
+                                                          &       \quad Ennest 30\\
+                                                          &       \quad 57392 Schmallenberg\\
+                                                          &       \quad steffen.troester@googlemail.com\\[2.0em]
+  
+                                                          &       \quad Prof. Dr. Martin Eisemann\\
+                                                          &       \quad Technische Hochschule Köln\\
+                                                          &       \quad Institut für Informatik\\
+                                                          &       \quad Steinmüllerallee 1\\
+                                                          &       \quad 51643 Gummersbach\\
+                                                          &       \quad martin.eisemann@th-koeln.de\\[2.0em]
+  
+                                                          &       \quad Christian Meder\\
+                                                          &       \quad inovex GmbH\\
+                                                          &       \quad Ludwig-Erhard-Allee 6\\
+                                                          &       \quad 76131 Karlsruhe\\
+                                                          &       \quad christian.meder@inovex.de\\[2.0em]
+  \end{tabular}
   \end{center}
-  \vspace{0.5cm}
-  \begin{verse}\begin{center}}
-{\end{center}\end{verse}\end{alwayssingle}}
+
+\end{alwayssingle}}
 
 
 % ACKNOWLEDGEMENTS
@@ -251,3 +294,4 @@
 \newenvironment{romanpages}
 {\cleardoublepage\setcounter{page}{1}\renewcommand{\thepage}{\roman{page}}}
 {\cleardoublepage\renewcommand{\thepage}{\arabic{page}}\setcounter{page}{1}}
+
