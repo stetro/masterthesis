@@ -80,11 +80,14 @@
 
 %define title page layout
 \renewcommand{\maketitle}{%
-\begin{alwayssingle}
-    \renewcommand{\footnotesize}{\small}
-    \renewcommand{\footnoterule}{\relax}
-    \thispagestyle{empty}
+\begin{titlepage}
+
+  \thispagestyle{empty}
+ 
+  
+   
   \begin{center}
+    \vspace*{-10ex} 
     \thkoelnlogo
     \hfill
     \inovexlogo
@@ -129,7 +132,7 @@
 
   \begin{center}
     \large
-    in Koorperation mit der\\
+    in Kooperation mit der\\
     \textbf{\@company}
   \end{center}
 
@@ -145,6 +148,11 @@
 \begin{center}
     \large
     \@degreedate
+    
+    \begin{center}
+    \vspace*{10ex} 
+    \includegraphics[scale=1.0]{support/Linie}\\
+  \end{center}
     
   \end{center}
 
@@ -180,7 +188,7 @@
   \end{tabular}
   \end{center}
 
-\end{alwayssingle}}
+\end{titlepage}}
 
 
 % ACKNOWLEDGEMENTS
