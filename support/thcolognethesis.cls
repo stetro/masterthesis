@@ -17,6 +17,7 @@
 
 % Custom Packages
 \usepackage[ngerman]{babel}
+\usepackage[babel,german=quotes]{csquotes}
 \usepackage[utf8]{inputenc}
 \usepackage{datetime}
 \usepackage[authoryear,round]{natbib}
