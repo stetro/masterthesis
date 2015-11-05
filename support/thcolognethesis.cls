@@ -21,6 +21,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{datetime}
 \usepackage[authoryear,round]{natbib}
+\usepackage{microtype}
 
 
 \newdateformat{monthyeardate}{%
