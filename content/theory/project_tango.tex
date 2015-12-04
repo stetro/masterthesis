@@ -18,29 +18,17 @@ Da das Project Tango zum Zeitpunkt der Verfassung dieser Thesis noch unter Entwi
 
 \subsection{Konzepte und Schnittstellen}
 
-Generell betrachtet ist das Project Tango eine Plattform, die Computer Vision nutzt, um dem Gerät die Möglichkeit bietet seine relative Positionierung in der umgebenen Szene live zu bestimmen. Auf den Geräten kommt Googles Android zum Einsatz, weshalb zu beachten ist, dass es sich bei der Platform nur Bedingt um eine Echtzeit Umgebung handelt. Das liegt daran, dass der Linux Kernel keine Garantien für die zeitlich präzise Ausführung von Instruktionen  auf Grund von Scheduling geben kann. Google weist daher darauf hin, dass das System als \enquote{soft-realtime} betrachtet werden sollte. Daher sollten Messergebnisse verschiedener Sensoren unter Berücksichtigung ihrer Aufnahme Zeitstempel verwendet werden. \citet{GoogleDevelopersConcepts:online}
+Generell betrachtet ist das Project Tango eine Plattform, die Computer Vision nutzt, um dem Gerät die Möglichkeit bietet seine relative Positionierung in der umgebenen Szene live zu bestimmen. Auf den Geräten kommt Googles Android zum Einsatz, weshalb zu beachten ist, dass es sich bei der Platform nur Bedingt um eine Echtzeit Umgebung handelt. Das liegt daran, dass der Linux Kernel keine Garantien für die zeitlich präzise Ausführung von Instruktionen  auf Grund von Scheduling geben kann. Google weist daher darauf hin, dass das System als \enquote{soft-realtime} betrachtet werden sollte. Daher sollten Messergebnisse verschiedener Sensoren unter Berücksichtigung ihrer Aufnahme Zeitstempel verwendet werden. \citep{GoogleDevelopersConcepts:online}
 
 \subsubsection{Motion Tracking}
 
-Um die relative Bewegung vom Start des Project Tango Systems bestimmen zu können nutzt es \enquote{visual-inertial odometry}. 
+Um die relative Bewegung vom Start des Project Tango Systems bestimmen zu können nutzt es \enquote{visual-inertial odometry}. \citep{GoogleDevelopersConcepts:online}
+Dabei handelt es sich um eine erweiterte Variante von Visual Odometry. 
+Das von \citet{nister2004visual} veröffentlichte Verfahren Visual Odometry ist in der Lage aus einfachen Video Inhalten in Echtzeit die Bewegung der Kamera zu bestimmen. 
+Hierzu werden zunächst übergreifende Features, zum Beispiel Punkte aus der \citet{harris1988combined} Kantenerkennung, über mehrere Bilder des Videos bestimmt, woraus mit Hilfe des 5-point Algorthmus und durch Answendung von RANSAC eine bestmögliche Approximation der Kamera Transformation bestimmt wird. \citep{nister2004visual}
 
-Visual Odometry von \citet{nister2004visual} ist in der Lage aus einfachen Video Inhalten in Echtzeit die Bewegung der Kamera zu bestimmen. Hierzu werden zunächst übergreifende Features über mehrere Bilder des Videos bestimmt, woraus mit Hilfe des 5-point Algorthmus von 
-
-Motion tracking means that a Project Tango device can track its own movement and orientation through 3D space. Walk around with a device and move it forward, backward, up, down, or tilt it in any direction, and it can tell you where it is and which way it's facing. It's similar to how a mouse works, but instead of moving around on a flat surface, the world is your mousepad.
-
-Project Tango implements motion tracking using visual-inertial odometry, or VIO, to estimate where a device is relative to where it started. Unlike GPS, motion tracking using VIO works indoors and can provide higher accuracy.
-
-Standard visual odometry uses camera images to determine a change in position by looking at the relative position of different features in those images. For example, if you took a photo of a building from far away and then took another photo from closer up, it would be possible to calculate the distance the camera moved based on the change in size and position of the building in the photos.
-
-Visual-inertial odometry supplements visual odometry with inertial motion sensors capable of tracking a device's rotation and acceleration. This allows a Project Tango device to estimate both its orientation and movement within a 3D space with even greater accuracy.
-
-Motion tracking is great by itself if you need to know a device's orientation and relative position, but there are some limitations:
-
-Over long distances and periods of time the accumulation of small errors can cause measurements to "drift," leading to larger errors in absolute position.
-Motion tracking does not understand the actual area around it. Every time you start a new motion tracking session, the tracking starts over and reports its position relative to its most recent starting position.
-Both of these limitations are addressed by the next core technology, area learning.
-
-For information on how to write applications using motion tracking, see the developer overview on Motion Tracking.
+Project Tango lässt an dieser Stelle die internen Sensoren zur Rotation, Orientierung und Bewegung mit in die Bestimmung der Kamera Transformation einfließen um so ein akurateres Ergebnis erziehlen zu können. Über eine längere Messzeit oder eine größere Entfernung vom Ursprung kann es jedoch zu kleinen Abweichungen kommen. Außerdem existiert zum aktullen Zeitpunkt noch ein \enquote{drift} Problem, was zu großen Messfehlern führen kann. Es wird jedoch versucht diese Probleme mit dem Konzept \enquote{Area Learning} aus Kapitel\ref{subsec:area-learning} zu lösen. \citep{GoogleDevelopersConcepts:online}
+Wie genau das Verfahren aussieht, welche Techniken zur Feature Detection oder Feature Matching genutzt wird und welche Features hierfür erkannt werden ist nicht bekannt. 
 
 \subsubsection{Deph Perception}
 
