@@ -150,7 +150,7 @@
     \@degreedate
     
     \begin{center}
-    \vspace*{10ex} 
+    \vspace*{1ex} 
     \includegraphics[scale=1.0]{support/Linie}\\
   \end{center}
     
