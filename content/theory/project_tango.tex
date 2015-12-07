@@ -42,6 +42,65 @@ Die zuvor erwähnten Punktewolken werden in dem eigens definierten XYZij Format 
 
 \subsubsection{Area Learning} \label{subsec:area-learning}
 
+Area Learning bezeichnet den Prozess indem Project Tango Geräte in der Lage sind durch visuelle Hinweise die umgebenen Welt kennenzulernen und auf die Position des Gerätes zu schließen. 
+Es ermöglicht somit eine Unterstützung für Motion Tracking und löst das Problem das Gerät in einer bereits bekannten Umgebung zu lokalisieren, wie in Abbildung \ref{fig:area-learning} links zu erkennen.
+Project Tango bietet außerdem die Möglichkeit diese visuellen Hinweise und Ihre Position im Raum in sogenannten \enquote{Area Description Files} zu speichern und wiederzuverwenden. \citep{GoogleDevelopersConcepts:online}\\
+
+Wie bereits erwähnt entstehen bei Motion Tracking Messfehler über eine längere Strecke. 
+Während diese Strecke mit einem Project Tango Gerät abgelaufen wird, ermittelt es fortlaufend die Position und den Pfad, den der Nutzer im Raum gegangen ist. 
+Erkennt es währnend der Strecke visuelle Merkmale vom Area Learning, wird der Pfad anhand der Positionen der Merkmale ensprechend angepasst. 
+Project Tango unterscheidet hier zwischen zwei Manipulationen, \enquote{loop closures}, zur Zusammenführung des Pfads wenn ein Kreis gelaufen wurde, und \enquote{drift corrections}, um den erwähnten drift Effekt bei zu wenigen optischen Features im visual-inertial odometry. 
+Die dirft correction ist in Abbildung \ref{fig:area-learning} rechts zu erkennen.
+\citep{GoogleDevelopersConcepts:online}\\
+
+\begin{figure}[h]
+  \centering
+	\includegraphics[width=1.0\textwidth]{content/images/theory/tango-area-learning.png} 
+  \caption{Links: Lokalisierungsprozess durch Area Learning. Rechts: Korrigierung von Motion Tracking anhand gelernter Merkmale . Übernommen von \citet{GoogleDevelopers:online}}
+  \label{fig:area-learning}
+\end{figure}
+
+Figure 1: Correcting the Estimated Trajectory
+Without drift correction, a game or application using a virtual 3D space aligned with the real world may encounter inaccuracies in motion tracking after extended use. For example, if a door in a game world corresponds with a door frame in the real world, after accumulating drift, the game door may appear in the middle of the real world wall instead of in the door frame.
+
+Localization using area descriptions
+
+In addition to drift correction, a device with a loaded area description knows where it is within the learned area relative to where the original learning started. This process is called localization. Without localizing to an area description, a device's starting point is lost every time you end the session. This ability to learn an area and localize against that area is required if you want to create a consistent experience within the same mapped space, such as having virtual objects appear in the same location as the last time the user visited an area.
+
+Figure 2 shows what happens when a device starts from a new origin and moves back into an area it has learned before.
+
+
+Figure 2: Localizing to a Saved Area Description
+Project Tango devices depend on the visual diversity of the area to localize. If you are in an area with many identical rooms or in a completely empty room with blank walls, it will be difficult to localize.
+
+Creating and saving an Area Description
+
+There are two ways to create an Area Description File. The simplest is to use an application like Project Tango Explorer to create the ADF, and have your application load it. The second is to use the Project Tango APIs to handle the learning, saving, and loading all within your application. Depending on your settings, you can learn a new area or append to an existing ADF.
+
+A room may look quite different when standing in different positions, if furniture is moved around, or during the day than it does at night. If current conditions are similar to when you create the area description, localization is more likely to succeed. If localization is not occuring, the area descriptions may be too different from the current conditions.
+
+Because there are many reasons why an area may change in appearance, you might create multiple area description files for a single physical location under different conditions and select the correct one that will be most similar to the conditions the user will have during their session. Alternatively, you could append multiple area learning sessions onto the same ADF to capture visual descriptions of the environment from every position and angle, under every variation of lighting or environmental change within one file.
+
+Our UX Best Practices has additional tips on creating ADFs and using area learning.
+
+Possible use cases
+
+As mentioned, learning and loading area descriptions has many advantages. You can now intentionally align the device's coordinate frame with a pre-existing coordinate frame so that content in a game or app always appears in the same physical location.
+
+Another advantage is for multi-player experiences, where two users can localize to the same coordinate frame, shared through a cloud service. This allows multiple people to interact in the same physical space where all of their relative positions are known. Although the Project Tango APIs do not natively support data sharing in the cloud, it is possible to use Google Cloud Storage and the Google Play Games API to implement this.
+
+Some use cases may include a space owner making available an area description of their environment, such as a retail store or public space. These area descriptions may have been created by an expert user, such as a store manager. This would allow end users to localize precisely within that physical space, for example with location-aware shopping experience.
+
+Important: Saved area descriptions do not directly record images or video of the location, but rather contain descriptions of images of the environment in a very compressed form. While those descriptions can’t be directly viewed as images, it is in principle possible to write an algorithm that can reconstruct a viewable image. Therefore, you must ask the user for permission before saving any of their learned areas to the cloud or sharing areas between users to protect the user's privacy, just as you would treat images and video.
+Area learning and using area descriptions are powerful features and we’re excited to see what developers come up with for offering new user experiences.
+
+Using Learning Mode and loaded Area Description Files
+
+Depending on your settings for learning mode or whether you loaded an ADF, the behavior of some aspects of the Project Tango APIs will vary.
+
+In this table, the left two columns denote whether you have learning mode on, and whether you have loaded a previously-stored area description. Depending on the status of those two things, you may or may not be able to save an area description. For example, if you don't have learning mode on, you cannot save an area description file. If you have learning mode on, and have loaded an area description file, you can only save again once you have localized against the loaded ADF.
+
+Also, if you aren't in learning mode, and don't have an ADF loaded, you cannot get pose data using the TANGO_COORDINATE_FRAME_AREA_DESCRIPTION frame of reference. If you have an ADF loaded, you can get pose data from that frame of reference once your device localizes to the loaded ADF.
 
 \subsection{Einordnung zu Augmented Reality}
 
