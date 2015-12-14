@@ -22,6 +22,20 @@
 \usepackage{datetime}
 \usepackage[authoryear,round]{natbib}
 \usepackage{microtype}
+\usepackage{listings}
+\lstset{literate=%
+  {Ö}{{\"O}}1
+  {Ä}{{\"A}}1
+  {Ü}{{\"U}}1
+  {ß}{{\ss}}2
+  {ü}{{\"u}}1
+  {ä}{{\"a}}1
+  {ö}{{\"o}}1
+}
+\usepackage{courier}
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=false,captionpos=b}
+\lstset{framextopmargin=50pt,frame=bottomline}
 
 
 \newdateformat{monthyeardate}{%

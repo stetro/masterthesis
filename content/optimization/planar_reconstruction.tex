@@ -4,6 +4,34 @@
 
 \subsubsection{RANSAC}
 
+Der \enquote{RAndom SAmple Consensus} Algorithmus (RANSAC), vorgestellt von \citet{fischler1981random}, ist in der Lage, aus einer Menge von Daten mit vielen Ausreißern, die Parameter für ein passendes Modell zu schätzen. Anders als andere Schätzverfahren wie \enquote{Least-Median} oder \enquote{M-Schätzer}, welche aus der Statistik Literatur entnommen und entsprechend angepasst wurden, wurde RANSAC speziell für die Anwendung in der Computer Graphik entwickelt. Der Kern dieses Algorithmus ist das wiederholte Bestimmen eines Modells aus zufälligen und für das Modell ausreichenden Stichproben. Listing \ref{lst:ransac} zeigt den Verlauf des RANSAC Algorithmus. Die Anzahl der Iterationen \(N\) hängt dabei allein von dem Anteil der Ausreißer in den Messwerten ab. Daher sollte sie entsprechend gewählt werden, um die Wahrscheinlichkeit zu verringern, dass Ausreißer in den Stichproben enthalten sind. \citep{derpanis2010overview} \\
+
+\begin{lstlisting}[caption=Der RANSAC Algorithmus, label=lst:ransac]
+Eingabe: Messwerte P, Modelltoleranz e, maximale Iterationen N
+Ausgabe: Modell m, Unterstützende Messwerte Pm
+
+1. Wähle zufällig so viele Stichproben aus den Messwerten P,
+   wie nötig sind, um das Modell zu bestimmen
+2. Bestimme aus den gewählten Stichproben das Modell m
+3. Ermittle die Anzahl der Messwerte P, die mit einer 
+   entsprechenden Toleranz e das ermittelte Modell m unterstützen
+4. Wenn prozentual genügend Messwerte aus P das Modell m unterstützen,
+   ermittle aus den unterstützenden Messwerten Pm durch lineare 
+   Regression erneut das finale Modell m und terminiere
+5. Wiederhole die Schritte 1-4 N mal
+\end{lstlisting} 
+
+Um mit dem RANSAC Algorithmus Ebenen in einer Punktewolke bestimmen zu können, werden pro Iteration drei Stichproben \(A\), \(B\) und \(C\) gewählt. Das Ebenenmodell, hier in der Hesse Normalform mit dem Normalenvektor \(\vec{n}\) und dem Abstand zum Koordinatenursprung \(d\), lässt sich dabei durch die Gleichung \ref{eq:normalform} bestimmen.
+
+\begin{equation}\label{eq:normalform}
+\vec{n} =\left|\left| \vec{AB} \times \vec{AC}\right|\right|
+\qquad
+\vec{D} = \vec{A} \cdot \vec{n}
+\qquad
+d = \vec{D}\left[x\right] + \vec{D}\left[y\right] + \vec{D}\left[z\right]
+\end{equation}
+
+
 \subsubsection{3D Hugh Transformation}
 
 \subsubsection{Agglomeratives Clustering}
