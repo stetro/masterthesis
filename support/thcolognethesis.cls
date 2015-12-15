@@ -179,13 +179,20 @@
   %Kontaktmöglichkeiten des Autors und der Prüfer
   \begin{center}
   \begin{tabular}{rl}
-  &  \\[30.0em]
+  &  \\[20.0em]
   
   \large \textbf{Adressen:}
   & \quad Steffen Tröster\\
   & \quad Ennest 30\\
   & \quad 57392 Schmallenberg\\
   & \quad steffen.troester@googlemail.com\\[2.0em]
+
+  & \quad Prof. Dr. Hubert Randerath\\
+  & \quad Technische Hochschule Köln\\
+  & \quad Institut für Nachrichtentechnik\\
+  & \quad Betzdorfer Straße 2\\
+  & \quad 50679 Köln\\
+  & \quad hubert.randerath@th-koeln.de\\[2.0em]
 
   & \quad Prof. Dr. Martin Eisemann\\
   & \quad Technische Hochschule Köln\\
@@ -199,6 +206,7 @@
   & \quad Ludwig-Erhard-Allee 6\\
   & \quad 76131 Karlsruhe\\
   & \quad christian.meder@inovex.de\\[2.0em]
+  
   \end{tabular}
   \end{center}
 
