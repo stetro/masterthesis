@@ -165,7 +165,7 @@
     
     \begin{center}
     \vspace*{1ex} 
-    \includegraphics[scale=1.0]{support/Linie}\\
+    \includegraphics[scale=0.88]{support/Linie}\\
   \end{center}
     
   \end{center}
