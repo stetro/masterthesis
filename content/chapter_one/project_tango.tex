@@ -61,6 +61,12 @@ Die dirft correction ist in Abbildung \ref{fig:area-learning} rechts zu erkennen
 
 Auch bei diesem Prozess werden die genauen Details nicht näher erläutert und es nicht bekannt wie die area desciptions definiert sind oder was sie enthalten. \citep{GoogleDevelopersConcepts:online} weist jedoch darauf hin, dass auch wenn die Area Desciptions Files keine direkten Bilder enthalten, es möglich sei, Rückschlüsse auf die gelernte Umgebung ziehen zu können. \\
 
-\subsection{Einordnung zu Augmented Reality}
+\subsection{Einordnung zu Augmented Reality} \label{sec:classification_project_tango}
 
-Da sowohl die Grundlagen aus dem Bereich Augmented Reality und die technische Basis von Project Tango bekannt ist, kann die Project Tango Hardware bezüglich Augmented Reality näher eingeordnet werden. Bei der Hardware handelt es sich um ein hand-held Gerät, welches mit einer see-through Display Technologie Augmented Reality Anwendungen ermöglicht. Hierfür kann wahlweise die normale RGB Kamera oder die Graustufen Fish-Eye Kamera verwendet werden. Als Tracking Technologie wird hier eine hybride optische Variante angewendet, die Visual Odometry mit der Fish-Eye Kamera durch interne Sensoren für die Rotation, Orientierung und Bewegung kombiniert. Außerdem wird gegebenenfalls dieses Verfahren durch Googles Area Learning Mechanismus angereichert um Messfehler entgegenzuwirken. Die Eingabe erfolgt dabei durch den Touchscreen des Tablets. Eine Interaktion mit Hilfe von optischer Gestenerkennung oder anhand der Tiefeninformationen zudem auch möglich. \\
+Da sowohl die Grundlagen aus dem Bereich Augmented Reality und die technische Basis von Project Tango bekannt ist, kann die Project Tango Hardware bezüglich Augmented Reality näher eingeordnet werden. Bei der Hardware handelt es sich um ein hand-held Gerät, welches mit einer video see-through Display Technologie Augmented Reality Anwendungen ermöglicht. Hierfür kann wahlweise die normale RGB Kamera oder die Graustufen Fish-Eye Kamera verwendet werden. Denn für beide Kameras können die intrinsischen Kameraparameter ausgelesen werden, wodurch die Eigenschaften realen Kamera durch die virtuelle Kamera übernommen werden können. Das führt zu einer parallax freien Überblendung und zu einer guten Tiefenwahrnehmung. \\
+
+Als Tracking Technologie wird hier eine hybride optische Variante angewendet, die Visual Odometry mit der Fish-Eye Kamera wird durch interne Sensoren für die Rotation, Orientierung und Bewegung kombiniert. Außerdem kann das Verfahren gegebenenfalls durch Googles Area Learning Mechanismen angereichert werden, um Messfehler entgegenzuwirken. \\
+
+Die Eingabe erfolgt durch den Touchscreen des Tablets. Eine Interaktion mit Hilfe von optischer Gestenerkennung oder anhand der Tiefeninformationen ist zudem auch möglich. \\
+
+
