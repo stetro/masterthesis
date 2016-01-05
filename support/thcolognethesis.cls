@@ -20,6 +20,7 @@
 \usepackage[babel,german=quotes]{csquotes}
 \usepackage[utf8]{inputenc}
 \usepackage{datetime}
+\usepackage{amsmath}
 \usepackage[authoryear,round]{natbib}
 \usepackage{microtype}
 \usepackage{listings}
