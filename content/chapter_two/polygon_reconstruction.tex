@@ -38,7 +38,7 @@ Das Problem der Echtzeit Rekonstruktion ist wie bereits angesprochen die Aushand
 \begin{figure}
   \centering
 	\includegraphics[width=1.0\textwidth]{content/images/methods/hashing.png} 
-  \caption{a) Voxel Hashing Datenstruktur. Übernommen von \citet{niessner2013real} b) Darstellung der relevanten Voxel Blocks für die Aktualisierung. Übernommen von \citet{Klingensmith_2015_7924}}
+  \caption{a) Voxel Hashing Datenstruktur. Übernommen von \citet{niessner2013real} b) Darstellung der relevanten Voxel Chunks für die Aktualisierung. Übernommen von \citet{Klingensmith_2015_7924}}
   \label{fig:hashing}
 \end{figure}
 
@@ -50,15 +50,41 @@ H(x,y,z) = (x * p_1 \oplus y * p_2 \oplus z * p_3) \mod n
 
 \subsection{Marching Cubes}
 
-Die meisten Echtzeit Rekonstruktionen durch TSDF wie KinectFusion sind GPU Umsetzungen, die daher die Möglichkeit besitzen ein Rendering durch Raycasting durchzuführen. Das Verfahren Chisel von \citet{Klingensmith_2015_7924} nutzt hingegen einen indirekten Weg zum Rendering durch die Marching Cubes Triangulation.
+Die meisten Echtzeit Rekonstruktionen durch TSDF wie KinectFusion sind GPU Umsetzungen, die daher die Möglichkeit besitzen ein hardwarebeschleunigtes Rendering durch Raycasting durchzuführen. Das Verfahren Chisel von \citet{Klingensmith_2015_7924} nutzt hingegen einen indirekten Weg zum Rendering durch die Marching Cubes Triangulation. \\
 
 \begin{figure}
   \centering
 	\includegraphics[width=1.0\textwidth]{content/images/methods/marchingcubes.png} 
-  \caption{a) Voxel Hashing Datenstruktur. Übernommen von \citet{niessner2013real} b) Darstellung der relevanten Voxel Blocks für die Aktualisierung. Übernommen von \citet{Klingensmith_2015_7924}}
+  \caption{a) Marching Cubes Voxel Repräsentation mit den Ecken und den Kantenschnittpunkten b) Die 15 möglichen 3D Polygon Varianten. Übernommen von \citet{MarchingCubes:online}}
   \label{fig:marchingcubes}
 \end{figure}
 
-\subsection{Chisel}
+Marching Cubes nach \citet{lorensen1987marching} ist ein Algorithmus um aus einer als Voxel repräsentierten Isofläche Polygone zu bestimmen, die diese Fläche möglichst nah repräsentieren. Hierzu werden zu jedem Voxel die Ecken \(v1\) bis \(v8\) untersucht, ob sie innerhalb oder außerhalb eines Objektes liegen. Zusätzlich werden zu jeder Kante auf dem Voxel, wenn ein Schnitt der Isofläche existiert, die Schnittpunkte \(e1\) bis \(e12\) durch Diese bestimmt. Abbildung \ref{fig:marchingcubes} a) zeigt die Ecken und Kantenschnittpunkte eines Voxels. \\
 
+Je nach binärer Gewichtung der Ecken können hiernach aus einem Katalog von 256 Varianten die Polygone nachgeschlagen werden. Inhalt des Katalogs sind die Indizes der Kantenschnittpunkte, aus denen Polygone generiert werden können. Alle diese 256 Varianten können auf 15 verschiedene Fälle zurückgeführt werden, die sich nur in Rotation oder Symmetrie unterscheiden. Die 15 Varianten sind in Abbildung \ref{fig:marchingcubes} b) zu finden. \citep{MarchingCubes:online} \\
 
+\subsection{Chisel mit Space Carving}
+
+Das Bereits erwähnte Verfahren Chisel von \citet{Klingensmith_2015_7924} verwendet alle zuvor erwähnten Techniken der TSDF, spartial Hashing und der Marching Cubes Überführung. Sie sprechen dabei von einem \enquote{dynamic spatial-hashed truncated distance field}. Das für den mobilen Einsatz optimierte Verfahren ist in der Lage eine Echtzeitrekonstruktion von Räumen von bis zu \(300 m^2\) mit einem Detailgrad von zwei bis drei Zentimetern zu erstellen. Zudem können neben Tiefeninformationen auch gefärbte Pointclouds verarbeitet werden, wodurch ein gefärbtes Mesh generiert werden kann. \citep{Klingensmith_2015_7924}\\
+
+\begin{lstlisting}[caption=Chisel TSDF Pseudocode Algorithmus, label=lst:chisel]
+Eingabe: Pointcloud cloud, Kameraposition cam_pos, 
+         Strahlenbegrenzung t
+
+für jeden Tiefenwert p aus cloud
+    bestimme die Oberflächenposition z aus p und cam_pos
+    bestimme einen Strahl r aus z und cam_pos
+    bestimme den Begrenzungsbereich t_vor, t_nach mit t um z
+    # space carving
+    für jeden Voxel v zwischen p und t_vor
+        wenn die Distanz im Voxel negativ ist
+            setze Voxel zurück
+    # normale TSDF Bestimmung
+    für jeden Voxel zwischen t_vor, t_nach
+        bestimme die Voxeldistanz zu z
+        setze das Gewicht des Voxels w
+\end{lstlisting}
+
+Zusätzlich erweitern sie den TSDF Algorithmus um die \enquote{space carving} Funktionalität. Sie betrachten dabei den Strahl von der Kamera zur Oberfläche als eine Art Constraint, in dem alle durchstoßenden Voxel bis zur Oberfläche eine negativen Wert beinhalten müssen. Ist das nicht der Fall, so wird ein Voxel außerhalb der inneren Begrenzung auf den leeren Ursprungswert gesetzt. Im Pseudocode aus Listing \ref{lst:chisel} wird das Verhalten näher erläutert. Diese Verbesserung führt dazu, dass die Rekonstruktion bei stark rauschenden Tiefeninformationen, besonders an Objektkanten, deutlich verbessert wird. Außerdem ist das Verfahren hiermit in der Lage dynamische Änderungen in der Umgebung zu detektieren und neue Oberflächen entsprechend zu aktualisieren. So beeinflussen, zum Beispiel, sich im Bild bewegen Personen nur kurz die TSDF. \citep{Klingensmith_2015_7924}\\
+
+Neben space carving wurden zudem dynamische Strahlenbegrenzungen und Gewichtungen der Voxel abhänig von der jeweils aufgenommenen Tiefe eingebunden. Diese Eigenschaft berücksichtigt die Verteilung von Messungenauigkeiten des Sensors, die bei größerer Entfernung zur Kamera zunehmen können. \citep{Klingensmith_2015_7924}
