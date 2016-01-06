@@ -67,7 +67,7 @@ Je nach binärer Gewichtung der Ecken können hiernach aus einem Katalog von 256
 
 Das Bereits erwähnte Verfahren Chisel von \citet{Klingensmith_2015_7924} verwendet alle zuvor erwähnten Techniken der TSDF, spartial Hashing und der Marching Cubes Überführung. Sie sprechen dabei von einem \enquote{dynamic spatial-hashed truncated distance field}. Das für den mobilen Einsatz optimierte Verfahren ist in der Lage eine Echtzeitrekonstruktion von Räumen von bis zu \(300 m^2\) mit einem Detailgrad von zwei bis drei Zentimetern zu erstellen. Zudem können neben Tiefeninformationen auch gefärbte Pointclouds verarbeitet werden, wodurch ein gefärbtes Mesh generiert werden kann. \citep{Klingensmith_2015_7924}\\
 
-\begin{lstlisting}[caption=Chisel TSDF Pseudocode Algorithmus, label=lst:chisel]
+\begin{lstlisting}[caption=Chisel TSDF Algorithmus, label=lst:chisel]
 Eingabe: Pointcloud cloud, Kameraposition cam_pos, 
          Strahlenbegrenzung t
 
@@ -87,4 +87,4 @@ für jeden Tiefenwert p aus cloud
 
 Zusätzlich erweitern sie den TSDF Algorithmus um die \enquote{space carving} Funktionalität. Sie betrachten dabei den Strahl von der Kamera zur Oberfläche als eine Art Constraint, in dem alle durchstoßenden Voxel bis zur Oberfläche eine negativen Wert beinhalten müssen. Ist das nicht der Fall, so wird ein Voxel außerhalb der inneren Begrenzung auf den leeren Ursprungswert gesetzt. Im Pseudocode aus Listing \ref{lst:chisel} wird das Verhalten näher erläutert. Diese Verbesserung führt dazu, dass die Rekonstruktion bei stark rauschenden Tiefeninformationen, besonders an Objektkanten, deutlich verbessert wird. Außerdem ist das Verfahren hiermit in der Lage dynamische Änderungen in der Umgebung zu detektieren und neue Oberflächen entsprechend zu aktualisieren. So beeinflussen, zum Beispiel, sich im Bild bewegen Personen nur kurz die TSDF. \citep{Klingensmith_2015_7924}\\
 
-Neben space carving wurden zudem dynamische Strahlenbegrenzungen und Gewichtungen der Voxel abhänig von der jeweils aufgenommenen Tiefe eingebunden. Diese Eigenschaft berücksichtigt die Verteilung von Messungenauigkeiten des Sensors, die bei größerer Entfernung zur Kamera zunehmen können. \citep{Klingensmith_2015_7924}
+Neben space carving wurden zudem eine variable Strahlenbegrenzungen und Gewichtungen der Voxel abhänig von der jeweils aufgenommenen Tiefe implementiert. Diese Funktion berücksichtigt die Verteilung von Messungenauigkeiten des Sensors, die bei größerer Entfernung zur Kamera zunehmen können. \citep{Klingensmith_2015_7924}
