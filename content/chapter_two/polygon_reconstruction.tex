@@ -1,4 +1,4 @@
-\section{Echtzeit Polygon Rekonstruktion}
+\section{Echtzeit Polygon Rekonstruktion} \label{sec:polygon_reconstruction}
 
 Die Idee der Verdeckung mit Hilfe des Z-Buffers lässt sich nicht nur mit Depth Maps realisieren. Auch Primitiven oder allgemein Polygone könnten mit Hilfe eines entsprechenden Fragment Shaders, als Repräsentation der Umgebung, andere virtuelle Objekte Transparent überlagern, um die Illusion der Überdeckung von realen Objekten zu ermöglichen. Somit ließe sich das Problem der Optimierung von Augmented Reality mit Hilfe von Tiefeninformation auf das Echtzeit Rekonstruktions Problem zurückführen. \\
 
@@ -67,22 +67,22 @@ Je nach binärer Gewichtung der Ecken können hiernach aus einem Katalog von 256
 
 Das Bereits erwähnte Verfahren Chisel von \citet{Klingensmith_2015_7924} verwendet alle zuvor erwähnten Techniken der TSDF, spartial Hashing und der Marching Cubes Überführung. Sie sprechen dabei von einem \enquote{dynamic spatial-hashed truncated distance field}. Das für den mobilen Einsatz optimierte Verfahren ist in der Lage eine Echtzeitrekonstruktion von Räumen von bis zu \(300 m^2\) mit einem Detailgrad von zwei bis drei Zentimetern zu erstellen. Zudem können neben Tiefeninformationen auch gefärbte Pointclouds verarbeitet werden, wodurch ein gefärbtes Mesh generiert werden kann. \citep{Klingensmith_2015_7924}\\
 
-\begin{lstlisting}[caption=Chisel TSDF Algorithmus, label=lst:chisel]
-Eingabe: Pointcloud cloud, Kameraposition cam_pos, 
-         Strahlenbegrenzung t
+\begin{lstlisting}[mathescape,caption=Chisel TSDF Algorithmus, label=lst:chisel]
+Eingabe: Pointcloud $C$, Kameratransformation $P_{cam}$, 
+         Strahlenbegrenzung $t$
 
-für jeden Tiefenwert p aus cloud
-    bestimme die Oberflächenposition z aus p und cam_pos
-    bestimme einen Strahl r aus z und cam_pos
-    bestimme den Begrenzungsbereich t_vor, t_nach mit t um z
+für jeden Tiefenwert $\vec{p}$ aus $C$
+    bestimme die Oberflächenposition $\vec{z}$ aus $\vec{p}$ und $P_{cam}$
+    bestimme einen Strahl $\vec{r}$ aus $\vec{z}$ und $P_{cam}$
+    bestimme den Begrenzungsbereich $t_{vor}$, $t_{nach}$ mit $t$ um $\vec{z}$ auf $\vec{r}$
     # space carving
-    für jeden Voxel v zwischen p und t_vor
+    für jeden Voxel $v$ zwischen Kamera und $t_{vor}$
         wenn die Distanz im Voxel negativ ist
             setze Voxel zurück
     # normale TSDF Bestimmung
-    für jeden Voxel zwischen t_vor, t_nach
-        bestimme die Voxeldistanz zu z
-        setze das Gewicht des Voxels w
+    für jeden Voxel $v$ zwischen $t_{vor}$ und $t_{nach}$
+        bestimme die Voxeldistanz zu $z$
+        setze das Gewicht w des Voxels $v$
 \end{lstlisting}
 
 Zusätzlich erweitern sie den TSDF Algorithmus um die \enquote{space carving} Funktionalität. Sie betrachten dabei den Strahl von der Kamera zur Oberfläche als eine Art Constraint, in dem alle durchstoßenden Voxel bis zur Oberfläche eine negativen Wert beinhalten müssen. Ist das nicht der Fall, so wird ein Voxel außerhalb der inneren Begrenzung auf den leeren Ursprungswert gesetzt. Im Pseudocode aus Listing \ref{lst:chisel} wird das Verhalten näher erläutert. Diese Verbesserung führt dazu, dass die Rekonstruktion bei stark rauschenden Tiefeninformationen, besonders an Objektkanten, deutlich verbessert wird. Außerdem ist das Verfahren hiermit in der Lage dynamische Änderungen in der Umgebung zu detektieren und neue Oberflächen entsprechend zu aktualisieren. So beeinflussen, zum Beispiel, sich im Bild bewegen Personen nur kurz die TSDF. \citep{Klingensmith_2015_7924}\\

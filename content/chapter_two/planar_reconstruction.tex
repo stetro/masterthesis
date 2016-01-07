@@ -1,24 +1,26 @@
 \section{Planare Rekonstruktion}
 
-\subsection{Verfahren zur Ebenendetektion}
+Wie bereits in Absatz \ref{sec:polygon_reconstruction} beschrieben, lässt sich das Problem der Optimierung von Augmented Reality mit Hilfe von Tiefeninformationen auf eine Echtzeit Rekonstruktion zurückführen. 
 
-\subsubsection{RANSAC}
+
+
+\subsection{RANSAC zur Ebenendetektion}
 
 Der \enquote{RAndom SAmple Consensus} Algorithmus (RANSAC), vorgestellt von \citet{fischler1981random}, ist in der Lage, aus einer Menge von Daten mit vielen Ausreißern, die Parameter für ein passendes Modell zu schätzen. Anders als andere Schätzverfahren wie \enquote{Least-Median} oder \enquote{M-Schätzer}, welche aus der Statistik Literatur entnommen und entsprechend angepasst wurden, wurde RANSAC speziell für die Anwendung in der Computer Graphik entwickelt. Der Kern dieses Algorithmus ist das wiederholte Bestimmen eines Modells aus zufälligen und für das Modell ausreichenden Stichproben. Listing \ref{lst:ransac} zeigt den Verlauf des RANSAC Algorithmus. Die Anzahl der Iterationen \(N\) hängt dabei allein von dem Anteil der Ausreißer in den Messwerten ab. Daher sollte sie entsprechend gewählt werden, um die Wahrscheinlichkeit zu verringern, dass Ausreißer in den Stichproben enthalten sind. \citep{derpanis2010overview} \\
 
-\begin{lstlisting}[caption=Der RANSAC Algorithmus, label=lst:ransac]
-Eingabe: Messwerte P, Modelltoleranz e, maximale Iterationen N
-Ausgabe: Modell m, Unterstützende Messwerte Pm
+\begin{lstlisting}[mathescape,caption=Der RANSAC Algorithmus, label=lst:ransac]
+Eingabe: Messwerte $P$, Modelltoleranz $e$, maximale Iterationen $N$
+Ausgabe: Modell $m$, Unterstützende Messwerte $P_m$
 
-1. Wähle zufällig so viele Stichproben aus den Messwerten P,
+1. Wähle zufällig so viele Stichproben aus den Messwerten $P$,
    wie nötig sind, um das Modell zu bestimmen
-2. Bestimme aus den gewählten Stichproben das Modell m
-3. Ermittle die Anzahl der Messwerte P, die mit einer 
-   entsprechenden Toleranz e das ermittelte Modell m unterstützen
-4. Wenn prozentual genügend Messwerte aus P das Modell m unterstützen,
-   ermittle aus den unterstützenden Messwerten Pm durch lineare 
-   Regression erneut das finale Modell m und terminiere
-5. Wiederhole die Schritte 1-4 N mal
+2. Bestimme aus den gewählten Stichproben das Modell $m$
+3. Ermittle die Anzahl der Messwerte $P$, die mit einer 
+   entsprechenden Toleranz $e$ das ermittelte Modell $m$ unterstützen
+4. Wenn prozentual genügend Messwerte aus $P$ das Modell $m$ unterstützen,
+   ermittle aus den unterstützenden Messwerten $P_m$ durch lineare 
+   Regression erneut das finale Modell $m$ und terminiere
+5. Wiederhole die Schritte 1-4 $N$ mal
 \end{lstlisting} 
 
 Um mit dem RANSAC Algorithmus Ebenen in einer Punktewolke bestimmen zu können, werden pro Iteration drei Stichproben \(A\), \(B\) und \(C\) gewählt. Das Ebenenmodell, hier in der Hesse Normalform mit dem Normalenvektor \(\vec{n}\) und dem Abstand zum Koordinatenursprung \(d\), lässt sich dabei durch die Gleichung \ref{eq:normalform} bestimmen.
@@ -31,24 +33,53 @@ Um mit dem RANSAC Algorithmus Ebenen in einer Punktewolke bestimmen zu können, 
 d = \vec{D}\left[x\right] + \vec{D}\left[y\right] + \vec{D}\left[z\right]
 \end{equation}
 
-
-\subsubsection{3D Hugh Transformation}
-
-\subsubsection{Agglomeratives Clustering}
-
-\subsubsection{Region Growing}
-
 \subsection{Bestimmung der Ebenenausbreitung}
+
+Nachdem die Ebene und die korrespondierenden Punkte zur Ebene gefunden wurden, muss noch die Ausbreitung der Fläche bestimmt werden, da die Ebene in Hesse Normalform lediglich die Position \(\vec{n} * d\) und Ausrichtung \(\vec{n}\) festhält. \citet{PlanarSurfaceMapping} nutzt hierfür die konvexe Hülle der korrespondierenden Punkte und trianguliert diese. Um das performant umzusetzen, kann man sich hier die Eigenschaft der Ebene zu Nutzen machen und die dreidimensionalen Punkte durch Parallelprojektion als zweidimensionale Punkte auf die Ebene projizieren. Denn die Algorithmen für die Triangulation haben im zweidimensionalen eine deutlich besseres Laufzeitverhalten. \\
+
+Nach der Triangulation können die Ecken der gefundenen Polygone jeweils zurück projiziert werden. Die Gleichungen \ref{eq:projection2d} und \ref{eq:projection3d} bilden die Projektion der Punkte wobei \(R_{\vec{n}to\vec{z}}\) der Rotationsmatrix zwischen dem Normalenvektor \(\vec{n}\) und der Z-Achse \(\vec{z}\) entspricht.\\
+
+\begin{equation} \label{eq:projection2d}
+p_{2d} = (p_{3d} - (\vec{n}*d)) * R_{\vec{n}to\vec{z}}
+\end{equation}
+\begin{equation} \label{eq:projection3d}
+p_{3d} = (p_{2d} * R_{\vec{n}to\vec{z}}^{-1}) + (\vec{n}*d)
+\end{equation}
 
 \subsubsection{Convex Hull Algorithmus}
 
+Für die Berechnung der konvexen Hülle wird der Graham Scan nach \citet{graham1972efficient} genutzt. Dieser Algorithmus besitzt eine Laufzeit von \(O(n \log n)\) und gilt als einer der populärsten Algorithmen für die Berechnung der konvexen Hülle. Andere Ansätze besitzen dabei ein ähnliches oder schlechteres Laufzeitverhalten. Gestartet wird der Algorithmus mit der Menge aller Punkte \(P\) der Ebene und mit einem Startpunkt \(P_0\), der Bestandteil der konvexen Hülle ist. Hierzu wird meist der Punkt mit dem niedrigsten \(y\) Faktor gewählt. (\(P_0=P_{min(y)}\)) Listing \ref{lst:graham-scan} zeigt den Verlauf des Algorithmus des Graham Scans. Dabei wird in Abbildung \ref{fig:convexhull} nochmals die erste Sortierung und das Unterscheidungskriterium für die Sortierung als auch für die Aussortierung der Punkte verdeutlicht. \citep{convexHull} \\
+
+\begin{figure}
+  \centering
+	\includegraphics[width=0.9\textwidth]{content/images/methods/convexhull.png} 
+  \caption{Sortierung der Punkte nach Winkel zum Startpunkt (links) mit dem Unterscheidungskriterium (rechts). Übernommen von \citet{convexHull}}
+  \label{fig:convexhull}
+\end{figure}
+
+\begin{lstlisting}[mathescape,caption=Graham Scan Algorithmus, label=lst:graham-scan]
+Eingabe: Menge der Punkte $P$, außen liegender Punkt $P_0$
+Ausgabe: Punkte der konvexen Hülle
+
+$i$ = 0
+sortiere nach dem Winkel zu $P_0$
+solange $i$ <= $|P|$
+    wenn $\measuredangle P_{i-1} P_{i}$ > $\measuredangle P_{i-1} P_{i+1}$, also $P_i$ rechts von  $\vec{P_{i-1} P_{i+1}}$ liegt
+        inkrementiere $i$
+    ansonsten
+        entferne $P_i$ aus $P$
+        dekrementiere $i$
+    
+\end{lstlisting} 
+
+
 \subsubsection{Triangulation}
+
+Nachdem die konvexe Hülle bestimmt wurde, müssen die Punkte dieses Pfades noch trianguliert werden. Hierfür wird eine Delaunay-Triangulation mit Hilfe des Sweep-Line Algorithmus von \citet{domiter2008sweep} verwendet. Unter einer Delaunay-Triangulation versteht man zunächst einmal eine Art Prämisse, der sogenannten Umkreisbedingung, die besagt, dass ein Kreis, der alle drei Punkte eines gefundenen Polygons durchzieht, keine weiteren Punkte beinhalten darf.
 
 \subsection{Planare Rekonstruktion als Echtzeit Umsetzung}
 
 \subsubsection{Clusteringverfahren}
-
-\subsubsection{...}
 
 \subsection{Kantenverbesserung durch Einbeziehung von Bildmaterial}
 
