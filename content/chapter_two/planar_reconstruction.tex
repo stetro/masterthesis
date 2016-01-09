@@ -1,7 +1,36 @@
 \section{Planare Rekonstruktion}
 
-Wie bereits in Absatz \ref{sec:polygon_reconstruction} beschrieben, lässt sich das Problem der Optimierung von Augmented Reality mit Hilfe von Tiefeninformationen auf eine Echtzeit Rekonstruktion zurückführen. 
+Wie bereits in Absatz \ref{sec:polygon_reconstruction} beschrieben, lässt sich das Problem der Optimierung von Augmented Reality mit Hilfe von Tiefeninformationen auf eine Echtzeit Rekonstruktion zurückführen. Im Gegensatz zur Rekonstruktion komplexer Oberflächen, mit dem vorgestellten TSDF Verfahren, soll hier eine Idee näher erläutert werden, die eine Rekonstruktion allein auf planaren Primitiven ermöglicht. \citet{yang2010plane} erwähnt hierzu, dass Ebenen in fast allen künstlichen Umgebungen zu finden sind und auf Grund ihrer vorteilhaften geometrischen Eingenschaften in verschiedensten Computer Vision Verfahren verwendet werden. Daher gibt es viele Forschungsarbeiten, Methoden und Algorithmen um aus verschiedensten Informationsquellen ein Ebenenmodell zu extrahieren.\\
 
+Wie in dem \enquote{Simultaneous Localization and Mapping} (SLAM) Verfahren von \citet{trevor2012planar} wird hier zunächst eine Ebene in der Pointcloud mit Hilfe des RANSAC Algorithmus gesucht. RANSAC bietet gegenüber anderen Algorithmen zur Ebenen Detektion den Vorteil, ein Modell auch bei vielen Ausreißern performant zu ermitteln. Agglomeratives Clustering und Region Growing wie von \citet{feng2014fast} beschreiben, eignet sich auf Grund des Ausgabeformats aus Project Tango nicht, da es keine organisierte Point Cloud ausgibt. \\
+
+Die Repräsentation der Ebene \(P\) wird, angelehnt an das Vorgehen von \citet{trevor2012planar}, wie in Gleichung \ref{eq:plane} festgehalten. Dabei handelt es sich um den Normalenvektor \(\vec{n}\) und der Distanz zum Ursprung \(d\) der Hesse Normalform einer Ebene, sowie der Punkte der konvexen Hülle \(H\). Um die konvexe Hülle der Ebene zu bestimmen, wird der Graham Scan Algorithmus verwendet. Wie auch von \citet{trevor2012planar} beschreiben wird die konvexe in der Repräsentation festgehalten, um eine sukzessive Verbesserung einer Ebene nach mehreren Messdurchläufen zu ermöglichen. So werden die Punkte der konvexen Hülle pro Messvorgang kombiniert, damit die Ebenenausbreitung auch außerhalb des Sichtfeldes beibehalten werden kann.
+
+\begin{equation} \label{eq:plane}
+P=\left[\vec{n}, d, H\right] \qquad H=\vec{h_1}, \vec{h_2}, \ldots  \vec{h_n}
+\end{equation}
+
+Um wiederum aus dieser Repräsentation eine Triangulation zu erhalten, wird hier die zweidimensionale Sweep-Line Delaunay Triangulation durchgeführt. Die Schritte aus dem Algorithmus \ref{lst:planeReconstruction} werden in den folgenden Kapiteln näher beschreiben.
+
+\begin{lstlisting}[mathescape,caption=Algorthmus der planaren Echtzeit Rekonstruktion, label=lst:planeReconstruction]
+
+Eingabe: Octtree $O$
+Ausgabe: Polygonpunkte $T_{Gesamt}$
+
+für jedes Cluster $C$ aus $O$
+    bestimme Ebene [$\vec{n}$, $d$, $P$] mit RANSAC aus $C_{Punkte}$
+    wenn keine Ebene mit genügend $P$ in $C_{Punkte}$ gefunden wurde
+    		nächstes Cluster (continue)
+    wenn Ebene mit [$\vec{n}$, $d$, $H_{alt}$] in $C_{Ebenen}$ existiert	
+        füge die konvexe Hülle $H_{alt}$ zu $P$ hinzu	
+    bestimme die konvexe Hülle $H_{neu}$
+    bestimme die Tringulation $T_{Ebene}$ aus $H_{neu}$
+    $T_{Gesamt}$ += $T_{Ebene}$
+    $C_{Ebenen}$ += [$\vec{n}$, $d$, $H_{neu}$]
+    $C_{Punkte}$ - $P$
+		
+
+\end{lstlisting}
 
 \subsection{RANSAC zur Ebenendetektion}
 
