@@ -60,7 +60,39 @@ Um mit dem RANSAC Algorithmus Ebenen in einer Punktewolke bestimmen zu können, 
 \qquad
 \vec{D} = \vec{A} \cdot \vec{n}
 \qquad
-d = \vec{D}\left[x\right] + \vec{D}\left[y\right] + \vec{D}\left[z\right]
+d = D_1 + D_2 + D_3
+\end{equation}
+
+Um zu ermitteln ob ein Punkt \(P\) aus einer Messreihe die gefundene Ebene \(\left[\vec{n_E}, d_E\right]\) unterstützt, wird die kürzeste Distanz \(d_P\) zwischen Punkt und Ebene wie in Gleichung \ref{eq:plane-distance} ermittelt.  Ein entsprechender Toleranzwert für die Distanz \(d_{min}\), im gezeigten RANSAC Algorithmus \(e\) genannt, wird später bei der Umsetzung abhängig vom Rauschen des Tiefensensors gewählt. 
+
+\begin{equation} \label{eq:plane-distance}
+d_P = n_1*P_1+n_2*P_2+n_3*P_3-d_E \qquad support_{d_P} = d_P < d_{min}
+\end{equation}
+
+Um das finale Modell der Ebene zu ermitteln, und somit die Varianz des Abstands der Punkte zur Ebene zu minimieren, wird mit Hilfe der unterstützenden Punkte \(P_{support}=\left[x,y,z\right]\) eine lineare Regression durchgeführt. Diese Mittelt ein Ebenenmodell \(E=\left[a,b,c\right]\) aus den zuvor ermittelten Punkten mit Hilfe des \enquote{least squares} Schätzverfahren. Für eine Ebene versucht man die Funktion \(G(a,b,c)\) aus Gleichung \ref{eq:least-squares} zu minimieren. Hierzu muss das lineare Gleichungssystem in Gleichung \ref{eq:least-squares-solution}  gelöst werden. \citep{Regre94:online}
+
+\begin{equation} \label{eq:least-squares}
+z = ax + by + c   \qquad G(a, b, c) = \sum {\left(z_i - ax_i - by_i - c\right)}^2
+\end{equation}
+
+\begin{equation} \label{eq:least-squares-solution}
+\begin{bmatrix}
+\sum x_i^2 & \sum x_iy_i & \sum x_i\\ 
+\sum x_iy_i  & \sum y_i^2  & \sum y_i \\ 
+\sum x_i & \sum y_i  & n
+\end{bmatrix}
+*
+\begin{bmatrix}
+a\\ 
+b\\ 
+c
+\end{bmatrix}
+=
+\begin{bmatrix}
+\sum x_iz_i\\ 
+\sum y_iz_i\\ 
+\sum z_i
+\end{bmatrix}
 \end{equation}
 
 \subsection{Bestimmung der Ebenenausbreitung}
@@ -105,12 +137,10 @@ solange $i$ <= $|P|$
 
 \subsubsection{Triangulation}
 
-Nachdem die konvexe Hülle bestimmt wurde, müssen die Punkte dieses Pfades noch trianguliert werden. Hierfür wird eine Delaunay-Triangulation mit Hilfe des Sweep-Line Algorithmus von \citet{domiter2008sweep} verwendet. Unter einer Delaunay-Triangulation versteht man zunächst einmal eine Art Prämisse, der sogenannten Umkreisbedingung, die besagt, dass ein Kreis, der alle drei Punkte eines gefundenen Polygons durchzieht, keine weiteren Punkte beinhalten darf.
+Nachdem die konvexe Hülle bestimmt wurde, müssen die Punkte dieses Pfades noch trianguliert werden. Hierfür wird eine Delaunay-Triangulation mit Hilfe des Sweep-Line Algorithmus von \citet{domiter2008sweep} verwendet. Unter einer Delaunay-Triangulation versteht man zunächst einmal eine Art Constraint, der sogenannten Umkreisbedingung, die besagt, dass ein Kreis, der alle drei Punkte eines gefundenen Polygons durchzieht, keine weiteren Punkte beinhalten darf. \\
+
+Nähere Beschreibung des Algorithmus ...
 
 \subsection{Planare Rekonstruktion als Echtzeit Umsetzung}
 
 \subsubsection{Clusteringverfahren}
-
-\subsection{Kantenverbesserung durch Einbeziehung von Bildmaterial}
-
-\subsubsection{...}
