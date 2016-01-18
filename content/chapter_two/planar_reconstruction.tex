@@ -14,7 +14,7 @@ Um wiederum aus dieser Repräsentation eine Triangulation zu erhalten, wird hier
 
 \begin{lstlisting}[mathescape,caption=Planaren Echtzeit Rekonstruktion, label=lst:planeReconstruction]
 
-Eingabe: Octtree $O$
+Eingabe: Octree $O$
 Ausgabe: Polygonpunkte $T_{Gesamt}$
 
 für jedes Cluster $C$ aus $O$
@@ -139,8 +139,22 @@ solange $i$ <= $|P|$
 
 Nachdem die konvexe Hülle bestimmt wurde, müssen die Punkte dieses Pfades noch trianguliert werden. Hierfür wird eine Delaunay-Triangulation mit Hilfe des Sweep-Line Algorithmus von \citet{domiter2008sweep} verwendet. Unter einer Delaunay-Triangulation versteht man zunächst einmal eine Art Constraint, der sogenannten Umkreisbedingung, die besagt, dass ein Kreis, der alle drei Punkte eines gefundenen Polygons durchzieht, keine weiteren Punkte beinhalten darf. \\
 
-Nähere Beschreibung des Algorithmus ...
+Die Sweep-Line Methode ist ein generelles geometrisches Vorgehen, bei dem eine vertikale imaginäre Linie eine Menge geometrischer Objekte von links nach rechts passiert. 
 
-\subsection{Planare Rekonstruktion als Echtzeit Umsetzung}
+ ... to be continued
 
-\subsubsection{Clusteringverfahren}
+\subsection{Clustering der aufgenommenen Punkte}
+
+Wie im Algorithmus \ref{lst:planeReconstruction} zu erkennen wird das zuvor beschriebene Vorgehen für die planare Rekonstruktion immer pro Cluster eines Cluster-Pools durchgeführt. Dadurch werden pro Durchgang des Algorithmus nur ein Bruchteil der gesammelten Punkte rekonstruiert, was wiederum eine Rekonstruktion in Echtzeit möglich macht. Außerdem verhindert das Clustering das Bilden von konvexen Hüllen über Ebenen, die in Zwischenbereichen nicht mit genügend Punkten unterstützt werden. Dieses Problem ist in Abbildung \ref{fig:clustering} links zu sehen.\\
+
+\begin{figure}
+  \centering
+	\includegraphics[width=1.0\textwidth]{content/images/methods/clustering.png} 
+  \caption{Links: Ebenenrekonstruktion ohne Clustering. Rechts: Rekonstruktion mit K-Mean Clustering.}
+  \label{fig:clustering}
+\end{figure}
+
+Getestet wurde hier das K-Mean Clustering, Agglomeratives Clustering und einfaches räumliches Clustern mit Hilfe eines Octrees. Das K-Mean Clustering hat, wie in Abbildung \ref{fig:clustering} rechts zu erkennen, gute Ergebnisse für die Aufteilung einer Ebenen geliefert, benötigt aber zuvor eine feste Anzahl von Clustern. Agglomeratives Clustering, getestet mit dem euklidischen Distanzmaß, würde zwar die Anzahl der Cluster dynamisch bestimmen, ist jedoch zu aufwändig für eine echtzeit Rekonstruktion. Gute Ergebnisse liefert wiederum ein einfaches räumliches Clustern mit einem Octree. Das bietet zudem den Vorteil, dass diese Datenstruktur direkt als Speicherort der Aufgenommenen Punkte und Ebenen dienen kann. \\
+
+Ein Octree ist zunächst eine Datenstruktur, die wie ein Baum mit beliebiger Tiefe aufgebaut ist und pro Knoten Acht Kinder besitzt. Dabei repräsentiert ein Knoten ein Würfel, der durch seine Kinder in Acht Kind-Würfel aufgeteilt wird. Durch diese räumliche Aufteilung ergeben sich verschiedene Vorteile gegenüber linearen Datenstrukturen. So müssen Bereiche zum festhalten räumlicher Informationen im Octree nur dann allokiert werden, wenn diese Bereiche auch verwendet werden. Speichert man Punkte in den untersten Knoten eines Octrees kann man durch eine Tiefenbegrenzung beim Zugriff auf den Baum ein sehr effektives Downsampling der Punkte vornehmen. Zuletzt entstehen durch die Knoten einer bestimmten Tiefe ein Cluster, zu denen in diesem Fall Punkte bei einer Aufnahme hinzugefügt werden und für eine weitere Verarbeitung extrahiert werden können.\\
+
