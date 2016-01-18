@@ -4,13 +4,11 @@ Wie bereits in Absatz \ref{sec:polygon_reconstruction} beschrieben, lässt sich 
 
 Wie in dem \enquote{Simultaneous Localization and Mapping} (SLAM) Verfahren von \citet{trevor2012planar} wird hier zunächst eine Ebene in der Pointcloud mit Hilfe des RANSAC Algorithmus gesucht. RANSAC bietet gegenüber anderen Algorithmen zur Ebenen Detektion den Vorteil, ein Modell auch bei vielen Ausreißern performant zu ermitteln. Agglomeratives Clustering und Region Growing wie von \citet{feng2014fast} beschreiben, eignet sich auf Grund des Ausgabeformats aus Project Tango nicht, da es keine organisierte Point Cloud ausgibt. \\
 
-Die Repräsentation der Ebene \(P\) wird, angelehnt an das Vorgehen von \citet{trevor2012planar}, wie in Gleichung \ref{eq:plane} festgehalten. Dabei handelt es sich um den Normalenvektor \(\vec{n}\) und der Distanz zum Ursprung \(d\) der Hesse Normalform einer Ebene, sowie der Punkte der konvexen Hülle \(H\). Um die konvexe Hülle der Ebene zu bestimmen, wird der Graham Scan Algorithmus verwendet. Wie auch von \citet{trevor2012planar} beschreiben wird die konvexe in der Repräsentation festgehalten, um eine sukzessive Verbesserung einer Ebene nach mehreren Messdurchläufen zu ermöglichen. So werden die Punkte der konvexen Hülle pro Messvorgang kombiniert, damit die Ebenenausbreitung auch außerhalb des Sichtfeldes beibehalten werden kann.
+Die Repräsentation der Ebene \(P\) wird, angelehnt an das Vorgehen von \citet{trevor2012planar}, wie in Gleichung \ref{eq:plane} festgehalten. Dabei handelt es sich um den Normalenvektor \(\vec{n}\) und der Distanz zum Ursprung \(d\) der Hesse Normalform einer Ebene, sowie der Punkte der konvexen Hülle \(H\). Um die konvexe Hülle der Ebene zu bestimmen, wird der Graham Scan Algorithmus verwendet. Wie auch von \citet{trevor2012planar} beschreiben wird die konvexe Hülle in der Repräsentation festgehalten, um eine sukzessive Verbesserung einer Ebene nach mehreren Messdurchläufen zu ermöglichen. So werden die Punkte der konvexen Hülle pro Messvorgang kombiniert, damit die Ebenenausbreitung auch außerhalb des Sichtfeldes beibehalten werden kann. Um wiederum aus dieser Repräsentation eine Triangulation zu erhalten, wird hier die zweidimensionale Sweep-Line Delaunay Triangulation eingesetzt. 
 
 \begin{equation} \label{eq:plane}
 P=\left[\vec{n}, d, H\right] \qquad H=\vec{h_1}, \vec{h_2}, \ldots  \vec{h_n}
 \end{equation}
-
-Um wiederum aus dieser Repräsentation eine Triangulation zu erhalten, wird hier die zweidimensionale Sweep-Line Delaunay Triangulation durchgeführt. Die Schritte aus dem Algorithmus \ref{lst:planeReconstruction} werden in den folgenden Kapiteln näher beschreiben.
 
 \begin{lstlisting}[mathescape,caption=Planaren Echtzeit Rekonstruktion, label=lst:planeReconstruction]
 
@@ -28,9 +26,9 @@ für jedes Cluster $C$ aus $O$
     $T_{Gesamt}$ += $T_{Ebene}$
     $C_{Ebenen}$ += [$\vec{n}$, $d$, $H_{neu}$]
     $C_{Punkte}$ - $P$
-		
-
 \end{lstlisting}
+
+Neben den Algorithmen zur Rekonstruktion wird in den folgenden Abschnitten auch das Clustering beschrieben, was dieses Verfahren zu einer Echtzeit Ebenenrekonstruktion macht. Der Ablauf des Verfahrens wird in Listing \ref{lst:planeReconstruction} einmal zusammengefasst und in Pseudocode beschreiben.
 
 \subsection{RANSAC zur Ebenendetektion}
 
@@ -95,6 +93,8 @@ c
 \end{bmatrix}
 \end{equation}
 
+\textbf{TODO: }LINEARE REGRESSION DER EBENE DURCH EIGENDECOMPUSITION NACH \citet{hoppe1992surface}
+
 \subsection{Bestimmung der Ebenenausbreitung}
 
 Nachdem die Ebene und die korrespondierenden Punkte zur Ebene gefunden wurden, muss noch die Ausbreitung der Fläche bestimmt werden, da die Ebene in Hesse Normalform lediglich die Position \(\vec{n} * d\) und Ausrichtung \(\vec{n}\) festhält. \citet{PlanarSurfaceMapping} nutzt hierfür die konvexe Hülle der korrespondierenden Punkte und trianguliert diese. Um das performant umzusetzen, kann man sich hier die Eigenschaft der Ebene zu Nutzen machen und die dreidimensionalen Punkte durch Parallelprojektion als zweidimensionale Punkte auf die Ebene projizieren. Denn die Algorithmen für die Triangulation haben im zweidimensionalen eine deutlich besseres Laufzeitverhalten. \\
@@ -108,16 +108,19 @@ p_{2d} = (p_{3d} - (\vec{n}*d)) * R_{\vec{n}to\vec{z}}
 p_{3d} = (p_{2d} * R_{\vec{n}to\vec{z}}^{-1}) + (\vec{n}*d)
 \end{equation}
 
-\subsubsection{Convex Hull Algorithmus}
+\subsubsection{Bestimmen der konvexen Hülle}
 
-Für die Berechnung der konvexen Hülle wird der Graham Scan nach \citet{graham1972efficient} genutzt. Dieser Algorithmus besitzt eine Laufzeit von \(O(n \log n)\) und gilt als einer der populärsten Algorithmen für die Berechnung der konvexen Hülle. Andere Ansätze besitzen dabei ein ähnliches oder schlechteres Laufzeitverhalten. Gestartet wird der Algorithmus mit der Menge aller Punkte \(P\) der Ebene und mit einem Startpunkt \(P_0\), der Bestandteil der konvexen Hülle ist. Hierzu wird meist der Punkt mit dem niedrigsten \(y\) Faktor gewählt. (\(P_0=P_{min(y)}\)) Listing \ref{lst:graham-scan} zeigt den Verlauf des Algorithmus des Graham Scans. Dabei wird in Abbildung \ref{fig:convexhull} nochmals die erste Sortierung und das Unterscheidungskriterium für die Sortierung als auch für die Aussortierung der Punkte verdeutlicht. \citep{convexHull} \\
+Für die Bestimmen der konvexen Hülle wird der Graham Scan nach \citet{graham1972efficient} genutzt. Dieser Algorithmus besitzt eine Laufzeit von \(O(n \log n)\) und gilt als einer der populärsten Algorithmen für die Berechnung der konvexen Hülle. Andere Ansätze besitzen dabei ein ähnliches oder schlechteres Laufzeitverhalten. \\
 
-\begin{figure}
+\begin{figure}[h]
   \centering
 	\includegraphics[width=0.9\textwidth]{content/images/methods/convexhull.png} 
   \caption{Sortierung der Punkte nach Winkel zum Startpunkt (links) mit dem Unterscheidungskriterium (rechts). Übernommen von \citet{convexHull}}
   \label{fig:convexhull}
 \end{figure}
+
+Gestartet wird der Algorithmus mit der Menge aller Punkte \(P\) der Ebene und mit einem Startpunkt \(P_0\), der Bestandteil der konvexen Hülle ist. Hierzu wird meist der Punkt mit dem niedrigsten \(y\) Faktor gewählt. (\(P_0=P_{min(y)}\)) Listing \ref{lst:graham-scan} zeigt den Verlauf des Algorithmus des Graham Scans. Dabei wird in Abbildung \ref{fig:convexhull} nochmals die erste Sortierung und das Unterscheidungskriterium für die Sortierung als auch für die Aussortierung der Punkte verdeutlicht. \citep{convexHull} \\
+
 
 \begin{lstlisting}[mathescape,caption=Graham Scan Algorithmus, label=lst:graham-scan]
 Eingabe: Menge der Punkte $P$, außen liegender Punkt $P_0$
@@ -154,7 +157,7 @@ Wie im Algorithmus \ref{lst:planeReconstruction} zu erkennen wird das zuvor besc
   \label{fig:clustering}
 \end{figure}
 
-Getestet wurde hier das K-Mean Clustering, Agglomeratives Clustering und einfaches räumliches Clustern mit Hilfe eines Octrees. Das K-Mean Clustering hat, wie in Abbildung \ref{fig:clustering} rechts zu erkennen, gute Ergebnisse für die Aufteilung einer Ebenen geliefert, benötigt aber zuvor eine feste Anzahl von Clustern. Agglomeratives Clustering, getestet mit dem euklidischen Distanzmaß, würde zwar die Anzahl der Cluster dynamisch bestimmen, ist jedoch zu aufwändig für eine echtzeit Rekonstruktion. Gute Ergebnisse liefert wiederum ein einfaches räumliches Clustern mit einem Octree. Das bietet zudem den Vorteil, dass diese Datenstruktur direkt als Speicherort der Aufgenommenen Punkte und Ebenen dienen kann. \\
+Getestet wurden hier das K-Mean Clustering, Agglomeratives Clustering und einfaches räumliches Clustern mit Hilfe eines Octrees. Das K-Mean Clustering hat, wie in Abbildung \ref{fig:clustering} rechts zu erkennen, gute Ergebnisse für die Aufteilung einer Ebenen geliefert, benötigt aber zuvor eine feste Anzahl von Clustern. Agglomeratives Clustering, getestet mit dem euklidischen Distanzmaß, würde zwar die Anzahl der Cluster dynamisch bestimmen, ist jedoch zu aufwändig für eine Echtzeit Rekonstruktion. Gute Ergebnisse liefert wiederum ein einfaches räumliches Clustern mit einem Octree. Das bietet zudem den Vorteil, dass diese Datenstruktur direkt als Speicherort der Aufgenommenen Punkte und Ebenen dienen kann. \\
 
-Ein Octree ist zunächst eine Datenstruktur, die wie ein Baum mit beliebiger Tiefe aufgebaut ist und pro Knoten Acht Kinder besitzt. Dabei repräsentiert ein Knoten ein Würfel, der durch seine Kinder in Acht Kind-Würfel aufgeteilt wird. Durch diese räumliche Aufteilung ergeben sich verschiedene Vorteile gegenüber linearen Datenstrukturen. So müssen Bereiche zum festhalten räumlicher Informationen im Octree nur dann allokiert werden, wenn diese Bereiche auch verwendet werden. Speichert man Punkte in den untersten Knoten eines Octrees kann man durch eine Tiefenbegrenzung beim Zugriff auf den Baum ein sehr effektives Downsampling der Punkte vornehmen. Zuletzt entstehen durch die Knoten einer bestimmten Tiefe ein Cluster, zu denen in diesem Fall Punkte bei einer Aufnahme hinzugefügt werden und für eine weitere Verarbeitung extrahiert werden können.\\
+Ein Octree ist zunächst eine Datenstruktur, die wie ein Baum mit beliebiger Tiefe aufgebaut ist und pro Knoten Acht Kinder besitzt. Die Funktion ist dabei in \(\mathbb{R}^3\) gleich zu einem Binärbaum in \(\mathbb{R}\) oder einem Quadtree in \(\mathbb{R}^2\). Ein Knoten repräsentiert im Octree einen Würfel, der durch seine Kinder in Acht Kind-Würfel aufgeteilt wird. Durch diese räumliche Aufteilung ergeben sich verschiedene Vorteile gegenüber linearen Datenstrukturen. So müssen Bereiche zum festhalten räumlicher Informationen im Octree nur dann allokiert werden, wenn diese Bereiche auch verwendet werden. Speichert man Punkte in den untersten Knoten eines Octrees kann man durch eine Tiefenbegrenzung beim Zugriff auf den Baum ein sehr effektives Downsampling der Punkte vornehmen. Zuletzt entstehen durch die Knoten einer bestimmten Tiefe ein Cluster, zu denen in diesem Fall Punkte bei einer Aufnahme hinzugefügt werden und für eine weitere Verarbeitung extrahiert werden können.\\
 
