@@ -1,4 +1,4 @@
-# Masterthesis - Tex
+# Masterthesis - Tex [![PDF Status](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/badge.svg)](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/output.pdf)
 
 __(WORK IN PROGRESS)__
 
