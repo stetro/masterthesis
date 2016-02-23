@@ -1,0 +1,24 @@
+\section{RANSAC} \label{sec:ransac-theory}
+
+Der \enquote{RAndom SAmple Consensus} Algorithmus (RANSAC), vorgestellt von \citet{fischler1981random}, ist in der Lage, aus einer Menge von Daten mit vielen Ausreißern, die Parameter für ein passendes Modell zu schätzen. Anders als andere Schätzverfahren wie \enquote{Least-Median} oder \enquote{M-Schätzer}, welche aus der Statistik Literatur entnommen und entsprechend angepasst wurden, wurde RANSAC speziell für die Anwendung in der Computer Graphik entwickelt. Der Kern dieses Algorithmus ist das wiederholte Bestimmen eines Modells aus zufälligen und für das Modell ausreichenden Stichproben. Listing \ref{lst:ransac} zeigt den Verlauf des RANSAC Algorithmus. Die Anzahl der Iterationen \(N\) hängt dabei allein von dem Anteil der Ausreißer in den Messwerten ab. Daher sollte sie entsprechend gewählt werden, um die Wahrscheinlichkeit zu verringern, dass Ausreißer in den Stichproben enthalten sind. \citep{derpanis2010overview} \\
+
+\begin{lstlisting}[mathescape,caption=Der RANSAC Algorithmus, label=lst:ransac]
+Eingabe: Messwerte $P$, Modelltoleranz $e$, maximale Iterationen $N$
+Ausgabe: Modell $m$, Unterstützende Messwerte $P_m$
+
+1. Wähle zufällig so viele Stichproben aus den Messwerten $P$,
+   wie nötig sind, um das Modell zu bestimmen
+2. Bestimme aus den gewählten Stichproben das Modell $m$
+3. Ermittle die Anzahl der Messwerte $P$, die mit einer 
+   entsprechenden Toleranz $e$ das ermittelte Modell $m$ 
+   unterstützen
+4. Wenn prozentual genügend Messwerte aus $P$ das Modell $m$ 
+   unterstützen dann terminiere und gehe zu 7
+5. Wenn $|P_m| < |P|$ dann $|P_m| = |P|$
+6. Wiederhole die Schritte 1-4 $N$ mal
+7. Ermittle aus den unterstützenden Messwerten $P_m$ erneut 
+   das finale Modell $m$
+   
+\end{lstlisting} 
+
+Die in Schritt sieben beschriebene erneute Modellermittlung kann laut \citet{fischler1981random} durch ein ein Regressionsverfahren wie der Methode der kleinsten Quadrate bestimmt werden. Anwendung findet dieser Algorithmus in der Ebenendetektion aus Kapitel \ref{sec:ransac}.

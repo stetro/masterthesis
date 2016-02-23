@@ -32,26 +32,7 @@ Neben den Algorithmen zur Rekonstruktion wird in den folgenden Abschnitten auch 
 
 \subsection{RANSAC zur Ebenendetektion} \label{sec:ransac}
 
-Der \enquote{RAndom SAmple Consensus} Algorithmus (RANSAC), vorgestellt von \citet{fischler1981random}, ist in der Lage, aus einer Menge von Daten mit vielen Ausreißern, die Parameter für ein passendes Modell zu schätzen. Anders als andere Schätzverfahren wie \enquote{Least-Median} oder \enquote{M-Schätzer}, welche aus der Statistik Literatur entnommen und entsprechend angepasst wurden, wurde RANSAC speziell für die Anwendung in der Computer Graphik entwickelt. Der Kern dieses Algorithmus ist das wiederholte Bestimmen eines Modells aus zufälligen und für das Modell ausreichenden Stichproben. Listing \ref{lst:ransac} zeigt den Verlauf des RANSAC Algorithmus. Die Anzahl der Iterationen \(N\) hängt dabei allein von dem Anteil der Ausreißer in den Messwerten ab. Daher sollte sie entsprechend gewählt werden, um die Wahrscheinlichkeit zu verringern, dass Ausreißer in den Stichproben enthalten sind. \citep{derpanis2010overview} \\
-
-\begin{lstlisting}[mathescape,caption=Der RANSAC Algorithmus, label=lst:ransac]
-Eingabe: Messwerte $P$, Modelltoleranz $e$, maximale Iterationen $N$
-Ausgabe: Modell $m$, Unterstützende Messwerte $P_m$
-
-1. Wähle zufällig so viele Stichproben aus den Messwerten $P$,
-   wie nötig sind, um das Modell zu bestimmen
-2. Bestimme aus den gewählten Stichproben das Modell $m$
-3. Ermittle die Anzahl der Messwerte $P$, die mit einer 
-   entsprechenden Toleranz $e$ das ermittelte Modell $m$ 
-   unterstützen
-4. Wenn prozentual genügend Messwerte aus $P$ das Modell $m$ 
-   unterstützen, ermittle aus den unterstützenden Messwerten 
-   $P_m$ durch lineare Regression erneut das finale Modell 
-   $m$ und terminiere
-5. Wiederhole die Schritte 1-4 $N$ mal
-\end{lstlisting} 
-
-Um mit dem RANSAC Algorithmus Ebenen in einer Punktewolke bestimmen zu können, werden pro Iteration drei Stichproben \(A\), \(B\) und \(C\) gewählt. Das Ebenenmodell, hier in der Hesse Normalform mit dem Normalenvektor \(\vec{n}\) und dem Abstand zum Koordinatenursprung \(d\), lässt sich dabei durch die Gleichung \ref{eq:normalform} bestimmen.
+Um mit dem RANSAC Algorithmus, beschrieben in Kapitel \ref{sec:ransac-theory}, Ebenen in einer Punktewolke bestimmen zu können, werden pro Iteration drei Stichproben \(A\), \(B\) und \(C\) gewählt. Das Ebenenmodell, hier in der Hesse Normalform mit dem Normalenvektor \(\vec{n}\) und dem Abstand zum Koordinatenursprung \(d\), lässt sich dabei durch die Gleichung \ref{eq:normalform} bestimmen.
 
 \begin{equation}\label{eq:normalform}
 \vec{n} =\left|\left| \vec{AB} \times \vec{AC}\right|\right|
@@ -61,39 +42,23 @@ Um mit dem RANSAC Algorithmus Ebenen in einer Punktewolke bestimmen zu können, 
 d = D_1 + D_2 + D_3
 \end{equation}
 
-Um zu ermitteln ob ein Punkt \(P\) aus einer Messreihe die gefundene Ebene \(\left[\vec{n_E}, d_E\right]\) unterstützt, wird die kürzeste Distanz \(d_P\) zwischen Punkt und Ebene wie in Gleichung \ref{eq:plane-distance} ermittelt.  Ein entsprechender Toleranzwert für die Distanz \(d_{min}\), im gezeigten RANSAC Algorithmus \(e\) genannt, wird später bei der Umsetzung abhängig vom Rauschen des Tiefensensors gewählt. 
+Um zu ermitteln ob ein Punkt \(P\) aus einer Messreihe die gefundene Ebene \(\left[\vec{n_E}, d_E\right]\) unterstützt, wird die kürzeste Distanz \(d_P\) zwischen Punkt und Ebene wie in Gleichung \ref{eq:plane-distance} ermittelt.  Ein entsprechender Toleranzwert für die Distanz \(d_{min}\), im gezeigten RANSAC Algorithmus \(e\) genannt, wird später bei der Umsetzung abhängig von der Ungenauigkeit des Tiefensensors gewählt. 
 
 \begin{equation} \label{eq:plane-distance}
 d_P = n_1*P_1+n_2*P_2+n_3*P_3-d_E \qquad support_{d_P} = d_P < d_{min}
 \end{equation}
 
-Um das finale Modell der Ebene zu ermitteln, und somit die Varianz des Abstands der Punkte zur Ebene zu minimieren, wird mit Hilfe der unterstützenden Punkte \(P_{support}=\left[x,y,z\right]\) eine lineare Regression durchgeführt. Diese Mittelt ein Ebenenmodell \(E=\left[a,b,c\right]\) aus den zuvor ermittelten Punkten mit Hilfe des \enquote{least squares} Schätzverfahren. Für eine Ebene versucht man die Funktion \(G(a,b,c)\) aus Gleichung \ref{eq:least-squares} zu minimieren. Hierzu muss das lineare Gleichungssystem in Gleichung \ref{eq:least-squares-solution}  gelöst werden. \citep{Regre94:online}
+Um das finale Modell der Ebene zu ermitteln, und somit die Varianz des Abstands der Punkte zur Ebene zu minimieren, wird mit Hilfe der unterstützenden Punkte \(P_{s}=\left[x,y,z\right]\) eine lineare Regression durchgeführt. Diese Mittelt ein Ebenenmodell \(E=\left[\vec{n_E}, d_E\right]\) aus den zuvor ermittelten Punkten mit Hilfe der Methode der kleinsten Quadrate. \citet{hoppe1992surface} nutzen hierfür die Eigenwert Dekomposition der Kovarianzmatrix der Punkte \(P_{s}\) zum Zentrum \(\vec{p_{c}}\). In Gleichung \ref{eq:centroid} wird das Zentrum aus den unterstützenden Punkten \(P_{s}\) bestimmt. Gleichung \ref{eq:covarianz} zeigt die Bestimmung der Kovarianzmatrix \(CV\) im Bezug zum Zentroid, in der \(\otimes\) für das dyadische Produkt\footnote{Wenn \(\vec{a}\) und \(\vec{b}\) die Komponenten \(a_i\) und \(b_j\) beinhalten, resultiert aus \(\vec{a} \otimes \vec{b}\) eine Matrix mit den Komponenten \(a_ib_j\) an der \(ij\) Position. \citep{hoppe1992surface}} steht.
 
-\begin{equation} \label{eq:least-squares}
-z = ax + by + c   \qquad G(a, b, c) = \sum {\left(z_i - ax_i - by_i - c\right)}^2
+\begin{equation} \label{eq:centroid}
+\vec{p_{c}} = \frac{\sum_{n=0}^{|P|} P_{n}}{|P|}
 \end{equation}
 
-\begin{equation} \label{eq:least-squares-solution}
-\begin{bmatrix}
-\sum x_i^2 & \sum x_iy_i & \sum x_i\\ 
-\sum x_iy_i  & \sum y_i^2  & \sum y_i \\ 
-\sum x_i & \sum y_i  & n
-\end{bmatrix}
-*
-\begin{bmatrix}
-a\\ 
-b\\ 
-c
-\end{bmatrix}
-=
-\begin{bmatrix}
-\sum x_iz_i\\ 
-\sum y_iz_i\\ 
-\sum z_i
-\end{bmatrix}
+\begin{equation} \label{eq:covarianz}
+CV = \sum_{n=0}^{|P|} ( \vec{p_{n}}- \vec{p_{c}}) \otimes ( \vec{p_{n}}- \vec{p_{c}})
 \end{equation}
 
-\textbf{TODO: }LINEARE REGRESSION DER EBENE DURCH EIGENDECOMPUSITION NACH \citet{hoppe1992surface}
+Wendet man nun auf der Kovarianzmatrix \(CV\) die Eigenwert Dekomposition an, erhält man die Normale \(\vec{n_E}\) aus dem Eigenvektor \(||\vec{v_i}||\) mit dem großten Eigenwert \(\lambda_i\). Somit würde bei \(\lambda_1 \leqq \lambda_2 \leqq \lambda_3\) die Zuweisung \(\vec{n_E} = ||\vec{v_3}||\) folgen. Die Distanz zum Ursprung \(d_E\) entspricht dem Betrag des Zentroiden \(|\vec{p_c}|\). \citep{hoppe1992surface}
 
 \subsection{Bestimmung der Ebenenausbreitung}
 
