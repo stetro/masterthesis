@@ -23,6 +23,7 @@
 \usepackage{amsmath}
 \usepackage[authoryear,round]{natbib}
 \usepackage{microtype}
+\usepackage{url}
 \usepackage{listings}
 \lstset{literate=%
   {Ö}{{\"O}}1
@@ -38,10 +39,10 @@
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=false,captionpos=b}
 \lstset{framextopmargin=50pt,frame=bottomline}
 
-
 \newdateformat{monthyeardate}{%
   \monthname[\THEMONTH] \THEYEAR}
 
+\urlstyle{same}
 
 \raggedbottom
 
