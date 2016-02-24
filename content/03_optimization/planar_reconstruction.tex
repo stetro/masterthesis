@@ -1,54 +1,54 @@
 \section{Planare Rekonstruktion}
 
-Wie bereits in Absatz \ref{sec:polygon_reconstruction} beschrieben, lässt sich das Problem der Optimierung von Augmented Reality mit Hilfe von Tiefeninformationen auf eine Echtzeit Rekonstruktion zurückführen. Im Gegensatz zur Rekonstruktion komplexer Oberflächen, mit dem vorgestellten TSDF Verfahren, soll hier eine Idee näher erläutert werden, die eine Rekonstruktion allein auf planaren Primitiven ermöglicht. \citet{yang2010plane} erwähnt hierzu, dass Ebenen in fast allen künstlichen Umgebungen zu finden sind und auf Grund ihrer vorteilhaften geometrischen Eingenschaften in verschiedensten Computer Vision Verfahren verwendet werden. Daher gibt es viele Forschungsarbeiten, Methoden und Algorithmen um aus verschiedensten Informationsquellen ein Ebenenmodell zu extrahieren.\\
+Wie bereits in Kapitel \ref{sec:polygon_reconstruction} beschrieben, lässt sich das Problem der Optimierung von Augmented Reality mit Hilfe von Tiefeninformationen auf eine Echtzeit Rekonstruktion zurückführen. Im Gegensatz zur Rekonstruktion komplexer Oberflächen, mit dem vorgestellten TSDF Verfahren, soll hier eine Idee näher erläutert werden, die eine Rekonstruktion allein auf Ebenen ermöglichen soll. \citet{yang2010plane} erwähnt hierzu, dass Ebenen in fast allen künstlichen Umgebungen zu finden sind und auf Grund ihrer vorteilhaften geometrischen Eingenschaften in verschiedensten Computer Vision Verfahren verwendet werden. Daher gibt es viele Forschungsarbeiten, Methoden und Algorithmen um aus verschiedensten Informationsquellen ein Ebenenmodell zu extrahieren.\\
 
-Wie in dem \enquote{Simultaneous Localization and Mapping} (SLAM) Verfahren von \citet{trevor2012planar} wird hier zunächst eine Ebene in der Pointcloud mit Hilfe des RANSAC Algorithmus gesucht. RANSAC bietet gegenüber anderen Algorithmen zur Ebenen Detektion den Vorteil, ein Modell auch bei vielen Ausreißern performant zu ermitteln. Agglomeratives Clustering und Region Growing wie von \citet{feng2014fast} beschreiben, eignet sich auf Grund des Ausgabeformats aus Project Tango nicht, da es keine organisierte Point Cloud ausgibt. \\
+Das \enquote{Simultaneous Localization and Mapping} (SLAM) Verfahren von \citet{trevor2012planar} detektiert Ebenen mit dem RANSAC Algorithmus. RANSAC bietet gegenüber anderen Algorithmen zur Ebenen Detektion den Vorteil, ein Modell auch bei vielen Ausreißern performant zu ermitteln. Agglomeratives Clustering und Region Growing wie von \citet{feng2014fast} beschreiben, eignet sich auf Grund des Ausgabeformats von Project Tango nicht direkt, da es keine organisierte Point Cloud ausgibt und die Daten durch Reflektionen und Löchern mit Fehlern behaftet sind. \\
 
-Die Repräsentation der Ebene \(P\) wird, angelehnt an das Vorgehen von \citet{trevor2012planar}, wie in Gleichung \ref{eq:plane} festgehalten. Dabei handelt es sich um den Normalenvektor \(\vec{n}\) und der Distanz zum Ursprung \(d\) der Hesse Normalform einer Ebene, sowie der Punkte der konvexen Hülle \(H\). Um die konvexe Hülle der Ebene zu bestimmen, wird der Graham Scan Algorithmus verwendet. Wie auch von \citet{trevor2012planar} beschreiben wird die konvexe Hülle in der Repräsentation festgehalten, um eine sukzessive Verbesserung einer Ebene nach mehreren Messdurchläufen zu ermöglichen. So werden die Punkte der konvexen Hülle pro Messvorgang kombiniert, damit die Ebenenausbreitung auch außerhalb des Sichtfeldes beibehalten werden kann. Um wiederum aus dieser Repräsentation eine Triangulation zu erhalten, wird hier die zweidimensionale Sweep-Line Delaunay Triangulation eingesetzt. 
+Das selbst zusammengestellte Verfahren zur Ebenendetektion besteht daher aus folgenden Komponenten. Wie in dem Ansatz von \citet{yang2010plane} wird der RANSAC Algorithmus auf Würfeln ausgeführt, welche hier durch den Einsatz eines Octrees bestimmt werden. Eine gefundene Ebene in einem Würfel wird wie im SLAM Verfahren von \citet{trevor2012planar} persistiert. Die Repräsentation der Ebene \(P\) wird dort wie in Gleichung \ref{eq:plane} festgehalten. Dabei handelt es sich um den Normalenvektor \(\vec{n}\) und der Distanz zum Ursprung \(d\) der Hesse Normalform einer Ebene, sowie der Punkte der konvexen Hülle \(H\). \citet{trevor2012planar} erläutern, dass die konvexe Hülle in der Repräsentation festgehalten wird, um eine sukzessive Verbesserung einer Ebene nach mehreren Messdurchläufen zu ermöglichen. So werden die Punkte der konvexen Hülle pro Messvorgang kombiniert, damit die Ebenenausbreitung auch außerhalb des Sichtfeldes beibehalten werden kann. \\
 
 \begin{equation} \label{eq:plane}
 P=\left[\vec{n}, d, H\right] \qquad H=\vec{h_1}, \vec{h_2}, \ldots  \vec{h_n}
 \end{equation}
 
-\begin{lstlisting}[mathescape,caption=Planaren Echtzeit Rekonstruktion, label=lst:planeReconstruction]
+Die einzelnen Schritte des Vorgehens werden in den folgenden Absätzen näher erläutert. Ein Grober Ablauf des Vorgehens wird in Listing \ref{lst:planeReconstruction} einmal zusammengefasst und in Pseudocode beschreiben. Als Cluster sind im Listing die Nodes eines Octrees gemeint, dessen Anwendung auch in Absatz \ref{sec:cluster} näher beschrieben wird.
 
-Eingabe: Octree $O$
+\begin{lstlisting}[mathescape,caption=Planare Echtzeit Rekonstruktion, label=lst:planeReconstruction]
+
+Eingabe: Octree $O$, Anzahl der zu suchenden Ebene in Clustern $N$
 Ausgabe: Polygonpunkte $T_{Gesamt}$
 
-für jedes Cluster $C$ aus $O$
-    bestimme Ebene [$\vec{n}$, $d$, $P$] mit RANSAC aus $C_{Punkte}$
-    wenn keine Ebene mit genügend $P$ in $C_{Punkte}$ gefunden wurde
-    		nächstes Cluster (continue)
-    wenn Ebene mit [$\vec{n}$, $d$, $H_{alt}$] in $C_{Ebenen}$ existiert	
-        füge die konvexe Hülle $H_{alt}$ zu $P$ hinzu	
-    bestimme die konvexe Hülle $H_{neu}$
-    bestimme die Tringulation $T_{Ebene}$ aus $H_{neu}$
-    $T_{Gesamt}$ += $T_{Ebene}$
-    $C_{Ebenen}$ += [$\vec{n}$, $d$, $H_{neu}$]
-    $C_{Punkte}$ - $P$
+für jedes Cluster $C$=[$C_{Punkte}$, $C_{Ebenen}$] aus $O$
+    führe $N$ mal aus
+        bestimme Ebene [$\vec{n}$, $d$, $P$] mit RANSAC aus $C_{Punkte}$
+        wenn keine Ebene mit genügend $P$ gefunden wurde
+            nächstes Cluster (continue)
+        wenn Ebene mit [$\vec{n}$, $d$, $H_{alt}$] in $C_{Ebenen}$ existiert	
+            füge die konvexe Hülle $H_{alt}$ zu $P$ hinzu	
+        bestimme die konvexe Hülle $H_{neu}$
+        trianguliere $H_{neu}$ zu $T_{Ebene}$
+        $T_{Gesamt}$ += $T_{Ebene}$
+        $C_{Ebenen}$ += [$\vec{n}$, $d$, $H_{neu}$]
+        $C_{Punkte}$ - $P$
 \end{lstlisting}
 
-Neben den Algorithmen zur Rekonstruktion wird in den folgenden Abschnitten auch das Clustering beschrieben, was dieses Verfahren zu einer Echtzeit Ebenenrekonstruktion macht. Der Ablauf des Verfahrens wird in Listing \ref{lst:planeReconstruction} einmal zusammengefasst und in Pseudocode beschreiben.
 
 \subsection{RANSAC zur Ebenendetektion} \label{sec:ransac}
 
-Um mit dem RANSAC Algorithmus, beschrieben in Kapitel \ref{sec:ransac-theory}, Ebenen in einer Punktewolke bestimmen zu können, werden pro Iteration drei Stichproben \(A\), \(B\) und \(C\) gewählt. Das Ebenenmodell, hier in der Hesse Normalform mit dem Normalenvektor \(\vec{n}\) und dem Abstand zum Koordinatenursprung \(d\), lässt sich dabei durch die Gleichung \ref{eq:normalform} bestimmen.
+Um mit dem RANSAC Algorithmus, beschrieben in Kapitel \ref{sec:ransac-theory}, Ebenen in einer Punktewolke bestimmen zu können, werden pro Iteration drei Stichproben \(\vec{A}\), \(\vec{B}\) und \(\vec{C}\) gewählt, die zur Bestimmung einer Ebene ausreichen. Das Ebenenmodell, hier in der Hesse Normalform mit dem Normalenvektor \(\vec{n}\) und dem Abstand zum Koordinatenursprung \(d\), lässt sich dabei durch die Gleichung \ref{eq:normalform} bestimmen.
 
 \begin{equation}\label{eq:normalform}
 \vec{n} =\left|\left| \vec{AB} \times \vec{AC}\right|\right|
 \qquad
-\vec{D} = \vec{A} \cdot \vec{n}
-\qquad
-d = D_1 + D_2 + D_3
+d = \vec{A} \cdot \vec{n}
 \end{equation}
 
-Um zu ermitteln ob ein Punkt \(P\) aus einer Messreihe die gefundene Ebene \(\left[\vec{n_E}, d_E\right]\) unterstützt, wird die kürzeste Distanz \(d_P\) zwischen Punkt und Ebene wie in Gleichung \ref{eq:plane-distance} ermittelt.  Ein entsprechender Toleranzwert für die Distanz \(d_{min}\), im gezeigten RANSAC Algorithmus \(e\) genannt, wird später bei der Umsetzung abhängig von der Ungenauigkeit des Tiefensensors gewählt. 
+Um zu ermitteln ob ein Punkt \(\vec{P}\) aus einer Messreihe die gefundene Ebene \(\left[\vec{n}, d\right]\) unterstützt, wird die kürzeste Distanz \(d_P\) zwischen Punkt und Ebene wie in Gleichung \ref{eq:plane-distance} ermittelt.  Ein entsprechender Toleranzwert für die Distanz \(d_{min}\), im gezeigten RANSAC Algorithmus \(e\) genannt, wird später bei der Umsetzung abhängig von der Ungenauigkeit des Tiefensensors gewählt. 
 
 \begin{equation} \label{eq:plane-distance}
-d_P = n_1*P_1+n_2*P_2+n_3*P_3-d_E \qquad support_{d_P} = d_P < d_{min}
+d_P = \vec{n} \cdot \vec{P} - d \qquad support_{d_P} = d_P < d_{min}
 \end{equation}
 
-Um das finale Modell der Ebene zu ermitteln, und somit die Varianz des Abstands der Punkte zur Ebene zu minimieren, wird mit Hilfe der unterstützenden Punkte \(P_{s}=\left[x,y,z\right]\) eine lineare Regression durchgeführt. Diese Mittelt ein Ebenenmodell \(E=\left[\vec{n_E}, d_E\right]\) aus den zuvor ermittelten Punkten mit Hilfe der Methode der kleinsten Quadrate. \citet{hoppe1992surface} nutzen hierfür die Eigenwert Dekomposition der Kovarianzmatrix der Punkte \(P_{s}\) zum Zentrum \(\vec{p_{c}}\). In Gleichung \ref{eq:centroid} wird das Zentrum aus den unterstützenden Punkten \(P_{s}\) bestimmt. Gleichung \ref{eq:covarianz} zeigt die Bestimmung der Kovarianzmatrix \(CV\) im Bezug zum Zentroid, in der \(\otimes\) für das dyadische Produkt\footnote{Wenn \(\vec{a}\) und \(\vec{b}\) die Komponenten \(a_i\) und \(b_j\) beinhalten, resultiert aus \(\vec{a} \otimes \vec{b}\) eine Matrix mit den Komponenten \(a_ib_j\) an der \(ij\) Position. \citep{hoppe1992surface}} steht.
+Um das finale Modell der Ebene zu ermitteln, wie im Ursprünglichen RANSAC Algorithmus in Punkt 7. beschrieben, und somit die Varianz des Abstands der Punkte zur Ebene zu minimieren, wird mit Hilfe der unterstützenden Punkte \(P_{s}=\left[x,y,z\right]\) eine lineare Regression durchgeführt. Diese Mittelt ein Ebenenmodell \(E=\left[\vec{n}, d\right]\) aus den zuvor ermittelten Punkten mit Hilfe der Methode der kleinsten Quadrate. \citet{hoppe1992surface} nutzen hierfür für eine ähnliche Problemstellung die Eigenwert Dekomposition der Kovarianzmatrix der Punkte \(P_{s}\) zum Zentrum \(\vec{p_{c}}\). In Gleichung \ref{eq:centroid} wird das Zentrum aus den unterstützenden Punkten \(P_{s}\) bestimmt. Gleichung \ref{eq:covarianz} zeigt die Bestimmung der Kovarianzmatrix \(CV\) im Bezug zum Zentroid, in der \(\otimes\) für das dyadische Produkt\footnote{Wenn \(\vec{a}\) und \(\vec{b}\) die Komponenten \(a_i\) und \(b_j\) beinhalten, resultiert aus \(\vec{a} \otimes \vec{b}\) eine Matrix mit den Komponenten \(a_ib_j\) an der \(ij\) Position. \citep{hoppe1992surface}} steht.
 
 \begin{equation} \label{eq:centroid}
 \vec{p_{c}} = \frac{\sum_{n=0}^{|P|} P_{n}}{|P|}
@@ -58,71 +58,50 @@ Um das finale Modell der Ebene zu ermitteln, und somit die Varianz des Abstands 
 CV = \sum_{n=0}^{|P|} ( \vec{p_{n}}- \vec{p_{c}}) \otimes ( \vec{p_{n}}- \vec{p_{c}})
 \end{equation}
 
-Wendet man nun auf der Kovarianzmatrix \(CV\) die Eigenwert Dekomposition an, erhält man die Normale \(\vec{n_E}\) aus dem Eigenvektor \(||\vec{v_i}||\) mit dem großten Eigenwert \(\lambda_i\). Somit würde bei \(\lambda_1 \leqq \lambda_2 \leqq \lambda_3\) die Zuweisung \(\vec{n_E} = ||\vec{v_3}||\) folgen. Die Distanz zum Ursprung \(d_E\) entspricht dem Betrag des Zentroiden \(|\vec{p_c}|\). \citep{hoppe1992surface}
+Wendet man nun auf der Kovarianzmatrix \(CV\) die Eigenwert Dekomposition an, erhält man die Normale \(\vec{n}\) aus dem Eigenvektor \(||\vec{v_i}||\) mit dem kleinsten Eigenwert \(\lambda_i\). Somit würde bei \(\lambda_1 \geqq \lambda_2 \geqq \lambda_3\) die Zuweisung \(\vec{n} = ||\vec{v_3}||\) folgen. Die Distanz zum Ursprung \(d\) entspricht dem Kreuzprodukt aus dem Zentroiden \(\vec{p_c}\) und der neu gewonnen Normalen \(\vec{n}\). \citep{hoppe1992surface}
 
 \subsection{Bestimmung der Ebenenausbreitung}
 
-Nachdem die Ebene und die korrespondierenden Punkte zur Ebene gefunden wurden, muss noch die Ausbreitung der Fläche bestimmt werden, da die Ebene in Hesse Normalform lediglich die Position \(\vec{n} * d\) und Ausrichtung \(\vec{n}\) festhält. \citet{PlanarSurfaceMapping} nutzt hierfür die konvexe Hülle der korrespondierenden Punkte und trianguliert diese. Um das performant umzusetzen, kann man sich hier die Eigenschaft der Ebene zu Nutzen machen und die dreidimensionalen Punkte durch Parallelprojektion als zweidimensionale Punkte auf die Ebene projizieren. Denn die Algorithmen für die Triangulation haben im zweidimensionalen eine deutlich besseres Laufzeitverhalten. \\
+Nachdem die Ebene und die korrespondierenden Punkte zur Ebene gefunden wurden, muss noch die Ausbreitung der Fläche bestimmt werden, da die Ebene in Hesse Normalform lediglich die Position \(\vec{n} * d\) und Ausrichtung \(\vec{n}\) festhält. \citet{PlanarSurfaceMapping} nutzt hierfür die konvexe Hülle der korrespondierenden Punkte und trianguliert diese. Wie diese dort genau bestimmt wurde ist nicht beschrieben. \\
 
-Nach der Triangulation können die Ecken der gefundenen Polygone jeweils zurück projiziert werden. Die Gleichungen \ref{eq:projection2d} und \ref{eq:projection3d} bilden die Projektion der Punkte wobei \(R_{\vec{n}to\vec{z}}\) der Rotationsmatrix zwischen dem Normalenvektor \(\vec{n}\) und der Z-Achse \(\vec{z}\) entspricht.\\
+Um diese Bestimmung performant umsetzen zu können, kann man sich hier die Eigenschaft der Ebene zu Nutzen machen und die dreidimensionalen Punkte durch Parallelprojektion als zweidimensionale Punkte auf die Ebene projizieren. Denn die Triangulation ist nach dem Erhalten der zweidimensionalen konvexen Hülle, wie im Listing \ref{lst:triangulation} beschrieben, direkt bestimmbar. Nach der Triangulation können die Ecken der gefundenen Polygone jeweils zurück projiziert werden. Die Gleichungen \ref{eq:projection2d} und \ref{eq:projection3d} bilden die Projektion der Punkte wobei \(R_{\vec{n} \rightarrow \vec{z}}\) der Rotationsmatrix zwischen dem Normalenvektor \(\vec{n}\) und der Z-Achse \(\vec{z}\) entspricht.\\
 
 \begin{equation} \label{eq:projection2d}
-p_{2d} = (p_{3d} - (\vec{n}*d)) * R_{\vec{n}to\vec{z}}
+p_{2d} = (p_{3d} - (\vec{n}*d)) * R_{\vec{n} \rightarrow \vec{z}}
 \end{equation}
 \begin{equation} \label{eq:projection3d}
-p_{3d} = (p_{2d} * R_{\vec{n}to\vec{z}}^{-1}) + (\vec{n}*d)
+p_{3d} = (p_{2d} * R_{\vec{n} \rightarrow \vec{z}}^{-1}) + (\vec{n}*d)
 \end{equation}
 
-\subsubsection{Bestimmen der konvexen Hülle}
+\begin{lstlisting}[mathescape,caption=Bestimmung der Ebenenausbreitung und Triangulation, label=lst:triangulation]
 
-Für die Bestimmen der konvexen Hülle wird der Graham Scan nach \citet{graham1972efficient} genutzt. Dieser Algorithmus besitzt eine Laufzeit von \(O(n \log n)\) und gilt als einer der populärsten Algorithmen für die Berechnung der konvexen Hülle. Andere Ansätze besitzen dabei ein ähnliches oder schlechteres Laufzeitverhalten. \\
+Eingabe: Unterstützende Ebenenpunkte aus RANSAC $P$
+         Transformation $R_{\vec{n} \rightarrow \vec{z}}$
+Ausgabe: Polygone $T_{Ebene}$
+
+    Projiziere alle Punkte aus $P_s$ mit $R_{\vec{n} \rightarrow \vec{z}}$ zu $P_{2d}$
+    Bestimme die konvexe Hülle $H$ aus $P_{2d}$ mit Graham Scan
+    starte mit leerer Menge $P_{2dmesh}$
+    für $i$ von $0$ bis $|H| - 2$
+        füge $H_i$ zu $P_{2dmesh}$ hinzu
+        füge $H_{i+1}$ zu $P_{2dmesh}$ hinzu
+        füge $H_{i+2}$ zu $P_{2dmesh}$ hinzu
+    Projiziere alle Punkte aus $P_{2dmesh}$ mit $R_{\vec{n} \rightarrow \vec{z}}^{-1}$ zu $P_{3dmesh}$
+   
+\end{lstlisting}
+
+
+\subsection{Clustering der aufgenommenen Punkte} \label{sec:cluster}
+
+Wie im Listing \ref{lst:planeReconstruction} zu erkennen wird das zuvor beschriebene Vorgehen für die planare Rekonstruktion immer pro Cluster eines Cluster-Pools durchgeführt. Dadurch werden pro Durchgang des Algorithmus nur ein Bruchteil der gesammelten Punkte rekonstruiert, was wiederum eine Rekonstruktion in Echtzeit möglich macht. Außerdem verhindert das Clustering das Bilden von konvexen Hüllen über Ebenen, die in Zwischenbereichen nicht mit genügend Punkten unterstützt werden. Dieses Problem ist in Abbildung \ref{fig:clustering} links zu sehen, in welcher eine blaue Ebene Rekonstruiert wird, die sich über einen Durchgang ohne vorhandene Punkte streckt.\\
 
 \begin{figure}[h]
-  \centering
-	\includegraphics[width=0.9\textwidth]{content/images/methods/convexhull.png} 
-  \caption{Sortierung der Punkte nach Winkel zum Startpunkt (links) mit dem Unterscheidungskriterium (rechts). Übernommen von \citet{convexHull}}
-  \label{fig:convexhull}
-\end{figure}
-
-Gestartet wird der Algorithmus mit der Menge aller Punkte \(P\) der Ebene und mit einem Startpunkt \(P_0\), der Bestandteil der konvexen Hülle ist. Hierzu wird meist der Punkt mit dem niedrigsten \(y\) Faktor gewählt. (\(P_0=P_{min(y)}\)) Listing \ref{lst:graham-scan} zeigt den Verlauf des Algorithmus des Graham Scans. Dabei wird in Abbildung \ref{fig:convexhull} nochmals die erste Sortierung und das Unterscheidungskriterium für die Sortierung als auch für die Aussortierung der Punkte verdeutlicht. \citep{convexHull} \\
-
-
-\begin{lstlisting}[mathescape,caption=Graham Scan Algorithmus, label=lst:graham-scan]
-Eingabe: Menge der Punkte $P$, außen liegender Punkt $P_0$
-Ausgabe: Punkte der konvexen Hülle
-
-$i$ = 0
-sortiere nach dem Winkel zu $P_0$
-solange $i$ <= $|P|$
-    wenn $\measuredangle P_{i-1} P_{i}$ > $\measuredangle P_{i-1} P_{i+1}$, also $P_i$ rechts von  $\vec{P_{i-1} P_{i+1}}$ liegt
-        inkrementiere $i$
-    ansonsten
-        entferne $P_i$ aus $P$
-        dekrementiere $i$
-    
-\end{lstlisting} 
-
-
-\subsubsection{Triangulation}
-
-Nachdem die konvexe Hülle bestimmt wurde, müssen die Punkte dieses Pfades noch trianguliert werden. Hierfür wird eine Delaunay-Triangulation mit Hilfe des Sweep-Line Algorithmus von \citet{domiter2008sweep} verwendet. Unter einer Delaunay-Triangulation versteht man zunächst einmal eine Art Constraint, der sogenannten Umkreisbedingung, die besagt, dass ein Kreis, der alle drei Punkte eines gefundenen Polygons durchzieht, keine weiteren Punkte beinhalten darf. \\
-
-Die Sweep-Line Methode ist ein generelles geometrisches Vorgehen, bei dem eine vertikale imaginäre Linie eine Menge geometrischer Objekte von links nach rechts passiert. 
-
- ... to be continued
-
-\subsection{Clustering der aufgenommenen Punkte}
-
-Wie im Algorithmus \ref{lst:planeReconstruction} zu erkennen wird das zuvor beschriebene Vorgehen für die planare Rekonstruktion immer pro Cluster eines Cluster-Pools durchgeführt. Dadurch werden pro Durchgang des Algorithmus nur ein Bruchteil der gesammelten Punkte rekonstruiert, was wiederum eine Rekonstruktion in Echtzeit möglich macht. Außerdem verhindert das Clustering das Bilden von konvexen Hüllen über Ebenen, die in Zwischenbereichen nicht mit genügend Punkten unterstützt werden. Dieses Problem ist in Abbildung \ref{fig:clustering} links zu sehen.\\
-
-\begin{figure}
   \centering
 	\includegraphics[width=1.0\textwidth]{content/images/methods/clustering.png} 
   \caption{Links: Ebenenrekonstruktion ohne Clustering. Rechts: Rekonstruktion mit K-Mean Clustering.}
   \label{fig:clustering}
 \end{figure}
 
-Getestet wurden hier das K-Mean Clustering, Agglomeratives Clustering und einfaches räumliches Clustern mit Hilfe eines Octrees. Das K-Mean Clustering hat, wie in Abbildung \ref{fig:clustering} rechts zu erkennen, gute Ergebnisse für die Aufteilung einer Ebenen geliefert, benötigt aber zuvor eine feste Anzahl von Clustern. Agglomeratives Clustering, getestet mit dem euklidischen Distanzmaß, würde zwar die Anzahl der Cluster dynamisch bestimmen, ist jedoch zu aufwändig für eine Echtzeit Rekonstruktion. Gute Ergebnisse liefert wiederum ein einfaches räumliches Clustern mit einem Octree. Das bietet zudem den Vorteil, dass diese Datenstruktur direkt als Speicherort der Aufgenommenen Punkte und Ebenen dienen kann. \\
+Getestet wurden hier das K-Mean Clustering, Agglomeratives Clustering und einfaches räumliches Clustern mit Hilfe eines Octrees. Das K-Mean Clustering hat, wie in Abbildung \ref{fig:clustering} rechts zu erkennen, gute Ergebnisse für die Aufteilung einer Ebenen geliefert, benötigt aber zuvor eine feste Anzahl von Clustern. Agglomeratives Clustering, getestet mit dem euklidischen Distanzmaß, würde zwar die Anzahl der Cluster dynamisch bestimmen, ist jedoch zu aufwändig für eine Echtzeit Rekonstruktion. \\
 
-Ein Octree ist zunächst eine Datenstruktur, die wie ein Baum mit beliebiger Tiefe aufgebaut ist und pro Knoten Acht Kinder besitzt. Die Funktion ist dabei in \(\mathbb{R}^3\) gleich zu einem Binärbaum in \(\mathbb{R}\) oder einem Quadtree in \(\mathbb{R}^2\). Ein Knoten repräsentiert im Octree einen Würfel, der durch seine Kinder in Acht Kind-Würfel aufgeteilt wird. Durch diese räumliche Aufteilung ergeben sich verschiedene Vorteile gegenüber linearen Datenstrukturen. So müssen Bereiche zum festhalten räumlicher Informationen im Octree nur dann allokiert werden, wenn diese Bereiche auch verwendet werden. Speichert man Punkte in den untersten Knoten eines Octrees kann man durch eine Tiefenbegrenzung beim Zugriff auf den Baum ein sehr effektives Downsampling der Punkte vornehmen. Zuletzt entstehen durch die Knoten einer bestimmten Tiefe ein Cluster, zu denen in diesem Fall Punkte bei einer Aufnahme hinzugefügt werden und für eine weitere Verarbeitung extrahiert werden können.\\
-
+Gute Ergebnisse liefert wiederum ein einfaches räumliches Clustern mit einem Octree, welcher die aufgenommenen Punkte direkt in Knoten des Baums zuweist. Das bietet zudem den Vorteil, dass diese Datenstruktur direkt als Speicherort der Aufgenommenen Punkte und Ebenen dienen kann. Außerdem entspricht dies dem Vorgehen für die Anwendung von RANSAC auf Würfeln, welches von \citet{yang2010plane} beschrieben wurde. \\

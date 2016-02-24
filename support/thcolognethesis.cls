@@ -25,6 +25,7 @@
 \usepackage{microtype}
 \usepackage{url}
 \usepackage{listings}
+\usepackage{amssymb}
 \lstset{literate=%
   {Ö}{{\"O}}1
   {Ä}{{\"A}}1
