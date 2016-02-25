@@ -1,9 +1,12 @@
 \chapter{Umsetzung der Verfahren}
 
-Dieses Kapitel widmet sich der Umsetzung der in der praktischen Umsetzung der beschriebenen Verfahren zur Echtzeit Planaren oder Polygon Rekonstruktion. Außerdem werden zunächst die allgemeinen technischen Problemstellungen bezüglich Project Tango beschrieben und eine Umsetzung vorgestellt, wie man mit Tiefeninformationen in Augmented Reality interagieren kann.
-
+Dieses Kapitel widmet sich der Umsetzung der in Kapitel \ref{sec:optimization} beschriebenen Verfahren. Dabei wird zunächst die Idee des Funktionsumfangs vorgestellt, die der Prototyp in dieser Arbeit für die darauf folgenden Tests erfüllen soll. Hiernach werden Spezifika zur Entwicklung auf Project Tango mit Android erläutert, um zuletzt näher auf die Umsetzung der Verfahren eingehen zu können.
 
 \input{content/04_implementation/project_tango}
+
+Wie bereits erwähnt, basiert das Project Tango System auf Googles Android Betriebsystem. Dies ermöglicht es Anwendungen mit bestehenden und bewerten Technologien wie OpenGL, Rajawali\footnote{Android OpenGL ES 2.0/3.0 Java Engine - https://github.com/Rajawali/Rajawali} oder der Unity Engine aufbauen zu können. Project Tango bietet hierfür drei verschiedene Schnittstellen, in C/C++, Java und Unity, um auf die Sensordaten in verschiedenen Umgebungen zugreifen zu können. Im laufe dieser Arbeit wurden alle Schnittstellen mit verschiedensten prototypischen Entwicklungen getestet. \\
+
+Der finale Prototyp wurde letztendlich in C/C++ entwickelt und basiert auf dem Android NDK\footnote{Android Native Development Kit - http://developer.android.com/tools/sdk/ndk/index.html}. Letztendlich greifen die anderen, höher angesiedelten Schnittstellen auf genau auf die selbe native Implementierung zurück, um sie in Java und Unity zu Verfügung zu stellen. Außerdem ermöglicht die native Entwicklung, neben Performancevorteilen, den vollen Zugriff auf OpenGL Mechanismen, die von Rajawali gegebenenfalls ausgeschlossen werden.
 
 \input{content/04_implementation/depth_maps}
 
