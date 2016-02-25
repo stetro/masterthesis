@@ -24,6 +24,7 @@
 \usepackage[authoryear,round]{natbib}
 \usepackage{microtype}
 \usepackage{url}
+\usepackage{svg}
 \usepackage{listings}
 \usepackage{amssymb}
 \lstset{literate=%

@@ -1,1 +1,6 @@
 \section{Project Tango: Technische Grundlagen}
+
+Wie bereits erwähnt, basiert das Project Tango System auf Googles Android Betriebsystem. Dies ermöglicht es Anwendungen mit bestehenden und bewerten Technologien wie OpenGL, Rajawali\footnote{Android OpenGL ES 2.0/3.0 Java Engine - https://github.com/Rajawali/Rajawali} oder der Unity Engine aufbauen zu können. Project Tango bietet hierfür drei verschiedene Schnittstellen, in C/C++, Java und Unity (Mono Framework in C\#), um auf die Sensordaten in verschiedenen Umgebungen zugreifen zu können. Im laufe dieser Arbeit wurden alle Schnittstellen mit verschiedensten prototypischen Entwicklungen getestet. Näher beschrieben wird jedoch nur die Umsetzung der finalen Implementierung.\\
+
+Der finale Prototyp wurde letztendlich in C/C++ entwickelt und basiert auf dem Android NDK\footnote{Android Native Development Kit - http://developer.android.com/tools/sdk/ndk/index.html}. Letztendlich greifen die anderen, höher angesiedelten Schnittstellen auf genau die selbe native Implementierung zurück, um sie in Java und Unity zu Verfügung zu stellen. Außerdem ermöglicht die native Entwicklung, neben Performancevorteilen, den vollen Zugriff auf OpenGL Mechanismen, die von Rajawali gegebenenfalls ausgeschlossen werden.\\
+
