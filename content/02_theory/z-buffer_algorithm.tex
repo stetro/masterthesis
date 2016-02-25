@@ -1,5 +1,5 @@
 
-\section{Z-Buffer Algorithmus}
+\section{Z-Buffer Algorithmus} \label{sec:z-buffer}
 
 Der Z-Buffer Algorithmus, welcher fast zur selben Zeit von \citet{straber1974schnelle} und \citet{catmull1974subdivision} vorgestellt wurde, ermöglicht in der Computergrafik eine einfache Berechnung der Überdeckungen von gerenderten Objekten auf der Bildebene. Hierzu wird neben der Bildebene noch ein sogenannter \enquote{Z-Buffer} eingeführt, der für jeden gerenderten Pixel auf der Bildebene eine Tiefeninformation festhält. Initial enthält der gesamte Z-Buffer die Tiefeninformation die der Backclipping-Ebene entspricht. Somit lässt sich für jeden Pixel einer bestimmten Position bestimmen, ob dieser einen kleineren Tiefenwert besitzt und somit auf die Bildebene gerendert wird. \\
 
