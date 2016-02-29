@@ -26,13 +26,15 @@ Die zweite gewählte Szene, welche in Abbildung \ref{fig:plant-scene} links zu s
   \label{fig:plant-scene}
 \end{figure}
 
-Für beide Szenen sollen alle Kombinationen der Verfahren getestet werden. Somit ergeben sich sechs verschiedene Kombinationen, in denen die Pointcloud Projektion, die TSDF Rekonstruktion und die Ebenen Rekonstruktion jeweils mit und ohne dem Guided Filter getestet werden. Für alle Kombinationen soll ein gerendertes Bild und ein Tiefenbild mit dem virtuellen Objekt festgehalten werden. Zur Auswertung werden die jeweils gerenderten Ergebnisbilder mit einem manuell zugeschnittenem Ergebnisbild verglichen. Hierfür wird die Summe der absoluten Bilddifferenz wie in Gleichung \ref{eq:diff} bestimmt.
+Für beide Szenen sollen alle Kombinationen der Verfahren getestet werden. Somit ergeben sich sechs verschiedene Kombinationen, in denen die Pointcloud Projektion, die TSDF Rekonstruktion und die Ebenen Rekonstruktion jeweils mit und ohne dem Guided Filter getestet werden. Für alle Kombinationen soll ein gerendertes Bild und ein Tiefenbild mit dem virtuellen Objekt festgehalten werden. Zur Auswertung werden die jeweils gerenderten Ergebnisbilder \(p\) mit einem manuell zugeschnittenem Ergebnisbild  \(q\) für jeden Pixel \(i\) verglichen. Hierfür wird die Summe der absoluten Bilddifferenz wie in Gleichung \ref{eq:diff} bestimmt.
 
 \begin{equation} \label{eq:diff}
 d = \sum_i |p_i-q_i|
 \end{equation}
 
 \section{Durchführung der Tests}
+
+
 
 \begin{figure}[h]
   \centering
@@ -63,3 +65,19 @@ d = \sum_i |p_i-q_i|
   \caption{}
   \label{fig:plant_occlusion_results}
 \end{figure}
+
+
+
+\begin{table}[]
+\centering
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+                      & \textbf{\begin{tabular}[c]{@{}r@{}}Pointcloud \\ Projektion\end{tabular}} & \textbf{\begin{tabular}[c]{@{}r@{}}TSDF \\ Rekonstruktion\end{tabular}} & \textbf{\begin{tabular}[c]{@{}r@{}}Ebenen \\ Rekonstruktion\end{tabular}} \\ \midrule
+\textbf{Szene 1}      & 499793                                                                    & 537532                                                                  & 300019                                                                    \\
+\textbf{Szene 1 + GF} & 441672                                                                    & Referenz                                                                & 250254                                                                    \\
+\textbf{Szene 2}      & 190317                                                                    & 460392                                                                  & 296190                                                                    \\
+\textbf{Szene 2 + GF} & Referenz                                                                  & 334400                                                                  & 278334                                                                    \\ \bottomrule
+\end{tabular}
+\caption{Distanzwert zwischen dem Referenzbild und den Ergebnisbildern der Verfahren in der jeweiligen Szene}
+\label{my-label}
+\end{table}

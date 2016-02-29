@@ -26,6 +26,7 @@
 \usepackage{url}
 \usepackage{svg}
 \usepackage{listings}
+\usepackage{booktabs}
 \usepackage{amssymb}
 \lstset{literate=%
   {Ö}{{\"O}}1
