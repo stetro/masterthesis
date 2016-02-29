@@ -29,4 +29,15 @@ a_k = \frac{\frac{1}{w} \sum_{i \in w_k} I_i p_I - \mu_k \overline{p}_k}{\sigma_
 b_k = \overline{p}_k - a_k\mu_k
 \end{equation}
 
-Die in den beschriebenen Koeffizienten-Gleichungen Variablen \(\mu_k\) und \(\sigma^2_k\) beschreiben jeweils den Mittelwert und die Abweichung des Leitbildes im Ausschnitt \(w_k\). Die Variable \(|w|\) entspricht dem festen Wert der Anzahl von Pixel im Ausschnitt \(w_k\). \(\overline{p}_k)\) ist wiederum der Mittelwert der Pixel im jeweiligen Ausschnitt, ermittelt durch \(\frac{1}{|w|}\sum_{i \in w_k} p_i\). Der Faktor \(\epsilon\) reguliert im beschriebenen Filter von \citet{he2010guided} welcher Ausschnitt als beizubehaltende Kante im resultierenden Bild gewertet werden soll. \citep{he2010guided}
+Die in den beschriebenen Koeffizienten-Gleichungen Variablen \(\mu_k\) und \(\sigma^2_k\) beschreiben jeweils den Mittelwert und die Abweichung des Leitbildes im Ausschnitt \(w_k\). Die Variable \(|w|\) entspricht dem festen Wert der Anzahl von Pixel im Ausschnitt \(w_k\). \(\overline{p}_k)\) ist wiederum der Mittelwert der Pixel im jeweiligen Ausschnitt, ermittelt durch \(\frac{1}{|w|}\sum_{i \in w_k} p_i\). Der Faktor \(\epsilon\) reguliert im beschriebenen Filter von \citet{he2010guided} welcher Ausschnitt als beizubehaltende Kante im resultierenden Bild gewertet werden soll. Neben diesem Regulierungsfaktor ist auch die Wahl des Radius \(r\) für den Ausschnitt \(w_k\) als Eingabe für diesen Filter wichtig. \citep{he2010guided} \\
+
+\begin{figure}[h]
+  \centering
+	\includegraphics[width=1.0\textwidth]{content/images/methods/gf-result.png} 
+  \caption{Guided Filter Anwendungsbeispiel. Das Tiefenbild links ergibt durch den Guided Filter mit dem Leitbild in der Mitte das Ergebnis im rechten Bild.}
+  \label{fig:gf-result}
+\end{figure}
+
+Mit einer Komplexität von \(O(N)\) findet dieser Filter erfolgreich Anwendung  in verschiedensten Bereichen. Er wird zum Beispiel zur Rauschunterdrückung, dem Weichzeichnen oder Verstärken von Details, zur HDR Kompression, dem Entfernen von Matten Bildeigenschaften oder, wie in diesem Fall, zum zusammengeführten Anreichern von Bildinformationen verwendet \citep{he2010guided}. Angewendet auf das ermittelte Tiefenbild soll dieser Guided Filter, mit dem jeweiligen RGB Bild als Leitbild, ein Rauschen eliminieren und die Kanten der Tiefeninformationen, durch ein entsprechend groß gewählten Fensterradius \(r\) und Regulierungsfaktors \(\epsilon\), an die Kanten der Kameraaufnahme angleichen \citep{liu2012guided}. Ein Beispiel für eine erfolgreiche Anwendung dieses Filters ist in Abbildung \ref{fig:gf-result} zu sehen.
+
+
