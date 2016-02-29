@@ -9,7 +9,7 @@ Die erste und weniger aufwändige Idee eine Überlagerung in Augmented Reality z
   \label{fig:stereo-depth-map}
 \end{figure}
 
-Anders als im oberen Verfahren wird eine Depthmap anhand der vorhandenen Pointcloud aus dem Infrarot Sensor von Projekt Tango generiert. Dadurch, dass die intrinsischen Kameraeigenschaften der Farbkamera zur Verfügung stehen, welche die Selben der Infrarotkamera sind, können wir einen Punkt \(P = [X, Y, Z]\) der Pointcloud mit der Gleichung \ref{eq:projection} auf die Bildebene überführen. Hier stehen die Variablen \(f_{x/y}\) für Brennweite und \(c_{x/y}\) für den Bildmittelpunkt auf der Bildebene. \citep{Tango90:online}
+Anders als im oberen Verfahren wird eine Depthmap anhand der vorhandenen Pointcloud aus dem Infrarot Sensor von Project Tango generiert. Dadurch, dass die intrinsischen Kameraeigenschaften der Farbkamera zur Verfügung stehen, welche die Selben der Infrarotkamera sind, können wir einen Punkt \(P = [X, Y, Z]\) der Pointcloud mit der Gleichung \ref{eq:projection} auf die Bildebene überführen. Hier stehen die Variablen \(f_{x/y}\) für Brennweite und \(c_{x/y}\) für den Bildmittelpunkt auf der Bildebene. \citep{Tango90:online}
 
 \begin{equation}\label{eq:projection}
 x = X / Z * f_x + c_x
@@ -19,7 +19,7 @@ y = Y / Z * f_y + c_y
 
 An dieser Stelle der Depthmap wird nun eine Punkt mit einem Graustufenwert, entsprechend der Entfernung \(|\overrightarrow{PO_{cam}}|\) vom Punkt \(P\) zum Kameraursprung \(O_{cam}\) gezeichnet. Der Farbwert richtet sich dabei nach der Konvention des Rendering Frameworks und den Informationen über die vordere und hintere Clippingebene.\\
 
-Die Auflösung des Tiefensensors der Projekt Tango Hardware ist mit \(320x180\) zu \(1280x720\) vier mal kleiner als die Auflösung der Farbkamera ist. Zusätzlich die Dichte der Pointcloud zum eigentlichen Sensor geringer als Ihre eigene Auflösung. So würde man bei einer Auflösung von \(320x180 = 57600\) Tiefenpunkte erwarten. Projekt Tango liefert jedoch unter guten Bedingungen durchschnittlich \(1700\) Tiefenpunkte. Aufgrund der kleineren Auflösung und der geringeren Informationsdichte werden die gezeichneten Punkte auf der Depthmap hier mit einem Radius von 4 Bildpunkten gezeichnet. \\
+Die Auflösung des Tiefensensors der rroject Tango Hardware ist mit \(320x180\) zu \(1280x720\) vier mal kleiner als die Auflösung der Farbkamera ist. Zusätzlich die Dichte der Pointcloud zum eigentlichen Sensor geringer als Ihre eigene Auflösung. So würde man bei einer Auflösung von \(320x180 = 57600\) Tiefenpunkte erwarten. Project Tango liefert jedoch unter guten Bedingungen durchschnittlich \(1700\) Tiefenpunkte. Aufgrund der kleineren Auflösung und der geringeren Informationsdichte werden die gezeichneten Punkte auf der Depthmap hier mit einem Radius von 4 Bildpunkten gezeichnet. \\
 
 Nachdem die Depthmap generiert wurde, kann zum Ausschluss der Pixel der virtuellen Objekte, welches sich hinter einem reellen Objekt befinden, der Z-Buffer Algorithmus aus Kapitel \ref{sec:z-buffer} angewendet werden. Hierzu wird vor dem virtuellen Rendering der Z-Buffer mit den generierten Informationen aus der Depthmap gefüllt. Pixel der virtuellen Objekte werden somit nicht gerendet, wenn nähere Tiefeninformationen realer Objekte and dieser Position vorliegen. 
 
