@@ -29,7 +29,7 @@ a_k = \frac{\frac{1}{w} \sum_{i \in w_k} I_i p_I - \mu_k \overline{p}_k}{\sigma_
 b_k = \overline{p}_k - a_k\mu_k
 \end{equation}
 
-Die in den beschriebenen Koeffizienten-Gleichungen Variablen \(\mu_k\) und \(\sigma^2_k\) beschreiben jeweils den Mittelwert und die Abweichung des Leitbildes im Ausschnitt \(w_k\). Die Variable \(|w|\) entspricht dem festen Wert der Anzahl von Pixel im Ausschnitt \(w_k\). \(\overline{p}_k)\) ist wiederum der Mittelwert der Pixel im jeweiligen Ausschnitt, ermittelt durch \(\frac{1}{|w|}\sum_{i \in w_k} p_i\). Der Faktor \(\epsilon\) reguliert im beschriebenen Filter von \citet{he2010guided} welcher Ausschnitt als beizubehaltende Kante im resultierenden Bild gewertet werden soll. Neben diesem Regulierungsfaktor ist auch die Wahl des Radius \(r\) für den Ausschnitt \(w_k\) als Eingabe für diesen Filter wichtig. \citep{he2010guided} \\
+Die in den beschriebenen Koeffizienten-Gleichungen Variablen \(\mu_k\) und \(\sigma^2_k\) beschreiben jeweils den Mittelwert und die Abweichung des Leitbildes im Ausschnitt \(w_k\). Die Variable \(|w|\) entspricht dem festen Wert der Anzahl von Pixel im Ausschnitt \(w_k\). \(\overline{p}_k\) ist wiederum der Mittelwert der Pixel im jeweiligen Ausschnitt, ermittelt durch \(\frac{1}{|w|} \sum_{i \in w_k} p_i\). Der Faktor \(\epsilon\) reguliert im beschriebenen Filter von \citet{he2010guided} welcher Ausschnitt als beizubehaltende Kante im resultierenden Bild gewertet werden soll. Neben diesem Regulierungsfaktor ist auch die Wahl des Radius \(r\) für den Ausschnitt \(w_k\) als Eingabe für diesen Filter wichtig. \citep{he2010guided} \\
 
 \begin{figure}[h]
   \centering

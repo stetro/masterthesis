@@ -34,23 +34,56 @@ d = \sum_i |p_i-q_i|
 
 \section{Durchführung der Tests}
 
-
+Die beiden Testszenen konnten wie beschrieben aufgebaut und mit allen Verfahren durchgetestet werden. Hierzu wurde mit dem \enquote{Android Debug Bridge} (adb\footnote{Android Debug Bridge - http://goo.gl/ffH51x (01.03.16)}) eine Videoaufnahme gestartet, in der im Prototypen für jede Szene alle Verfahren durchgeschaltet wurden. Die Verfahren mussten dabei sehr schnell gewechselt werden um den potentiellen Drift von Project Tango so minimal wie möglich zu halten. 
 
 \begin{figure}[h]
   \centering
 	\includegraphics[width=1.0\textwidth]{content/images/evaluation/static_occlusion.png} 
-  \caption{}
+  \caption{Testaufnahmen aus der ersten statischen Szene}
   \label{fig:static_occlusion}
 \end{figure}
+
+Abbildung \ref{fig:static_occlusion} und \ref{fig:plant_occlusion} zweigen jeweils die aus dem Video extrahierten Bildausschnitte. Die obere Reihe zeigt die Verfahren ohne den Guided Filter und die Untere mit dem Filter. Die letzte Reihe zeigt jeweils die Projektion der generierten Primitiven oder Punkte.
 
 \begin{figure}[h]
   \centering
 	\includegraphics[width=1.0\textwidth]{content/images/evaluation/plant_occlusion.png} 
-  \caption{}
+  \caption{Testaufnahmen aus der zweiten statischen Szene}
   \label{fig:plant_occlusion}
 \end{figure}
 
-\section{Vergleich der Ergebnisse}
+\section{Auswertung der Ergebnisse}
+
+Der Vergleich der Ergebnisse, welcher mit dem bereits beschriebenen Bilddifferenz Ansatz durchgeführt werden soll, wurde mit Hilfe der OpenCV Bibliothek durchgeführt und ist in Listing \ref{lst:compare} zu finden. Für jede Szene wurde ein Referenzbild manuell konstruiert, welches dem idealen Ergebnis entsprechen soll. Diese Referenzbilder sind in Abbildung \ref{fig:reference} zu finden. Mit diesem Referenzbild wurden alle zuvor passend zugeschnitten Grafiken verglichen.
+
+
+\begin{lstlisting}[mathescape,caption=Implementierung der Bilddifferenz, label=lst:compare, language=Python]
+from cv2 import *
+from os import listdir
+from os.path import isfile, join
+
+
+reference_path = "reference.png"
+reference = imread(reference_path)
+reference = cvtColor(reference, COLOR_BGR2GRAY)
+all_images = [f for f in listdir("./") 
+    if isfile(join("./", f)) and f.endswith(".png")]
+    
+for img_path in all_images:
+    img = imread(img_path)
+    img = cvtColor(img, COLOR_BGR2GRAY)
+    result = absdiff(reference, img)
+    imwrite("result_" + img_path, result)
+    difference = sumElems(result)
+    print str(int(result[2])) + "\t" + result[0] + "\t" + result[1]
+\end{lstlisting}
+
+\begin{figure}[h]
+  \centering
+	\includegraphics[width=.9\textwidth]{content/images/evaluation/reference.png} 
+  \caption{Manuell konstruierte Referenzbilder der idealen Überlagerung in Szene 1(links) und 2(rechts).}
+  \label{fig:reference}
+\end{figure}
 
 \begin{figure}[h]
   \centering
@@ -78,6 +111,6 @@ d = \sum_i |p_i-q_i|
 \textbf{Szene 2}      & 190.473                                                                   & 462.780 & 295.008 \\
 \textbf{Szene 2 + GF} & 22.148                                                                 & 339.086 & 264.154 \\ \bottomrule
 \end{tabular}
-\caption{Distanzwert zwischen dem Referenzbild und den Ergebnisbildern der Verfahren in der jeweiligen Szene}
+\caption{Distanzwert zwischen dem Referenzbild und den Ergebnisbildern in der jeweiligen Szene}
 \label{my-label}
 \end{table}
