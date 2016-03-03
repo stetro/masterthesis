@@ -14,11 +14,24 @@ Die Reduktion von Ungenauigkeiten im Tiefenbild könnte durch einen Gaußschen W
 \citet{liu2012guided} hingegen wenden einen sogenannten \enquote{Guided Filter} in Ihrem Verfahren zur Optimierung der der Tiefeninformationen für Kinect ähnliche Sensoren auf das Tiefenbild an. Dieser Filter von \citet{he2010guided} ist in der Lage, auf Grundlage eines anderen Leitbildes ein Weichzeichnen durchzuführen, ohne dabei die Kanten des Leitbildes zu überschreiten. Auch wenn \citet{petschnigg2004digital} eine Erweiterung, den Joint Bilateral Filter, vorstellen, der auf Basis eines anderen Leitbildes eine Weichzeichnung ohne Kantenüberschreitung ermöglicht, bietet der Guided Filter eine deutlich bessere Performance. Außerdem verhindert der Guided Filter Fehler Artefakte im Resultat, die bei dem Bilateralen Filter an den Kanten auftreten können. \citep{he2010guided} \\
 
 
-Ausgehend von der Eingangsgrafik \(p\), einem Leitbild \(I\) und dem Ergebnisbild \(q\) wird das grundlegende lineare Modell des Guided Filter in der Gleichung \ref{eq:gf-model} beschrieben. Wobei \(w_k\) ein Ausschnitt von \(I\) um einen Pixel \(k\) ist und die beiden Koeffizienten \(a_k\) und \(b_k\) Konstanten im gegeben Ausschnitt sind, welche mit den Gelichungen \ref{eq:gf-a} und \ref{eq:gf-b} bestimmt werden können. \citep{he2010guided}
-
+Ausgehend von der Eingangsgrafik \(p\), einem Leitbild \(I\) und dem Ergebnisbild \(q\) wird das grundlegende Modell dieser Art von Filter mit der Gleichung \ref{eq:gf-model} beschrieben. Diese Gleichung findet für jeden Pixel \(i\) in \(q\) eine gewichtete Summe über jeden Pixel \(j\) einer vordefinierten Ausschnittgröße. \(W_{ij}\) entspricht dabei dem Gewicht, welches für die jeweiligen Pixel \(p_j\) gilt. Dabei gilt üblicherweise  \(\sum_{j} W_{ij}(I)=1 \forall i \in [1\ldots |p|]\). \citep{he2010guided}
 
 \begin{equation} \label{eq:gf-model}
-q_{i} = a_{k} I_{i} + b_{k} , \forall i \in w_{k}
+q_{i} = \sum_j W_{ij}(I)p_j
+\end{equation}
+
+Der Filterkern \(W_{ij}(I)\) vom Guided Filter, zu finden in Gleichung \ref{eq:gf-W}, ist, wie auch beim bilateralen Filter, abhängig von einem Leitbild \(I\), um die Gewichte entsprechend den Kanten des Leitbildes an der Position ermitteln zu können. Die Variablen \(\mu_k\) und \(\sigma^2_k\) beschreiben jeweils den Mittelwert und die Abweichung des Leitbildes im Bildausschnitt \(w_k\). \(|w|\) entspricht der Pixelgröße des Ausschnitts. \citep{he2010guided}
+
+\begin{equation} \label{eq:gf-W}
+W_{ij}(I) = \frac{1}{|w|^2} \sum_{k:(i,j) \in w_k} (1+\frac{(I_i-\mu_k)(I_j-\mu_k)}{\sigma^2_k + \epsilon})
+\end{equation}
+
+Dieser Filterprozess wird auch als eine translationsabhänige Faltung bezeichnet, die üblicherweise komplex ist, und dessen Berechnungsaufwand abhängig zur Filtergröße (hier zum Beispiel \(|w|\)) ist. \citep{he2010guided} stellen hierzu eine andere Definition des Filters zur Verfügung, in denen alle Summen der Form \(\sum_i\in w_k f_i\) entsprechen und dadurch mit die Bildintegrationstechnik von \citet{crow1984summed} in \(O(N)\) gelöst werden können. Der Guided Filter wird in der letztendlichen Implementierung nach Gleichung \ref{eq:gf-final} implementiert, in der die Koeffizienten \(\overline{a}_i\) und \(\overline{b}_i\) dem Mittelwert über \(a_k\) aus Gleichung \ref{eq:gf-a} und \(b_k\) aus Gleichung \ref{eq:gf-b} für jedes Fenster \(w_k\) entspricht. So wird zum Beispiel auch \(\overline{p}_k\) durch \(\frac{1}{|w|} \sum_{i \in w_k} p_i\) berechnet.
+
+
+
+\begin{equation} \label{eq:gf-final}
+q_i = \overline{a}_iI_i+\overline{b_i}
 \end{equation}
 
 \begin{equation} \label{eq:gf-a}
@@ -29,7 +42,8 @@ a_k = \frac{\frac{1}{w} \sum_{i \in w_k} I_i p_I - \mu_k \overline{p}_k}{\sigma_
 b_k = \overline{p}_k - a_k\mu_k
 \end{equation}
 
-Die in den beschriebenen Koeffizienten-Gleichungen Variablen \(\mu_k\) und \(\sigma^2_k\) beschreiben jeweils den Mittelwert und die Abweichung des Leitbildes im Ausschnitt \(w_k\). Die Variable \(|w|\) entspricht dem festen Wert der Anzahl von Pixel im Ausschnitt \(w_k\). \(\overline{p}_k\) ist wiederum der Mittelwert der Pixel im jeweiligen Ausschnitt, ermittelt durch \(\frac{1}{|w|} \sum_{i \in w_k} p_i\). Der Faktor \(\epsilon\) reguliert im beschriebenen Filter von \citet{he2010guided} welcher Ausschnitt als beizubehaltende Kante im resultierenden Bild gewertet werden soll. Neben diesem Regulierungsfaktor ist auch die Wahl des Radius \(r\) für den Ausschnitt \(w_k\) als Eingabe für diesen Filter wichtig. \citep{he2010guided} \\
+
+Der Faktor \(\epsilon\) reguliert im beschriebenen Filter von \citet{he2010guided} welcher Bildanteil als beizubehaltende Kante im resultierenden Bild gewertet werden soll und somit stärker oder schwächer in die Gewichtung \(W_{ij}\) Einfluss nimmt. Neben diesem Regulierungsfaktor ist auch die Wahl des Radius \(r\) für den Ausschnitt \(w_k\) als Eingabe für diesen Filter wichtig. Der Radius wirkt sich jedoch nicht wie beim bilateralen Filter auf die Laufzeit des Filters aus. \citep{he2010guided} \\
 
 \begin{figure}[h]
   \centering
