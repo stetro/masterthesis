@@ -23,6 +23,7 @@
 \usepackage{amsmath}
 \usepackage[authoryear,round]{natbib}
 \usepackage{microtype}
+\usepackage{rotating}
 \usepackage{url}
 \usepackage{svg}
 \usepackage{listings}

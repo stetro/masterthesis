@@ -7,3 +7,36 @@
 * Light-Field Cameras als Kombination für AR!!
 * 
 * Lenovo brings Project Tango to Production
+
+
+Verfahren
+* Pointcloud Projektion
+	* Ungenau, nach Eingangsdaten
+	* Eingangsdaten könnten aufgewertet werden
+	* Flüchtig
+	* Rauschen
+* Ebenen Rekonstruktion
+	* Ungenaue Daten werden auf Ebenen gebannt
+	* Augmentierend
+	* Lücken zwischen Ebenen 
+* TSDF Rekonstruktion (CHISEL)
+	* Reduktion von Ungenauigkeit
+	* Augmentierend durch Space Carving
+	* Konflikt zwischen SubChungSize und Performance
+	* => Aktuell Cluster zu groß, führt zu fehlern beim Marching Cubes
+* Guided Filter
+	* Sehr langsam
+	* Führt zu erstaunlichen Optimierungen
+	* Weist jedoch je nach Einstellung auch Gradienten auf glatten Tiefenbildern auf
+
+
+
+
+
+== Ausblick Tango
+* Lenovo deployed
+* Bilateral Filter in API während Arbeit erschienen => Guided Filter wäre der Performantere Ansatz
+* 
+	
+	
+	
