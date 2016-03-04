@@ -14,15 +14,24 @@ Ein sinnvoller Einsatz von Augmented Reality besteht darin, virtuelle Objekte in
 
 Die Project Tango Plattform bietet die Möglichkeit Tiefeninformationen mit Hilfe eines Tiefensensors für den aktuellen Sichtausschnitt zu bestimmen. Hierdurch können Interaktionen oder Darstellungen in Augmented Reality Anwendung näher an die echten räumlichen Gegebenheiten angepasst werden. Es existieren zum Beispiel prototypische Anwendungen, in denen virtuelle Markierungen passend an echten Objekten im virtuellen Raum positioniert werden können, indem sie auf die aktuellen Tiefeninformation des Sichtbereichs zurückgreifen.\\
 
-Diese Arbeit versucht die Fragestellung zu beantworten, durch welche Verfahren mit Hilfe der Tieninformationen von Project Tango, automatisch und in Echtzeit Überdeckung virtueller Objekte mit realen Objekten in einer Augmented Reality Szene realisiert werden können. Dabei soll Project Tango als Autonomes System betrachtet werden, welches diese Problemstellung selbstständig und mit den eingeschränkten Ressourcen dieser mobilen Plattform lösen soll.\\
+\section{Zielsetzung}
 
+Diese Arbeit versucht die Fragestellung zu beantworten, durch welche Verfahren mit Hilfe der Tieninformationen von Project Tango, automatisch und in Echtzeit Überdeckung virtueller Objekte mit realen Objekten in einer Augmented Reality Szene realisiert werden können. Dabei soll Project Tango als Autonomes System betrachtet werden, welches diese Problemstellung selbstständig und mit den eingeschränkten Ressourcen dieser mobilen Plattform lösen soll.\\
 
 \section{Vorgehen}
 
+* Identifikation alternativer Überlagerungsmechanismen
+* Implementierung dieser Verfahren
+* Evaluation dieser Verfahren durch ein rekonstruierbares Testszenario
+* Gegenüberstellung und Diskussion
+
+Die erste Fragestellung richtet sich dem Thema, welche Möglichkeiten für eine Berechnung von Überdeckungen existieren und welche Verfahren sich wiederum für eine Echtzeit Umsetzung für Project Tango eignet. 
 
 
+Die erste Literaturrecherche, welche zum Teil das Kapitel \ref{sec:thema} widerspiegelt, ergab, dass zumindest auf Desktopumgebungen 
 
-%Die erste Fragestellung richtet sich dem Thema, wie man performant und automatisiert geometrische Primitiven in einer Szene finden kann. Dazu soll zunächst eine Literaturrecherche bezüglich bekannter Methoden und Algorithmen durchgeführt werden, welche darauf folgend anhand gestellter Kriterien entsprechend evaluiert werden. Für diese Evaluation ist auch die Erstellung einer einheitlichen, zum AR Anwendungsfall passenden, Testumgebung denkbar. Letztendlich soll eine prototypische Implementierung dieser Primitiven Detektion erstellt werden, auf der im späteren Verlauf aufgebaut werden kann.\\
+
+Die erste Fragestellung richtet sich dem Thema, wie man performant und automatisiert geometrische Primitiven in einer Szene  finden kann. Dazu soll zunächst eine Literaturrecherche bezüglich bekannter Methoden und Algorithmen durchgeführt werden, welche darauf folgend anhand gestellter Kriterien entsprechend evaluiert werden. Für diese Evaluation ist auch die Erstellung einer einheitlichen, zum AR Anwendungsfall passenden, Testumgebung denkbar. Letztendlich soll eine prototypische Implementierung dieser Primitiven Detektion erstellt werden, auf der im späteren Verlauf aufgebaut werden kann.\\
 
 %Später soll bestimmt werden ob und wie sich diese gefundenen Primitiven im Nachhinein oder im Verlauf einer Anwendung selbstständig verbessern oder optimieren lassen, oder ob die Basisdaten (Pointcloud) entsprechend verbessert werden können. Hierzu soll näher untersucht werden ob die Bildinformationen aus der Project Tango Kamera dabei helfen können durch zum Beispiel Kantenerkennung eine Optimierung vorzunehmen. Die hieraus gewonnen Erkenntnisse sollen genutzt werden, um den zuvor implementierten Prototypen weiter zu verbessern.\\
 
