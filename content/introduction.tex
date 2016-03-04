@@ -6,20 +6,16 @@ Project Tango ist eine neue mobile Plattform des Google Advanced Technology and 
 \enquote{Project Tango combines 3D motion tracking with depth sensing to give your mobile device the ability to know where it is and how it moves through space.}  \citep{Proje19:online}
 \end{quotation}
 
-Diese Verfügbarkeit ermöglicht viele verschiedene neue Einsatzmöglichkeiten auf mobilen Endgeräten wie Smartphones und Tablets. Typische Einsatzszenarien dieser Plattform sind die Indoor Navigation, die Vermessung der Umgebung sowie andere typische Anwendungen für Virtual und Augmented Reality. \\
+Diese Verfügbarkeit ermöglicht viele verschiedene neue Einsatzmöglichkeiten auf mobilen Endgeräten wie Smartphones und Tablets. Typische Einsatzszenarien dieser Plattform sind die Indoor Navigation, die Vermessung der Umgebung sowie andere typische Anwendungen für Virtual und Augmented Reality. Der Fokus dieser Forschungsarbeit liegt hier in dem Anwendungsbereich Augmented Reality (AR). \\
 
-Der Fokus dieser Forschungsarbeit liegt hier in dem Anwendungsbereich Augmented Reality (AR). 
+Um eine erfolgreiche AR Anwendung umsetzen zu können, müssen die Kameraeigenschaften, wie Brennweite, Verzerrung und die Position der Kamera zu jeder Zeit bekannt sein. Sensoren wie Kompass, INS (Trägheitsnavigationssystem) oder GPS können zwar eine grobe Lokalisierung ohne bekannte Merkmale im Raum ermöglichen, führen aber langfristig zu Fehlern, wenn keine optischen Referenzen gegeben sind. Mit Hilfe von der Bewegungsverfolgung durch Project Tango kann diese Lokalisierung der Kamera und somit die korrekte Positionierung von virtuellen Objekten im Raum deutlich zuverlässiger und ohne vordefinierte Merkmale im Raum realisiert werden. Project Tango eignet sich daher sehr gut für die Umsetzung und den Einsatz von AR Anwendungen.\\
 
-
-Typischerweise wird in mobilen AR Anwendungen meist das aufgenommene Kamerabild analysiert und virtuelle Objekte anhand von Merkmalen oder Markern im Bild positioniert. Andere Sensoren wie Kompass, INS (Trägheitsnavigationssystem) oder GPS können eine grobe Lokalisation ohne Marker ermöglichen, führen aber langfristig zu Fehlern, wenn keine optischen Referenzen gegeben sind. Mit Hilfe von der Bewegungsverfolgung durch Project Tango kann diese Lokalisierung des Gerätes und somit die korrekte Positionierung von virtuellen Objekten im Raum deutlich zuverlässiger und ohne vordefinierte Marker realisiert werden. 
-
-\section{Fragestellung der Forschungsarbeit}
-
-Ein sinnvoller Einsatz von Augmented Reality besteht darin, virtuelle Objekte in eine echte Szene zu projizieren. Dabei überlagert die Projektion des virtuellen Objekts das aktuelle Kamerabild und erwirkt dadurch den Anschein, dass es sich wirklich in der Szene befindet. Problematisch ist jedoch der Fall in dem ein virtuelles Objekt sich eigentlich vor dem realen Objekt befindet und das virtuelle Objekt noch voll zu sehen ist. Dieser Effekt ist sofort sichtbar und zerstört die Illusion des virtuellen Objekts in der Szene. \\
+Ein sinnvoller Einsatz von Augmented Reality besteht darin, virtuelle Objekte in eine echte Szene zu projizieren. Dabei überlagert die Projektion des virtuellen Objekts das aktuelle Kamerabild oder den aktuellen Sichtbereich und erwirkt dadurch den Anschein, dass sich das virtuelle Objekt wirklich in der Szene befindet. Dieser Effekt funktioniert solange erfolgreich, bis ein reales Objekt sich räumlich vor das virtuelle Objekt bewegt und die zu erwartende Überlagerung des virtuellen Objekts nicht erfolgt. \\
 
 Die Project Tango Plattform bietet die Möglichkeit Tiefeninformationen mit Hilfe eines Tiefensensors für den aktuellen Sichtausschnitt zu bestimmen. Hierdurch können Interaktionen oder Darstellungen in Augmented Reality Anwendung näher an die echten räumlichen Gegebenheiten angepasst werden. Es existieren zum Beispiel prototypische Anwendungen, in denen virtuelle Markierungen passend an echten Objekten im virtuellen Raum positioniert werden können, indem sie auf die aktuellen Tiefeninformation des Sichtbereichs zurückgreifen.\\
 
-Diese Arbeit versucht die Fragestellung zu beantworten, durch welche Verfahren mit Hilfe der Tieninformationen von Project Tango, automatisch und in Echtzeit Überdeckung virtueller Objekte mit realen Objekten in einer Augmented Reality Szene realisiert werden können. Dabei soll Project Tango als Autonomes System betrachtet werden, welches diese Problemstellung selbstständig und mit den eingeschränkten Mitteln dieser mobilen Plattform lösen soll.\\
+Diese Arbeit versucht die Fragestellung zu beantworten, durch welche Verfahren mit Hilfe der Tieninformationen von Project Tango, automatisch und in Echtzeit Überdeckung virtueller Objekte mit realen Objekten in einer Augmented Reality Szene realisiert werden können. Dabei soll Project Tango als Autonomes System betrachtet werden, welches diese Problemstellung selbstständig und mit den eingeschränkten Ressourcen dieser mobilen Plattform lösen soll.\\
+
 
 \section{Vorgehen}
 
@@ -30,13 +26,4 @@ Diese Arbeit versucht die Fragestellung zu beantworten, durch welche Verfahren m
 
 %Später soll bestimmt werden ob und wie sich diese gefundenen Primitiven im Nachhinein oder im Verlauf einer Anwendung selbstständig verbessern oder optimieren lassen, oder ob die Basisdaten (Pointcloud) entsprechend verbessert werden können. Hierzu soll näher untersucht werden ob die Bildinformationen aus der Project Tango Kamera dabei helfen können durch zum Beispiel Kantenerkennung eine Optimierung vorzunehmen. Die hieraus gewonnen Erkenntnisse sollen genutzt werden, um den zuvor implementierten Prototypen weiter zu verbessern.\\
 
-\section{Stand der Forschung}
-
-\citet{wloka1995resolving} bilden den Grundstein für die verschiedenen existierenden Ansätze für eine Augmented Reality Überdeckung von virtuellen Objekten. Sie stellen in Ihrer Arbeit ein Verfahren vor, welches mit Bildern aus einer Stereo Kamera ein Stereomatching durchführt und dadurch ein Tiefenbild generiert. Dieses Tiefenbild führt daraufhin in dem Renderingprozess mit Hilfe des Z-Buffer Algorithmus zum Ausschluss von Teilen der virtuellen Objekte, die von realen Objekten überlagert werden. \\
-
-Model Based
-
-Edge Based
-
-Reconstruction Based
 
