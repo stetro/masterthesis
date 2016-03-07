@@ -8,31 +8,26 @@ Project Tango ist eine neue mobile Plattform des Google Advanced Technology and 
 
 Diese Verfügbarkeit ermöglicht viele verschiedene neue Einsatzmöglichkeiten auf mobilen Endgeräten wie Smartphones und Tablets. Typische Einsatzszenarien dieser Plattform sind die Indoor Navigation, die Vermessung der Umgebung sowie andere typische Anwendungen für Virtual und Augmented Reality. Der Fokus dieser Forschungsarbeit liegt hier in dem Anwendungsbereich Augmented Reality (AR). \\
 
-Um eine erfolgreiche AR Anwendung umsetzen zu können, müssen die Kameraeigenschaften, wie Brennweite, Verzerrung und die Position der Kamera zu jeder Zeit bekannt sein. Sensoren wie Kompass, INS (Trägheitsnavigationssystem) oder GPS können zwar eine grobe Lokalisierung ohne bekannte Merkmale im Raum ermöglichen, führen aber langfristig zu Fehlern, wenn keine optischen Referenzen gegeben sind. Mit Hilfe von der Bewegungsverfolgung durch Project Tango kann diese Lokalisierung der Kamera und somit die korrekte Positionierung von virtuellen Objekten im Raum deutlich zuverlässiger und ohne vordefinierte Merkmale im Raum realisiert werden. Project Tango eignet sich daher sehr gut für die Umsetzung und den Einsatz von AR Anwendungen.\\
+Um eine erfolgreiche AR Anwendung umsetzen zu können, müssen die Kameraeigenschaften, wie Brennweite, Verzerrung und die Position der Kamera zu jeder Zeit bekannt sein. Sensoren wie Kompass, INS (Trägheits\-navigations\-system) oder GPS können zwar eine grobe Lokalisierung ohne bekannte Merkmale im Raum ermöglichen, führen aber langfristig zu Fehlern, wenn keine optischen Referenzen gegeben sind. Mit Hilfe von der Bewegungsverfolgung durch Project Tango kann diese Lokalisierung der Kamera und somit die korrekte Positionierung von virtuellen Objekten im Raum deutlich zuverlässiger und ohne vordefinierte Merkmale im Raum realisiert werden. Project Tango eignet sich daher sehr gut für die Umsetzung und den Einsatz von AR Anwendungen.\\
 
-Ein sinnvoller Einsatz von Augmented Reality besteht darin, virtuelle Objekte in eine echte Szene zu projizieren. Dabei überlagert die Projektion des virtuellen Objekts das aktuelle Kamerabild oder den aktuellen Sichtbereich und erwirkt dadurch den Anschein, dass sich das virtuelle Objekt wirklich in der Szene befindet. Dieser Effekt funktioniert solange erfolgreich, bis ein reales Objekt sich räumlich vor das virtuelle Objekt bewegt und die zu erwartende Überlagerung des virtuellen Objekts nicht erfolgt. \\
+Ein sinnvoller Einsatz von Augmented Reality besteht darin, virtuelle Objekte in eine echte Szene zu projizieren. Dabei überlagert die Projektion des virtuellen Objekts das aktuelle Kamerabild oder den aktuellen Sichtbereich und erwirkt dadurch den Anschein, dass sich das virtuelle Objekt wirklich in der Szene befindet. Dieser Effekt funktioniert solange erfolgreich, bis ein reales Objekt sich räumlich vor das virtuelle Objekt bewegt und die zu erwartende Überlagerung des virtuellen Objekts nicht erfolgt. Diese fehlerhafte Darstellung durch eine fehlende Überdeckung ist in Abbildung \ref{fig:occlusion-problem} zu erkennen. \\
+
+\begin{figure}[h]
+  \centering
+	\includegraphics[width=1.0\textwidth]{content/images/occlusion-problem.png} 
+
+  \caption{AR Projektion mit Project Tango - Links: Erfolgreiche Projektion. Rechts: Fehlerhafte Darstellung ohne Überdeckung.}
+  \label{fig:occlusion-problem}
+\end{figure}
 
 Die Project Tango Plattform bietet die Möglichkeit Tiefeninformationen mit Hilfe eines Tiefensensors für den aktuellen Sichtausschnitt zu bestimmen. Hierdurch können Interaktionen oder Darstellungen in Augmented Reality Anwendung näher an die echten räumlichen Gegebenheiten angepasst werden. Es existieren zum Beispiel prototypische Anwendungen, in denen virtuelle Markierungen passend an echten Objekten im virtuellen Raum positioniert werden können, indem sie auf die aktuellen Tiefeninformation des Sichtbereichs zurückgreifen.\\
 
-\section{Zielsetzung}
+\section{Zielsetzung und Vorgehen}
 
-Diese Arbeit versucht die Fragestellung zu beantworten, durch welche Verfahren mit Hilfe der Tieninformationen von Project Tango, automatisch und in Echtzeit Überdeckung virtueller Objekte mit realen Objekten in einer Augmented Reality Szene realisiert werden können. Dabei soll Project Tango als Autonomes System betrachtet werden, welches diese Problemstellung selbstständig und mit den eingeschränkten Ressourcen dieser mobilen Plattform lösen soll.\\
+Diese Arbeit versucht die Fragestellung zu beantworten, durch welche Verfahren mit Hilfe der Tieninformationen von Project Tango, automatisch und in Echtzeit Überdeckung virtueller Objekte mit realen Objekten in einer Augmented Reality Szene realisiert werden können. Dabei soll Project Tango als autonomes System betrachtet werden, welches diese Problemstellung selbstständig und mit den eingeschränkten Ressourcen dieser mobilen Plattform lösen soll.\\
 
-\section{Vorgehen}
+Hierzu sollen zunächst bestehende Verfahren zur Bestimmung einer Augmented Reality Überdeckung durch eine Literaturrecherche gefunden werden. Diese Verfahren sollen dabei auf Ihre Anwendbarkeit mit der Project Tango Hardware evaluiert werden. Sollten sich aus der Recherche weitere Ideen ergeben, wie besonders auf der Project Tango Hardware eine Überdeckung umgesetzt werden kann, sollen diese Ideen mit in Arbeit eingebunden werden. Die Identifizierten Verfahren sollen hiernach entsprechend implementiert werden, um sie darauf folgend in einer Testumgebung gegenüber zu stellen.\\
 
-* Identifikation alternativer Überlagerungsmechanismen
-* Implementierung dieser Verfahren
-* Evaluation dieser Verfahren durch ein rekonstruierbares Testszenario
-* Gegenüberstellung und Diskussion
-
-Die erste Fragestellung richtet sich dem Thema, welche Möglichkeiten für eine Berechnung von Überdeckungen existieren und welche Verfahren sich wiederum für eine Echtzeit Umsetzung für Project Tango eignet. 
-
-
-Die erste Literaturrecherche, welche zum Teil das Kapitel \ref{sec:thema} widerspiegelt, ergab, dass zumindest auf Desktopumgebungen 
-
-
-Die erste Fragestellung richtet sich dem Thema, wie man performant und automatisiert geometrische Primitiven in einer Szene  finden kann. Dazu soll zunächst eine Literaturrecherche bezüglich bekannter Methoden und Algorithmen durchgeführt werden, welche darauf folgend anhand gestellter Kriterien entsprechend evaluiert werden. Für diese Evaluation ist auch die Erstellung einer einheitlichen, zum AR Anwendungsfall passenden, Testumgebung denkbar. Letztendlich soll eine prototypische Implementierung dieser Primitiven Detektion erstellt werden, auf der im späteren Verlauf aufgebaut werden kann.\\
-
-%Später soll bestimmt werden ob und wie sich diese gefundenen Primitiven im Nachhinein oder im Verlauf einer Anwendung selbstständig verbessern oder optimieren lassen, oder ob die Basisdaten (Pointcloud) entsprechend verbessert werden können. Hierzu soll näher untersucht werden ob die Bildinformationen aus der Project Tango Kamera dabei helfen können durch zum Beispiel Kantenerkennung eine Optimierung vorzunehmen. Die hieraus gewonnen Erkenntnisse sollen genutzt werden, um den zuvor implementierten Prototypen weiter zu verbessern.\\
+Strukturell wird in dieser Arbeit in Kapitel \ref{sec:thema} erst einmal auf die thematischen Grundlagen zu Augmented Reality und Project Tango eingegangen. Hier werden auch die existierenden Verfahren zur AR Überdeckung angesprochen. Unter Kapitel \ref{sec:algorithms} sind theoretische Grundlagen zu finden, die bei der späteren Umsetzung verschiedener Verfahren angewendet werden. Kapitel \ref{sec:optimization} beinhaltet die Argumentation und Beschreibung der gewählten Verfahren, welche unter Kapitel \ref{sec:implementation} auf der Project Tango Hardware umgesetzt werden. In Kapitel \ref{sec:evaluation} werden diese Umsetzung in einem Testszenario gegenübergestellt, um eine Aussage treffen zu können, welcher Ansatz auf der Hardware oder für einen bestimmten Einsatz gut funktionieren könnte.
 
 
