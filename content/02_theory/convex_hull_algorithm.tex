@@ -5,7 +5,7 @@ Für die Bestimmen der konvexen Hülle von Punkten \(P\) in \( \mathbb{R}^2\) ex
 Gestartet wird der Algorithmus mit der Menge aller Punkte \(P\) der Ebene und mit einem Startpunkt \(P_0\), der Bestandteil der konvexen Hülle ist. Hierzu wird meist der Punkt mit dem niedrigsten \(y\) Faktor gewählt. (\(P_0=P_{min(y)}\)) Listing \ref{lst:graham-scan} zeigt den Verlauf des Algorithmus des Graham Scans. Dabei wird in Abbildung \ref{fig:convexhull} nochmals die erste Sortierung und das Unterscheidungskriterium für die Sortierung als auch für die Aussortierung der Punkte verdeutlicht. \citep{convexHull} \\
 
 
-\begin{lstlisting}[mathescape,caption=Graham Scan Algorithmus, label=lst:graham-scan]
+\begin{lstlisting}[mathescape,caption=Graham Scan Algorithmus, label=lst:graham-scan, float=htbp]
 Eingabe: Menge der Punkte $P$, außen liegender Punkt $P_0$
 Ausgabe: Punkte der konvexen Hülle
 

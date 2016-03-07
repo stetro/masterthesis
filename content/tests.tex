@@ -1,4 +1,4 @@
-\chapter{Evaluation} \label{sec:evaluation}
+\chapter{Tests} \label{sec:evaluation}
 
 In diesem Kapitel sollen die beschriebenen und prototypisch implementierten Verfahren zur Überlagerung gegenübergestellt werden, um anhand eines direkten Vergleichs eine objektive Aussage über die Qualität der Ergebnisse treffen zu können. Hierzu wird im ersten Teil das Vorgehen zum Testen vorgestellt, welches darauf folgend mit allen Verfahren umgesetzt wird. Hiernach werden die daraus resultierenden Ergebnisse gegenübergestellt.
 
@@ -42,34 +42,15 @@ Abbildung \ref{fig:static_occlusion} und \ref{fig:plant_occlusion} im Anhang zei
 
 Der Vergleich der Ergebnisse, welcher mit dem bereits beschriebenen Bilddifferenz Ansatz aus der Gleichung \ref{eq:diff} durchgeführt werden soll, wurde mit Hilfe der OpenCV Bibliothek durchgeführt und ist in Listing \ref{lst:compare} zu finden. Für jede Szene wurde ein Referenzbild manuell konstruiert, welches dem idealen Ergebnis entsprechen soll. Diese Referenzbilder sind in Abbildung \ref{fig:reference} zu finden. Mit dem Referenzbild wurden alle zuvor passend zugeschnitten Grafiken einer Szene verglichen. \\
 
-\begin{lstlisting}[mathescape,caption=Python Implementierung der Bilddifferenz, label=lst:compare, language=Python]
-from cv2 import *
-from os import listdir
-from os.path import isfile, join
-
-reference_path = "reference.png"
-reference = imread(reference_path)
-reference = cvtColor(reference, COLOR_BGR2GRAY)
-all_images = [f for f in listdir("./") 
-    if isfile(join("./", f)) and f.endswith(".png")]
-    
-for img_path in all_images:
-    img = imread(img_path)
-    img = cvtColor(img, COLOR_BGR2GRAY)
-    result = absdiff(reference, img)
-    imwrite("result_" + img_path, result)
-    difference = sumElems(result)
-    print str(int(result[2])) + "\t" + result[0] + "\t" + result[1]
-\end{lstlisting}
-
 \begin{figure}[h]
   \centering
 	\includegraphics[width=.8\textwidth]{content/images/evaluation/reference.png} 
-  \caption{Manuell konstruierte Referenzbilder der idealen Überlagerung in Szene 1(links) und 2(rechts).}
+  \caption{Manuell konstruierte Referenzbilder der idealen Überlagerung in Szene 1 (links) und 2 (rechts).}
   \label{fig:reference}
 \end{figure}
 
-Der gezeigte Skript zum Verglich der Ergebnisbilder mit den Referenzbildern ergibt neben den Differenzwerten auch die absolute Differenzbilder für jedes Verfahren. Diese Ergebnisbilder sind auch im Anhang in Abbildung \ref{fig:static_occlusion_results} zu finden.
+Der gezeigte Skript zum Verglich der Ergebnisbilder mit den Referenzbildern ergibt neben den Differenzwerten, welche in Tabelle \ref{tab:results} zu finden sind, auch die absoluten Differenzbilder für jedes Verfahren. Diese Ergebnisbilder sind auch im Anhang in Abbildung \ref{fig:static_occlusion_results} zu finden.\\
+
 
 \begin{table}[]
 \centering
@@ -82,5 +63,8 @@ Der gezeigte Skript zum Verglich der Ergebnisbilder mit den Referenzbildern ergi
 \textbf{Szene 2 + GF} & 22.148                                                                 & 339.086 & 264.154 \\ \bottomrule
 \end{tabular}
 \caption{Distanzwert zwischen dem Referenzbild und den Ergebnisbildern in der jeweiligen Szene}
-\label{my-label}
+\label{tab:results}
 \end{table}
+
+
+Neben diesen resultierenden Werten werden im Fazit Kapitel \ref{sec:conclusion} auch anhand einiger dynamischer Tests, mit mehr Bewegung, die implementierten und getesteten Verfahren eingeschätzt. Diese, für die Verfahren nicht reproduzierbaren und deshalb nicht im Detail dokumentierten, Tests beinhalteten eine ähnliche statische Szene, um die sich mit einem Seitenschritt bewegt wurde, um die Genauigkeit der Kantenüberdeckung bei Bewegung gegenüberstellen zu können.

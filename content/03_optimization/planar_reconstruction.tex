@@ -12,7 +12,7 @@ P=\left[\vec{n}, d, H\right] \qquad H=\vec{h_1}, \vec{h_2}, \ldots  \vec{h_n}
 
 Die einzelnen Schritte des Vorgehens werden in den folgenden Absätzen näher erläutert. Ein grober Ablauf des Vorgehens wird aber bereits in Listing \ref{lst:planeReconstruction} zusammengefasst und in Pseudocode beschreiben. Als Cluster sind im Listing sind die untersten Nodes eines Octrees gemeint.
 
-\begin{lstlisting}[mathescape,caption=Planare Echtzeit Rekonstruktion, label=lst:planeReconstruction]
+\begin{lstlisting}[mathescape,caption=Planare Echtzeit Rekonstruktion, label=lst:planeReconstruction, float=htbp]
 
 Eingabe: Octree $O$, Anzahl der zu suchenden Ebene in Clustern $N$
 Ausgabe: Polygonpunkte $T_{Gesamt}$
@@ -73,7 +73,7 @@ p_{2d} = (p_{3d} - (\vec{n}*d)) * R_{\vec{n} \rightarrow \vec{z}}
 p_{3d} = (p_{2d} * R_{\vec{n} \rightarrow \vec{z}}^{-1}) + (\vec{n}*d)
 \end{equation}
 
-\begin{lstlisting}[mathescape,caption=Bestimmung der Ebenenausbreitung und Triangulation, label=lst:triangulation]
+\begin{lstlisting}[mathescape,caption=Bestimmung der Ebenenausbreitung und Triangulation, label=lst:triangulation, float=htbp]
 
 Eingabe: Unterstützende Ebenenpunkte aus RANSAC $P$
          Transformation $R_{\vec{n} \rightarrow \vec{z}}$

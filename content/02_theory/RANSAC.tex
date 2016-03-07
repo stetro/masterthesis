@@ -2,7 +2,7 @@
 
 Der \enquote{RAndom SAmple Consensus} Algorithmus (RANSAC), vorgestellt von \citet{fischler1981random}, ist in der Lage, aus einer Menge von Daten mit vielen Ausreißern, die Parameter für ein passendes Modell zu schätzen. Anders als andere Schätzverfahren wie \enquote{Least-Median} oder \enquote{M-Schätzer}, welche aus der Statistik Literatur entnommen und entsprechend angepasst wurden, wurde RANSAC speziell für die Anwendung in der Computer Graphik entwickelt. Der Kern dieses Algorithmus ist das wiederholte Bestimmen eines Modells aus zufälligen und für das Modell ausreichenden Stichproben. Listing \ref{lst:ransac} zeigt den Verlauf des RANSAC Algorithmus. Die Anzahl der Iterationen \(N\) hängt dabei allein von dem Anteil der Ausreißer in den Messwerten ab. Daher sollte sie entsprechend gewählt werden, um die Wahrscheinlichkeit zu verringern, dass Ausreißer in den Stichproben enthalten sind. \citep{derpanis2010overview} \\
 
-\begin{lstlisting}[mathescape,caption=Der RANSAC Algorithmus, label=lst:ransac]
+\begin{lstlisting}[mathescape,caption=Der RANSAC Algorithmus, label=lst:ransac, float=htbp]
 Eingabe: Messwerte $P$, Modelltoleranz $e$, maximale Iterationen $N$
 Ausgabe: Modell $m$, Unterstützende Messwerte $P_m$
 

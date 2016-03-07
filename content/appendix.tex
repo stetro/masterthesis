@@ -21,3 +21,25 @@
   \caption{Differenzbilder der Verfahren in ersten (oben) und zweiten Szene (unten)}
   \label{fig:static_occlusion_results}
 \end{sidewaysfigure}
+
+\chapter{Differenz OpenCV Python Skript}
+
+\begin{lstlisting}[mathescape,caption=Python Implementierung der Bilddifferenz, label=lst:compare, language=Python]
+from cv2 import *
+from os import listdir
+from os.path import isfile, join
+
+reference_path = "reference.png"
+reference = imread(reference_path)
+reference = cvtColor(reference, COLOR_BGR2GRAY)
+all_images = [f for f in listdir("./") 
+    if isfile(join("./", f)) and f.endswith(".png")]
+    
+for img_path in all_images:
+    img = imread(img_path)
+    img = cvtColor(img, COLOR_BGR2GRAY)
+    result = absdiff(reference, img)
+    imwrite("result_" + img_path, result)
+    difference = sumElems(result)
+    print str(int(result[2])) + "\t" + result[0] + "\t" + result[1]
+\end{lstlisting}
