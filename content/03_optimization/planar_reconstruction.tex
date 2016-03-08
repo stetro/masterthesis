@@ -73,7 +73,9 @@ p_{2d} = (p_{3d} - (\vec{n}*d)) * R_{\vec{n} \rightarrow \vec{z}}
 p_{3d} = (p_{2d} * R_{\vec{n} \rightarrow \vec{z}}^{-1}) + (\vec{n}*d)
 \end{equation}
 
-\begin{lstlisting}[mathescape,caption=Bestimmung der Ebenenausbreitung und Triangulation, label=lst:triangulation, float=htbp]
+In Abbildung \ref{fig:polygon-process} ist der Gesamtprozess für die Bestimmung der Ebenenausbreitung veranschaulicht. Nachdem eine Ebene mit RANSAC detektiert wurde werden die korrespondierenden Punkte auf diese zweidimensionale Ebene projiziert. Daraufhin wird die konvexe Hülle gebildet und die Triangulation der Hülle ermittelt. Diese Polygon Eckpunkte werden danach wieder zurück in den dreidimensionalen Raum projiziert.
+
+\begin{lstlisting}[mathescape,caption=Bestimmung der Ebenenausbreitung und Triangulation, label=lst:triangulation]
 
 Eingabe: Unterstützende Ebenenpunkte aus RANSAC $P$
          Transformation $R_{\vec{n} \rightarrow \vec{z}}$
@@ -83,13 +85,20 @@ Ausgabe: Polygone $T_{Ebene}$
     Bestimme die konvexe Hülle $H$ aus $P_{2d}$ mit Graham Scan
     starte mit leerer Menge $P_{2dmesh}$
     für $i$ von $0$ bis $|H| - 2$
-        füge $H_i$ zu $P_{2dmesh}$ hinzu
+        füge $H_0$ zu $P_{2dmesh}$ hinzu
         füge $H_{i+1}$ zu $P_{2dmesh}$ hinzu
         füge $H_{i+2}$ zu $P_{2dmesh}$ hinzu
-    Projiziere alle Punkte aus $P_{2dmesh}$ mit $R_{\vec{n} \rightarrow \vec{z}}^{-1}$ zu $P_{3dmesh}$
-   
+    Projiziere alle Punkte aus $P_{2dmesh}$ mit $R_{\vec{n} \rightarrow \vec{z}}^{-1}$ zu $P_{3dmesh}$   
 \end{lstlisting}
 
+\begin{figure}[h]
+  \centering
+	\includegraphics[width=1.1\textwidth]{content/images/methods/polygon-process.png} 
+  \caption{Veranschaulichung des Gesamtprozesses zur Bestimmung der Ebenenausbreitung durch RANSAC und der konvexen Hülle.}
+  \label{fig:polygon-process}
+\end{figure}
+
+\newpage
 
 \subsection{Clustering der aufgenommenen Punkte} \label{sec:cluster}
 
@@ -98,7 +107,7 @@ Wie im Listing \ref{lst:planeReconstruction} zu erkennen wird das zuvor beschrie
 \begin{figure}[h]
   \centering
 	\includegraphics[width=1.0\textwidth]{content/images/methods/clustering.png} 
-  \caption{Links: Ebenenrekonstruktion ohne Clustering. Rechts: Rekonstruktion mit K-Mean Clustering.}
+  \caption{Links: Ebenen Rekonstruktion ohne Clustering. Rechts: Rekonstruktion mit K-Mean Clustering.}
   \label{fig:clustering}
 \end{figure}
 
