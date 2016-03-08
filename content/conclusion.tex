@@ -25,6 +25,10 @@ Die große Voxelgöße führt jedoch dazu, dass wie in beiden getesteten Szenen 
 
 \subsection*{Guided Filter}
 
+Der Guided Filter war in den Tests häufig in der Lage selbst grobe Fehler im Tiefenbild an die Kanten der Farbbilder anzugleichen und somit auch, wie in den Messergebnissen zu erkennen, den Differenzwert zum Optimum reduzieren. Jedoch führte der Einsatz des Filters zu deutlichen Performanceeinbußen, denn der Filterprozess selbst benötigt im Durchschnitt \(220\) ms. Der Einsatz von OpenCV erschwert zudem den Einsatz des Filters für die Echtzeit Umsetzung, da die Bildebene pro Bild aus dem OpenGL Framebuffer raus und wieder rein geladen werden muss. Dieser Prozess benötigt zusätzliche \(80\) ms, was die Wiederholrate der prototypischen Implementierung auf 3 Herz reduziert.\\
+
+
+
 
 
 
