@@ -25,17 +25,16 @@ Die große Voxelgöße führt jedoch dazu, dass wie in beiden getesteten Szenen 
 
 \subsection*{Guided Filter}
 
-Der Guided Filter war in den Tests häufig in der Lage selbst grobe Fehler im Tiefenbild an die Kanten der Farbbilder anzugleichen und somit auch, wie in den Messergebnissen zu erkennen, den Differenzwert zum Optimum reduzieren. Jedoch führte der Einsatz des Filters zu deutlichen Performanceeinbußen, denn der Filterprozess selbst benötigt im Durchschnitt \(220\) ms. Der Einsatz von OpenCV erschwert zudem den Einsatz des Filters für die Echtzeit Umsetzung, da die Bildebene pro Bild aus dem OpenGL Framebuffer raus und wieder rein geladen werden muss. Dieser Prozess benötigt zusätzliche \(80\) ms, was die Wiederholrate der prototypischen Implementierung auf 3 Herz reduziert.\\
+Der Guided Filter war in den Tests häufig in der Lage selbst grobe Fehler im Tiefenbild an die Kanten der Farbbilder anzugleichen und somit auch, wie in den Messergebnissen zu erkennen, den Differenzwert zum Optimum reduzieren. Jedoch führte der Einsatz des Filters zu deutlichen Performanceeinbußen, denn der Filterprozess selbst benötigt im Durchschnitt \(220\) ms. Der Einsatz von OpenCV erschwert zudem den Einsatz des Filters für die Echtzeit Umsetzung, da die Bildebene pro Bild aus dem OpenGL Framebuffer raus und wieder rein geladen werden muss. Dieser Prozess benötigt zusätzliche \(80\) ms, was die Wiederholrate der prototypischen Implementierung auf 3 Herz reduziert. \\
 
-
-
-
-
-
-* Guided Filter
-	* Sehr langsam
-	* Führt zu erstaunlichen Optimierungen
-	* Weist jedoch je nach Einstellung auch Gradienten auf glatten Tiefenbildern auf
+Zusätzlich sind unter gewissen Umständen, bei denen ein virtuelles Objekt nah an der Oberfläche eines realen Objekts, aber immer noch räumlich hinter dem realen Objekt liegt, variable Artefakte aufgefallen, an denen das eigentlich überlagerte virtuelle Objekt durchschimmert. Dieser Effekt ist in Abbildung \ref{fig:artifacts} zu erkennen. Neben den eigentlichen Kanten für die Überlagerung im Farbbildes werden auch Kanten von flachen Strukturen berücksichtigt. Im Bild zu sehen, beeinflusst das Muster vom Würfel das resultierende Tiefenbild, wodurch sich eine fehlerhafter Überlagerung ergibt. \\
+ 
+\begin{figure}[h]
+  \centering
+	\includegraphics[width=1.0\textwidth]{content/images/artifacts.png} 
+  \caption{Fehlerhafte Überdeckung bei der Anwendung des Guided Filters. Links: Reales Objekt mit Rekonstruktion. Mitte: Tiefenbild. Rechts: Sichtbare Fehler nach Guided Filter.}
+  \label{fig:artifacts}
+\end{figure}
 
 
 \section{Ausblick}
