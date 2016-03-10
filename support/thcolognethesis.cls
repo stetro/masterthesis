@@ -16,7 +16,7 @@
 \RequirePackage{ifthen}   % needed for option parsing for logo
 
 % Custom Packages
-\usepackage[ngerman]{babel}
+\usepackage[english,ngerman]{babel}
 \usepackage[babel,german=quotes]{csquotes}
 \usepackage[utf8]{inputenc}
 \usepackage{datetime}
@@ -290,7 +290,7 @@
 \renewenvironment{abstract} {\begin{alwayssingle} \thispagestyle{empty}
   \begin{center}
   \vspace*{1.5cm}
-  {\Large \bfseries  Abstract}
+  {\Large \bfseries  \abstractname}
   \end{center}
   \vspace{0.5cm}
    \begin{quote}}
