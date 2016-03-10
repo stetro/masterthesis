@@ -1,6 +1,6 @@
 \chapter{Fazit} \label{sec:conclusion}
 
-\section{Evaluation der Verfahren}
+\section{Evaluation}
 
 Die implementierten Verfahren haben gezeigt, dass mit dem Ansatz der Tiefenbild Überdeckung von \citet{wloka1995resolving} eine Echtzeit Überdeckung virtueller Objekte auf der mobilen Project Tango Hardware erfolgreich umgesetzt werden kann. Dabei wird im Folgenden auf jedes Verfahren sowie ihrer Vor und Nachteile im Kontext der anderen Verfahren und auf Basis der durchgeführten Tests eingegangen. \\
 
@@ -38,7 +38,7 @@ Zusätzlich sind unter gewissen Umständen, bei denen ein virtuelles Objekt nah 
 
 Angewendet auf die Tiefeninformationen der Pointcloud Projektion konnte der Filter in der komplexeren zweiten Szene nahezu das Optimum der Überlagerung erreichen. Schwieriger war jedoch der Einsatz bei der runden Kontur in der ersten Szene, wo der Filter nicht in der Lage war, den initialen groben Fehler vom Tiefensensor zu revidieren. Das selbe Verhalten ist auch bei der Ebenen Rekonstruktion in Szene eins zu beobachten. Besonders beachtenswert ist die Tatsache, dass bei den zu weit reichenden Tiefeninformationen der TSDF Rekonstruktion, in der Mitte der Messergebnisse von Szene eins, ein etwa gleichgroßer Fehler durch die Filterung behoben werden konnte. Eine weitere Besonderheit, die während der Tests beobachtet werden konnte, ist dass der Filter in der Lage war bei der Anwendung auf die Ebenen Rekonstruktion, die Lücken zwischen den Ebenen unkenntlich zu machen. Somit würde dieser Filter ein Nachteil dieses Ansatzes lösen.\\
 
-\subsection*{Einsatz der Verfahren}
+\section{Einsatz der Verfahren}
 
 Grundsätzlich ist festzuhalten, dass sich die Pointcloud Projektion ohne den Guided Filter, trotz des erreichbaren Detailgrads, höchstens in einzelnen Bildaufnahmen für eine Überlagerung in Augmented Reality eignet, da das Rauschen der Eingangsdaten durchgehend sichtbar ist. Außerdem ist die Sichtweite auf die Erreichbarkeit des Tiefensensors des aktuellen Ausschnitts begrenzt. Auch die Ebenen Rekonstruktion ist bedingt geeignet, da Lücken zwischen den Ebenen zu erkennen sind, die die Illusion von AR zerstören würde. Auch wenn die TSDF Rekonstruktion durch Chisel nach den statischen Testszenen oft mit Fehler behaftet sind, existieren entschiedene Vorteile gegenüber den anderen Vorgehensweisen. Denn durch Chisel werden geschlossene Flächen gebildet, welche sich dynamisch der Szene anpassen können. Betrachtet man zudem den Einsatz von Chisel in größeren Flächen, wie in Räumen oder sogar im ganzen Gebäude, fällt der gemessene Fehler weniger erkennbar aus.\\
 
