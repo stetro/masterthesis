@@ -4,11 +4,11 @@ In diesem Kapitel sollen die beschriebenen und prototypisch implementierten Verf
 
 \section{Statische Testszenen}
 
-Zum Vergleich der Verfahren wurden zwei statische Szenen gewählt, in denen das Project Tango Gerät nicht bewegt wird und dadurch allen Kandidaten den selben sensorischen Inhalt bietet. Diese Wahl wurde getroffen, um eine zuverlässige und reproduzierbare Informationsquelle für das Gerät zu schaffen. Denn die Reproduktion eines bewegten und dynamischen Szenarios ist für alle zu vergleichenden Verfahren nur sehr schwer möglich. \\
+Zum Vergleich der Verfahren wurden zwei statische Szenen gewählt, in denen das Project Tango Gerät nicht bewegt wird und dadurch allen Kandidaten den selben sensorischen Inhalt bietet. Diese Wahl wurde getroffen, um eine zuverlässige und reproduzierbare Informationsquelle für das Gerät zu schaffen. Denn die Reproduktion eines bewegten und dynamischen Szenarios ist für alle zu vergleichenden Verfahren nur sehr schwer möglich. 
 
-Eine Idee für ein dynamisches Testszenario war es, alle sensorischen Informationen der Hardware einmal aufzunehmen und eine reproduzierbare simulierte Umgebung dieser Daten zu schaffen. Technologien wie das Robot Operating System (ROS) würden dies ermöglichen, jedoch übersteigt der Aufwand den zeitlichen Rahmen dieser Arbeit. Auch wenn die Firma Bosch eine exemplarische Implementation\footnote{Tango Output to Rosbag Files - https://goo.gl/hhnciZ} für die Aufnahme aller Daten in ROS demonstriert, sind die implementierten Verfahren zu sehr in den API Zyklen der Project Tango Schnittstelle involviert, um diese in kurzer Zeit auf eine Desktop Umgebung zu portieren.\\
+Eine Idee für ein dynamisches Testszenario war es, alle sensorischen Informationen der Hardware einmal aufzunehmen und eine reproduzierbare simulierte Umgebung dieser Daten zu schaffen. Technologien wie das Robot Operating System (ROS) würden dies ermöglichen, jedoch übersteigt der Aufwand den zeitlichen Rahmen dieser Arbeit. Auch wenn die Firma Bosch eine exemplarische Implementation\footnote{Tango Output to Rosbag Files - https://goo.gl/hhnciZ} für die Aufnahme aller Daten in ROS demonstriert, sind die implementierten Verfahren zu sehr in den API Zyklen der Project Tango Schnittstelle involviert, um diese in kurzer Zeit auf eine Desktop Umgebung zu portieren.
 
-Die erste gewählte Szene, welche in Abbildung \ref{fig:static-scene} links zu sehen ist, beinhaltet einen Hocker, in Form eines einfachen  Würfels, und einen Sitzball. Der Sitzball wurde gewählt, um auch runde Formen zur Tiefenaufnahme zu testen, welche gegebenenfalls für die Verfahren schwerer zu rekonstruieren sind. Das Project Tango Gerät ist etwas höher in einem Stativ plaziert. Das virtuelle Objekt wird, wie in Abbildung \ref{fig:static-scene} rechts, zwischen die beiden realen Objekte plaziert, sodass es von beiden Seiten durch die realen Objekte überdeckt wird. \\
+Die erste gewählte Szene, welche in Abbildung \ref{fig:static-scene} links zu sehen ist, beinhaltet einen Hocker, in Form eines einfachen  Würfels, und einen Sitzball. Der Sitzball wurde gewählt, um auch runde Formen zur Tiefenaufnahme zu testen, welche gegebenenfalls für die Verfahren schwerer zu rekonstruieren sind. Das Project Tango Gerät ist etwas höher in einem Stativ plaziert. Das virtuelle Objekt wird, wie in Abbildung \ref{fig:static-scene} rechts, zwischen die beiden realen Objekte plaziert, sodass es von beiden Seiten durch die realen Objekte überdeckt wird. 
 
 \begin{figure}[h]
   \centering
@@ -17,7 +17,7 @@ Die erste gewählte Szene, welche in Abbildung \ref{fig:static-scene} links zu s
   \label{fig:static-scene}
 \end{figure}
 
-Die zweite gewählte Szene, welche in Abbildung \ref{fig:plant-scene} links zu sehen ist, soll als Herausforderung die Überdeckung von komplexeren Strukturen testen. Sie besteht daher aus einer Pflanze, die sich, wie rechts im Bild zu sehen, vor dem virtuellen Objekt befindet. Auch hier befindet sich das Project Tango Gerät in einem Stativ, damit sich die Position während der Tests durch Motion Tracking nicht ändert. \\
+Die zweite gewählte Szene, welche in Abbildung \ref{fig:plant-scene} links zu sehen ist, soll als Herausforderung die Überdeckung von komplexeren Strukturen testen. Sie besteht daher aus einer Pflanze, die sich, wie rechts im Bild zu sehen, vor dem virtuellen Objekt befindet. Auch hier befindet sich das Project Tango Gerät in einem Stativ, damit sich die Position während der Tests durch Motion Tracking nicht ändert. 
 
 \begin{figure}[h]
   \centering
@@ -34,13 +34,13 @@ d = \sum_i |p_i-q_i|
 
 \section{Durchführung der Tests}
 
-Die beiden Testszenen konnten wie beschrieben aufgebaut und mit allen Verfahren durchgetestet werden. Hierzu wurde mit der \enquote{Android Debug Bridge} (adb)\footnote{Android Debug Bridge - http://goo.gl/ffH51x (01.03.16)} eine Videoaufnahme gestartet, in der im Prototypen für jede Szene alle Verfahren durchgeschaltet wurden. Die Verfahren mussten dabei sehr schnell gewechselt werden, um einen potentiellen Drift von Project Tangos Motion Tracking so minimal wie möglich zu halten. Denn diese Bewegungen würden die Ergebnisse stark beeinträchtigen. \\
+Die beiden Testszenen konnten wie beschrieben aufgebaut und mit allen Verfahren durchgetestet werden. Hierzu wurde mit der \enquote{Android Debug Bridge} (adb)\footnote{Android Debug Bridge - http://goo.gl/ffH51x (01.03.16)} eine Videoaufnahme gestartet, in der im Prototypen für jede Szene alle Verfahren durchgeschaltet wurden. Die Verfahren mussten dabei sehr schnell gewechselt werden, um einen potentiellen Drift von Project Tangos Motion Tracking so minimal wie möglich zu halten. Denn diese Bewegungen würden die Ergebnisse stark beeinträchtigen. 
 
 Bei der Anwendung des Guided Filters wurde immer der Radius \(r = 25\) und der Einflussfaktor \(\epsilon = 0.8\) gewählt. Diese Werte versprachen nach einigen manuellen Tests erfolgreiche Ergebnisse. Der Radius wurde so groß gewählt, damit die bei den Rekonstruktionen üblichen Fehler auch weitreichend in den Gewichtungskernel berücksichtigt werden können. Abbildung \ref{fig:static_occlusion} und \ref{fig:plant_occlusion} im Anhang zeigen jeweils die aus dem Video extrahierten Bildausschnitte. Die obere Reihe zeigt die drei tiefengenerierenden Verfahren ohne den Guided Filter und die untere Reihe jeweils mit dem Filter. In der untersten Reihe sind jeweils die Projektion der generierten Primitiven in der Szene zu sehen, um sich eine Vorstellung der Rekonstruktion machen zu können.
 
 \section{Auswertung der Ergebnisse}
 
-Der Vergleich der Ergebnisse, welcher mit dem bereits beschriebenen Bilddifferenz Ansatz aus der Gleichung \ref{eq:diff} durchgeführt werden soll, wurde mit Hilfe der OpenCV Bibliothek durchgeführt und ist in Listing \ref{lst:compare} im Anhang zu finden. Für jede Szene wurde ein Referenzbild manuell konstruiert, welches dem idealen Ergebnis entsprechen soll. Zur Konstruktion der Vergleichsbilder wurden Ausschnitte  mit leichten Anpassungen aus einigen Ergebnisbildern gewählt und zusammengeschnitten. Diese Referenzbilder sind in Abbildung \ref{fig:reference} zu finden. Mit dem Referenzbild wurden alle zuvor passend zugeschnitten Grafiken einer Szene verglichen. \\
+Der Vergleich der Ergebnisse, welcher mit dem bereits beschriebenen Bilddifferenz Ansatz aus der Gleichung \ref{eq:diff} durchgeführt werden soll, wurde mit Hilfe der OpenCV Bibliothek durchgeführt und ist in Listing \ref{lst:compare} im Anhang zu finden. Für jede Szene wurde ein Referenzbild manuell konstruiert, welches dem idealen Ergebnis entsprechen soll. Zur Konstruktion der Vergleichsbilder wurden Ausschnitte  mit leichten Anpassungen aus einigen Ergebnisbildern gewählt und zusammengeschnitten. Diese Referenzbilder sind in Abbildung \ref{fig:reference} zu finden. Mit dem Referenzbild wurden alle zuvor passend zugeschnitten Grafiken einer Szene verglichen. 
 
 \begin{figure}[h]
   \centering
@@ -49,7 +49,7 @@ Der Vergleich der Ergebnisse, welcher mit dem bereits beschriebenen Bilddifferen
   \label{fig:reference}
 \end{figure}
 
-Der gezeigte Skript zum Verglich der Ergebnisbilder mit den Referenzbildern ergibt neben den Differenzwerten, welche in Tabelle \ref{tab:results} zu finden sind, auch die absoluten Differenzbilder für jedes Verfahren. Diese Ergebnisbilder sind auch im Anhang in Abbildung \ref{fig:static_occlusion_results} zu finden. In der Abbildung werden beide Szenen mit je zwölf Bildern dargestellt, wobei jedes der drei Überlagerungsverfahren (horizontal) mit und ohne Anwendung des Guided Filter (vertikal) festgehalten sind. Sie sind also genau wie die Ergebnisse in Tabelle \ref{tab:results} angeordnet.\\
+Der gezeigte Skript zum Verglich der Ergebnisbilder mit den Referenzbildern ergibt neben den Differenzwerten, welche in Tabelle \ref{tab:results} zu finden sind, auch die absoluten Differenzbilder für jedes Verfahren. Diese Ergebnisbilder sind auch im Anhang in Abbildung \ref{fig:static_occlusion_results} zu finden. In der Abbildung werden beide Szenen mit je zwölf Bildern dargestellt, wobei jedes der drei Überlagerungsverfahren (horizontal) mit und ohne Anwendung des Guided Filter (vertikal) festgehalten sind. Sie sind also genau wie die Ergebnisse in Tabelle \ref{tab:results} angeordnet.
 
 
 \begin{table}[h]

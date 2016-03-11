@@ -1,6 +1,6 @@
 \section{Technische Problemstellungen}
 
-Auch wenn schon einige Probleme in der Umsetzung der jeweiligen Verfahren in Kapitel \ref{sec:method-implementation} näher beschrieben wurden, werden hier noch Einzelheiten aufgegriffen, die bei der Entwicklung für Projekt Tango zu beachten waren. \\
+Auch wenn schon einige Probleme in der Umsetzung der jeweiligen Verfahren in Kapitel \ref{sec:method-implementation} näher beschrieben wurden, werden hier noch Einzelheiten aufgegriffen, die bei der Entwicklung für Projekt Tango zu beachten waren. 
 
 Alle von Project Tango zurückgegeben Vektoren besitzen Ihre eigene Konvention bezüglich der Achsenanordnungen. Gegenüber der Konvention in OpenGL sind die Achsen \(Z\) und \(Y\) vertauscht. Außerdem zeigt die resultierende \(Z\)-Achse in die gegengesetzte Richtung. Aufgrund dieser Unterschiedlichen Konvention müssen alle Vektoren \(\vec{v}\) von Project Tango mit der Transformationsmatrix \(T_{OGL}^{PT}\) aus Gleichung \ref{eq:transformation} konvertiert werden \citep{Proje15:online}. Nachdem Google im Laufe dieser Arbeit neue Schnittstellen\footnote{Project Tango API: Transformation Support - https://goo.gl/N8dapq (29.02.16)} zur Verfügung gestellt haben, um diese Transformationen zu abstrahieren, können die \enquote{TransformationSupport} Methoden hierfür genutzt werden.
 
