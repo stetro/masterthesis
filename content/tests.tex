@@ -44,8 +44,8 @@ Der Vergleich der Ergebnisse, welcher mit dem bereits beschriebenen Bilddifferen
 
 \begin{figure}[h]
   \centering
-	\includegraphics[width=1.0\textwidth]{content/images/evaluation/reference.png} 
-  \caption{Manuell konstruierte Referenzbilder der idealen Überlagerung in Szene 1 (links) und 2 (rechts).}
+	\includegraphics[width=0.7\textwidth]{content/images/evaluation/reference.png} 
+  \caption{Manuell konstruierte Referenzbilder der idealen Überlagerung mit Filtermaske in Szene 1 (links) und 2 (rechts).}
   \label{fig:reference}
 \end{figure}
 
@@ -57,14 +57,15 @@ Der gezeigte Skript zum Verglich der Ergebnisbilder mit den Referenzbildern ergi
 \begin{tabular}{@{}rrrr@{}}
 \toprule
                       & \textbf{\begin{tabular}[c]{@{}r@{}}Pointcloud \\ Projektion\end{tabular}} & \textbf{\begin{tabular}[c]{@{}r@{}}TSDF \\ Rekonstruktion\end{tabular}} & \textbf{\begin{tabular}[c]{@{}r@{}}Ebenen \\ Rekonstruktion\end{tabular}} \\ \midrule
-\textbf{Szene 1}      & 495.695                                                                    & 560.210                                                                  & 247.327                                                                    \\
-\textbf{Szene 1 + GF} & 463.612                                                                    & 79.642                                                                & 166.589                                                                    \\
-\textbf{Szene 2}      & 190.473                                                                   & 462.780 & 295.008 \\
-\textbf{Szene 2 + GF} & 22.148                                                                 & 339.086 & 264.154 \\ \bottomrule
+\textbf{Szene 1}      & 1400 & 3165 & 2193   \\
+\textbf{Szene 1 + GF} & 1506 & 85 & 1545 \\
+\textbf{Szene 2}      & 2478 & 4007 & 2180 \\
+\textbf{Szene 2 + GF} & 67 & 1876 & 1529 \\
+\bottomrule
 \end{tabular}
 \caption{Distanzwert zwischen dem Referenzbild und den Ergebnisbildern in der jeweiligen Szene}
 \label{tab:results}
 \end{table}
 
-
+3165
 Neben diesen resultierenden Werten werden im Fazit Kapitel \ref{sec:conclusion} auch anhand einiger dynamischer Tests, mit mehr Bewegung, die implementierten und getesteten Verfahren eingeschätzt. Diese, für die Verfahren nicht reproduzierbaren und deshalb nicht im Detail dokumentierten, Tests beinhalteten eine ähnliche statische Szene, um die sich mit einem Seitenschritt bewegt wurde, um die Genauigkeit der Kantenüberdeckung bei Bewegung gegenüberstellen zu können.
