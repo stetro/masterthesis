@@ -43,6 +43,10 @@
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=false,captionpos=b}
 \lstset{framextopmargin=50pt,frame=bottomline}
 
+\clubpenalty = 10000 
+\widowpenalty = 10000 
+\displaywidowpenalty = 10000
+
 \newdateformat{monthyeardate}{%
   \monthname[\THEMONTH] \THEYEAR}
 
