@@ -8,4 +8,6 @@ Alle von Project Tango zurückgegeben Vektoren besitzen Ihre eigene Konvention b
 T_{OGL}^{PT} =\left( \begin{matrix} 1&0&0&0\\0&0&-1&0\\0&1&0&0\\0&0&0&1 \end{matrix} \right)
 \end{equation}
 
-\textbf{TODO:} ggf mit anderem Kapitel zusammenführen wenn nicht mehr zusammenkommt
+Wie bei vielen Echtzeitsystemen ist das Problem der Nebenläufigkeit (engl. Concurrency) auch in der Schnittstelle von Project Tango zu beachten. Die API von Project Tango publiziert die Sensordaten typischerweise asynchron. Außerdem werden die Rekonstruktionsverfahren von den entsprechenden API Publikationen angestoßen. Deshalb muss besonders beim Rendering sichergestellt werden, dass die Daten während dieses Prozesses nicht modifiziert werden. Diese Synchronisation wird durch den Einsatz von \enquote{std::mutex} aus der C/C++ Standard Bibliothek gewährleistet. 
+
+
