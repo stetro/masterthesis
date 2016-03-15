@@ -67,8 +67,14 @@
 \setlength{\parskip}{0em}
 
 \appendix
+
+\let\LaTeXStandardClearpage\clearpage
+\let\clearpage\relax
+
 \listoffigures
 \lstlistoflistings  
+
+\let\clearpage\LaTeXStandardClearpage
 
 \input{content/appendix}
 
