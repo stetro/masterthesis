@@ -67,7 +67,8 @@ Je nach binärer Gewichtung der Ecken können hiernach aus einem Katalog von 256
 
 Das bereits erwähnte Verfahren Chisel von \citet{Klingensmith_2015_7924} verwendet alle zuvor erwähnten Techniken der TSDF, spatial Hashing und der Marching Cubes Überführung. Sie sprechen dabei von einem \enquote{dynamic spatial-hashed truncated distance field}. Das für den mobilen Einsatz optimierte Verfahren ist in der Lage eine Echtzeitrekonstruktion von Räumen von bis zu \(300 m^2\) mit einem Detailgrad von zwei bis drei Zentimetern zu erstellen. Zudem können neben Tiefeninformationen auch gefärbte Pointclouds verarbeitet werden, wodurch ein gefärbtes Mesh generiert werden kann. \citep{Klingensmith_2015_7924}
 
-Zusätzlich erweitern sie den TSDF Algorithmus um die \enquote{space carving} Funktionalität. Sie betrachten dabei den Strahl von der Kamera zur Oberfläche als eine Art Constraint, in dem alle durchstoßenden Voxel bis zur Oberfläche eine negativen Wert beinhalten müssen. Ist das nicht der Fall, so wird ein Voxel außerhalb der inneren Begrenzung auf den leeren Ursprungswert gesetzt. Im Pseudocode aus Listing \ref{lst:chisel} wird das Verhalten näher erläutert. Diese Verbesserung führt dazu, dass die Rekonstruktion bei stark rauschenden Tiefeninformationen, besonders an Objektkanten, deutlich verbessert wird. Außerdem ist das Verfahren hiermit in der Lage dynamische Änderungen in der Umgebung zu detektieren und neue Oberflächen entsprechend zu aktualisieren. So beeinflussen zum Beispiel sich im Bild bewegen Personen nur kurz die Voxel der TSDF. \citep{Klingensmith_2015_7924}
+Zusätzlich erweitern sie den TSDF Algorithmus um die \enquote{space carving} Funktionalität. Sie betrachten dabei den Strahl von der Kamera zur Oberfläche als eine Art Constraint, in dem alle durchstoßenden Voxel bis zur Oberfläche eine negativen Wert beinhalten müssen. Ist das nicht der Fall, so wird ein Voxel außerhalb der inneren Begrenzung auf den leeren Ursprungswert gesetzt. Im Pseudocode aus Listing \ref{lst:chisel} sowie in der Abbildung \ref{fig:tsdf-sketch} wird das Verhalten näher erläutert. Diese Verbesserung führt dazu, dass die Rekonstruktion bei stark rauschenden Tiefeninformationen, besonders an Objektkanten, deutlich verbessert wird. Außerdem ist das Verfahren hiermit in der Lage dynamische Änderungen in der Umgebung zu detektieren und neue Oberflächen entsprechend zu aktualisieren. So beeinflussen, als Beispiel, sich im Bild bewegende Personen nur kurz die Voxel der TSDF. \citep{Klingensmith_2015_7924}
+
 
 \begin{lstlisting}[mathescape,caption=Chisel TSDF Algorithmus, label=lst:chisel, float=htbp]
 Eingabe: Pointcloud $C$, Kameratransformation $P_{cam}$, 
@@ -86,5 +87,12 @@ für jeden Tiefenwert $\vec{p}$ aus $C$
         bestimme die Voxeldistanz zu $z$
         setze das Gewicht w des Voxels $v$
 \end{lstlisting}
+
+\begin{figure}[h]
+  \centering
+	\includegraphics[width=1.0\textwidth]{content/images/methods/tsdf-sketch.png} 
+  \caption{Exemplarische Visualisierung des Strahls \(\vec{r}\) und der zu aktualisierenden Voxel \(v\) im TSDF Algorithmus. Links ist hier das Project Tango Gerät zu erkennen, welches Tiefeninformationen der Oberfläche eines Objekts rechts aufgenommen hat.}
+  \label{fig:tsdf-sketch}
+\end{figure}
 
 Neben space carving wurden zudem eine variable Strahlenbegrenzungen und Gewichtungen der Voxel abhänig von der jeweils aufgenommenen Tiefe implementiert. Diese Funktion berücksichtigt die Varianzen von Messungenauigkeiten des Sensors, die bei größerer Entfernung der Oberfläche zum Tiefensonsor zunehmen können. \citep{Klingensmith_2015_7924}
