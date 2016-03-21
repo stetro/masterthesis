@@ -53,7 +53,7 @@ Angenommen, man würde den Guided Filters im Prototypen für jedes Verfahren in 
   \label{fig:shadow}
 \end{figure}
 
-Ein weiterer Grund sich für ein Rekonstruktionsverfahren zu entscheiden, welches geometrische Primitiven der Szene generiert, ist die Möglichkeit, Interaktionen oder Schattenschlag mit den verfügbaren Techniken von OpenGL umzusetzen. Hierzu wurde in dieser Arbeit ein weiterer Proof of Concept umgesetzt, der mit Hilfe einer Chisel Rekonstruktion und dem Shadowmapping der Unity Engine, die Projektion einer virtuellen Kugel mit Schattenschlag in der echten Umgebung ermöglicht. Zwei Beispiele der Anwendung sind in Abbildung \ref{fig:shadow} zu sehen.
+Ein weiterer Grund sich für ein Rekonstruktionsverfahren zu entscheiden, welches geometrische Primitiven der Szene generiert, ist die Möglichkeit, Interaktionen oder Schattenschlag mit den verfügbaren Techniken von OpenGL umzusetzen. Denn wenn ausschließlich die Tiefeninformationen wie bei der Pointcloud Projektion bekannt sind, müssen für beispielsweise den Schattenschlag die entsprechenden Normalen der Oberfläche pro Tiefenwert bestimmt werden. Bei den Rekonstruktionen werden die Normalen bereits im Verfahren bestimmt. Hierzu wurde in dieser Arbeit ein weiterer Proof of Concept umgesetzt, der mit Hilfe einer Chisel Rekonstruktion und dem Shadowmapping der Unity Engine, die Projektion einer virtuellen Kugel mit Schattenschlag in einer realen Umgebung ermöglicht. Zwei Beispiele der Anwendung sind in Abbildung \ref{fig:shadow} zu sehen.
 
 
 \section{Ausblick}
@@ -62,14 +62,9 @@ Im Laufe der Umsetzung und der Auswertung der Verfahren sind noch weitere Ideen 
 
 Wie zuvor erwähnt, können neben dem Guided Filter noch deutlich komplexere Verfahren eingesetzt werden, wie das \enquote{Guided Depth Upsampling} Verfahren von \citet{Ferstl_2013_ICCV}, die ein Tiefenbild auf Basis der Farbbilder optimiert. Da diese in der Regel jedoch komplexer als der Guided Filter sind, wäre ein Einsatz auf dieser mobilen Plattform nicht performant genug. Für den produktiven Einsatz des Guided Filters wäre generell eine eigene Implementation sinnvoll, um den OpenCV Anteil, wie in der prototypischen Umsetzung, herausnehmen zu können. Das würde zunächst den Tansformationsaufwand zu OpenCV von \(80 ms\) vermeiden. Außerdem wäre es denkbar den Guided Filter komplett im OpenGL Fragmentshader umzusetzen, wodurch eine parallele Verarbeitung der GPU diesen Prozess deutlich beschleunigen würde.
 
+Während der Implementierung und Recherche zu den verschiedenen Ansätzen zur Realisierung der AR Überdeckung mit Project Tango, wurden viele neue Schnittstellen in der Project Tango Bibliothek von Google veröffentlicht\footnote{Project Tango Release Notes - https://goo.gl/ueGBtn (21.03.16)}.  Unter Anderem wurde zuletzt zum Beispiel eine Methode für das Filtern des Tiefenbildes mit Hilfe des Farbbildes durch den Bilateral Filter veröffentlicht\footnote{Depth Interpolation Support Functions - https://goo.gl/kDdq21 (21.03.16)}. Nach den Recherchen zu den Filtern ist hier eigentlich der Guided Filter der leistungsfähige Ansatz. Außerdem wurde die interne Chisel Implementation für eine Rekonstruktion unter der Unity Engine veröffentlicht. Diese scheint speziell auf die Charakteristika der Tango Hardware abgestimmt zu sein, und liefert im beschriebenen Prototypen aus Abbildung \ref{fig:shadow} präzise Rekonstruktion mit einer Auflösung von \(5cm\).
 
-
-
-Project Tango
-* Bilateral Filter in API während Arbeit erschienen => Guided Filter wäre der
-* API Änderungen - Zugang zu optimierten Chisel Umsetzungen
-* Consumer Phase mit Lenovo Deployment
-* Alternative Tiefensensoren LFC
+Seitdem die Firma Lenovo eine Kooperation\footnote{Lenovo News - http://goo.gl/jFLNyn (21.03.16)} mit Google angekündigt hat, in der sie das erste Endverbraucher Gerät mit Project Tango Hardware und Software entwickeln werden, verspricht Project Tango eine einheitliche Technologie für den mobilen Einsatz auf Android Geräten zu werden. Auch Intel arbeitet mit Google zusammen\footnote{Intel\textregistered RealSense\textsuperscript{TM} Developer Kits - http://goo.gl/j4Y18A (21.03.16)} und ermöglicht in ihrer Konkurrenztechnologie RealSense\textsuperscript{TM} den Betrieb von Project Tango Anwendungen.
 
 
 	
