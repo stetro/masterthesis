@@ -1,20 +1,22 @@
 # Masterthesis - Tex [![PDF Status](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/badge.svg)](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/output.pdf)
 
-__(WORK IN PROGRESS)__
 
+### Zusammenfassung
 
 > Optimierung von Augmented Reality Anwendungen durch die Berücksichtigung von Tiefeninformationen mit Googles Project Tango
 
-Project Tango ist ein Android Tablet und Smartphone Projekt von Google’s Advanced Technology and Projects Group (ATAP). Es ermöglicht in erster Linie ein Tracking von Positionsänderungen des Geräts im Raum und bietet somit eine genaue relative Lokalisierung. Mit Hilfe dieser Lokalisierung und der Hinzunahme von visuellen Merkmalen im Raum, ist das Gerät in der Lage, seine Umgebung kennenzulernen und gegebenenfalls seine Lokalisierung zu korrigieren oder aber in einer bereits erlernten Umgebung zu ermitteln. Zusätzlich bietet Project Tango die Möglichkeit mit Hilfe eines Tiefensensors eine Pointcloud der Tiefeninformation pro Bildausschnitt zu liefern, um Anwendungen auch Räumliche Informationen bereitzustellen. Das Ziel dieser Plattform ist es Motion Tracking (Positionierung), Depth Perception (Tiefeninformation/Pointcloud) und Area Learning (Lokalisierung) auf mobile Endgeräte zu bringen, um verschiedene Anwendungs-Szenarien abzudecken. Typische Szenarien sind Indoor Navigation, Virtual Reality Anwendungen, Vermessungs- und Rekonstruktions Software und Augmented Reality Anwendungen. 
+Project Tango ist eine neue mobile Plattform des Google Advanced Technology and Project (ATAP) Teams, die in der Lage ist, Bewegungsverfolgung, Tiefenwahrnehmung und Umgebungswiedererkennung auf Smartphones und Tablets anbieten zu können. Durch die kontinuierliche Bestimmung der relativen Geräteposition eignet sich die Plattform besonders für dreidimensionale Augmented Reality (AR) Anwendungen. Die Illusion dieser AR Anwendungen wird besonders dann gestört, wenn sich reale Objekte in einer Szene räumlich vor virtuellen Objekten befindet und diese virtuellen Objekte nicht entsprechend ausgespart werden. 
+
+Diese Arbeit vergleicht daher drei Überdeckungsverfahren, mit denen diese Überlagerung der virtuellen Objekte mit Hilfe der Tiefenwahrnehmung von Project Tango und des Z-Buffer Algorithmus realisiert werden kann. Die Tiefeninformationen für den Z-Buffer werden hierfür zum einen direkt aus den Sensordaten und alternativ mit einer TSDF Rekonstruktion und einer selbst zusammengestellten Ebenenrekonstruktion bestimmt. Außerdem wird auf einen zusätzlichen Ansatz eingegangen, der zur Verbesserung dieser Tiefeninformationen die Bildinformationen der Farbkamera durch den Guided Filter berücksichtigt. Diese Mechanismen werden im Laufe der Arbeit prototypisch umgesetzt und gegenübergestellt. 
+
+### Abstract
+
+> Optimization of augmented reality applications considering the depth information with Googles Project Tango
+
+Project Tango is a new mobile platform by Google’s Advanced Technology and Projects (ATAP) Teams, which brings Motion Tracking, Depth Perception, and Area Learning to smartphone and tablet devices. With its Motion Tracking technology, Project Tango is suitable for precise three dimensional augmented reality (AR) applications. The illusion of the model projection in these AR applications is often disrupted when some real objects in the scene standing in front of virtual projections, which are not getting occluded.
+
+This thesis is comparing three occlusion mechanisms, which can solve the virtual object occlusion with Project Tangos depth perception by applying the Z-Buffer algorithm. The Z-Buffer is filled either by the direct sensor data, by a TSDF reconstruction method or by a self combined and implemented plane based reconstruction. Additionally a guided image filtering approach is applied to the depth map to interpolate according to the edges of the RGB image frame. These mechanisms are going to be implemented and compared.
 
 
-Der Fokus dieser Forschungsarbeit liegt hier auf dem Anwendungsbereich Augmented Reality (AR). Typischerweise wird in mobilen AR Anwendungen meist das Kamerabild analysiert und virtuelle Objekte anhand von Features oder Marker im Bild positioniert. Andere Sensoren wie Kompass, INS oder GPS können eine grobe Lokalisation ohne Marker ermöglichen, führen aber langfristig zu Fehlern, wenn keine optischen Referenzen gegeben sind. Mit Hilfe von Motion Tracking mit Project Tango kann diese Lokalisierung von virtuellen Objekten im Raum meist zuverlässig ohne vordefinierte Marker realisiert werden. Zudem gibt es die Möglichkeit auch die Pointcloud der Tiefensensoren zu nutzen, um die AR Anwendung näher an den echten räumlichen Gegebenheiten anzupassen. Hierzu existieren bereits prototypische Anwendungen, in denen virtuelle Markierungen passend an echten Objekten im virtuellen Raum positioniert werden können, indem Sie auf die aktuellen Tiefeninformation der Tiefensensoren zurückgreifen. Einige Beispiele zeigen auch die grobe Rekonstruktion aus der Pointcloud, um zum Beispiel ein einfaches 3D Spielfeld im Raum zu bestimmen.
-
-
-Um dem Nutzer in AR Anwendungen Spielflächen anbieten zu können, Überdeckungen von virtuellen Objekten mit reellen Objekten im Raum zu ermöglichen und geometrische Mechanismen, wie zum Beispiel Kollisionen, nutzen zu können, ist es wichtig räumliche Informationen der Umgebung aus der Pointcloud zu gewinnen. Diese Forschungsarbeit soll sich damit beschäftigen, welche Algorithmik genutzt werden kann, um diese räumlichen Informationen gewinnen zu können, um wiederum das AR Erlebnis zu verbessern. 
-
-
-Die erste Fragestellung richtet sich dem Thema, wie man performant und automatisiert geometrische Primitiven in einer Pointcloud finden kann. Dazu soll zunächst eine Literaturrecherche bezüglich bekannter Methoden und Algorithmen durchgeführt werden, welche darauf folgend anhand gestellter Kriterien entsprechend evaluiert werden. Für diese Evaluation ist auch die Erstellung einer einheitlichen, zum AR Anwendungsfall passenden, Testumgebung denkbar. Letztendlich soll eine prototypische Implementierung dieser Primitiven Detektion erstellt werden, auf der im späteren Verlauf aufgebaut werden kann.
-
-
-Später soll bestimmt werden ob und wie sich diese gefundenen Primitiven im Nachhinein oder im Verlauf einer Anwendung selbstständig verbessern oder optimieren lassen, oder ob die Basisdaten (Pointcloud) entsprechend verbessert werden können. Hierzu soll näher untersucht werden ob die Bildinformationen aus der Project Tango Kamera dabei helfen können durch zum Beispiel Kantenerkennung eine Optimierung vorzunehmen. Die hieraus gewonnen Erkenntnisse sollen genutzt werden, um den zuvor implementierten Prototypen weiter zu verbessern.
+![Evaluation Results #1](content/images/evaluation/static_occlusion_results.png)
+![Evaluation Results #2](content/images/evaluation/plant_occlusion_results.png)
