@@ -142,7 +142,7 @@
   \begin{center}
     \vspace{5 mm}
     \large
-    vorgelegt and der\\
+    vorgelegt an der\\
     \scshape
     \@college
   \end{center}
