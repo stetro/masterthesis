@@ -51,7 +51,7 @@ d_P = \vec{n} \cdot \vec{P} - d \qquad support_{d_P} = d_P < d_{min}
 Um das finale Modell der Ebene zu bestimmen, wie im ursprünglichen RANSAC Algorithmus in Punkt 7. beschrieben, und somit die Varianz des Abstands der Punkte zur Ebene zu minimieren, wird mithilfe der unterstützenden Punkte \(P_{s}=\left[x,y,z\right]\) eine lineare Regression durchgeführt. Diese mittelt ein Ebenenmodell \(E=\left[\vec{n}, d\right]\) aus den zuvor ermittelten Punkten mithilfe der Methode der kleinsten Quadrate. \citet{hoppe1992surface} nutzen dazu für eine ähnliche Problemstellung die Eigenwert-Dekomposition der Kovarianzmatrix der Punkte \(P_{s}\) zum Zentrum \(\vec{p_{c}}\). In Gleichung \ref{eq:centroid} wird das Zentrum aus den unterstützenden Punkten \(P_{s}\) bestimmt. Gleichung \ref{eq:covarianz} zeigt die Bestimmung der Kovarianzmatrix \(CV\) im Bezug zum Zentroid, in der \(\otimes\) für das dyadische Produkt\footnote{Wenn \(\vec{a}\) und \(\vec{b}\) die Komponenten \(a_i\) und \(b_j\) beinhalten, resultiert aus \(\vec{a} \otimes \vec{b}\) eine Matrix mit den Komponenten \(a_ib_j\) an der \(ij\) Position. \citep{hoppe1992surface}} steht.
 
 \begin{equation} \label{eq:centroid}
-\vec{p_{c}} = \frac{\sum_{n=0}^{|P|} P_{n}}{|P|}
+\vec{p_{c}} = \frac{\sum_{n=0}^{|P|} \vec{p_{n}}}{|P|}
 \end{equation}
 
 \begin{equation} \label{eq:covarianz}
