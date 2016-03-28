@@ -15,27 +15,12 @@ Abbildung \ref{fig:structure} zeigt grob den strukturellen Aufbau der Android Ap
   \label{fig:structure}
 \end{figure}
 
-Die Hauptklasse \enquote{ARApp} in der Grafik widmet sich in der Anwendung nur der Anreicherung und Weiterleitung von JNI Informationen und der Ansprache der Project Tango Schnittstelle. Kern der Anwendung ist die \enquote{Scene} Klasse, welche die Sensorinformationen an das entsprechend aktive Verfahren zur Tiefenbild Generierung weiterreicht. So wird zum Beispiel die Pointcloud an das Chisel, Pointcloud oder Plane Drawable weitergereicht, damit Sie ein aktualisiertes Tiefenbild rendern oder die Rekonstruktion anreichern können. Auch das Farbbild der Kamera gelangt über die Scene zum RGB Drawable, welches letztendlich als eine texturierte Fläche am Ende des Kamera Frustum dargestellt wird. Die Szene selbst ermöglicht durch den Einsatz von OpenCV\footnote{Open Source Computer Vision - \url{http://opencv.org/} (26.03.16)} den optionalen Filter Prozess durch den Guided FIlter. Um das zu ermöglichen wird ein OpenGL Framebuffer eingesetzt. Das Listing \ref{lst:rendering} zeigt das Vorgehen beim Rendering der Szene.
+Die Hauptklasse \enquote{ARApp} in der Grafik widmet sich in der Anwendung nur der Anreicherung und Weiterleitung von JNI Informationen und der Ansprache der Project Tango Schnittstelle. Kern der Anwendung ist die \enquote{Scene} Klasse, welche die Sensorinformationen an das entsprechend aktive Verfahren zur Tiefenbild Generierung weiterreicht. So wird zum Beispiel die Pointcloud an das Chisel, Pointcloud oder Plane Drawable weitergereicht, damit Sie ein aktualisiertes Tiefenbild rendern oder die Rekonstruktion anreichern können. Auch das Farbbild der Kamera gelangt über die Scene zum RGB Drawable, welches letztendlich als eine texturierte Fläche am Ende des Kamera Frustum dargestellt wird. Die Szene selbst ermöglicht durch den Einsatz von OpenCV\footnote{Open Source Computer Vision - \url{http://opencv.org/} (26.03.16)} den optionalen Filter Prozess durch den Guided FIlter. Um das zu ermöglichen wird ein OpenGL Framebuffer eingesetzt. Die Abbildung \ref{fig:rendering-process} zeigt hierzu das Vorgehen beim Rendering der Szene mit Hilfe des zusätzlich eingesetzten Framebuffer (TB). Um den Z-Buffer Ausschluss, also die letztendliche Überlagerung zu nutzen muss der OpenGL Depth-Test aktiviert werden.
 
-\begin{lstlisting}[mathescape,caption=Rendering der Szene, label=lst:rendering, float=htbp]
-Eingang: Farbbild $rgb$, Zusatz Tiefenbuffer $tb$
-         Haupt Frambuffer $fb$ mit Farb und Tiefenanteil
-Ausgang: Resultierendes Hauptbild $fb$
 
-Leere $fb$ und $tb$
-
-Wenn die Pointcloud Projektion aktiv ist
-    Rendere die Tiefe der Pointcloud auf $tb$
-Wenn die Chisel Rekonstruktion aktiv ist
-    Rendere die Tiefe der Chisel Rekonstruktion  auf $tb$
-Wenn die Ebenen Rekonstruktion aktiv ist
-    Rendere die Tiefe der Ebenen Rekonstruktion auf $tb$
-    
-Wenn gefiltert werden soll
-    Wende den GuidedFilter auf $tb$ mit $rgb$ als Guide an
-        
-Rendere $rgb$ auf $fb$ 
-ersetzte den Tiefenbuffer von $fb$ druch $tb$
-aktiviere den OpenGL Depth Test
-rendere das 3D Modell auf $fb$
-\end{lstlisting}
+\begin{figure}[h]
+  \centering
+	\includegraphics[width=1.0\textwidth]{content/images/implementation/process.png} 
+  \caption{Prozessdiagramm für das Rendering der Szene mit dem Prototypen}
+  \label{fig:rendering-process}
+\end{figure}
