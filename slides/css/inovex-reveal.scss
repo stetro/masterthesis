@@ -1,0 +1,68 @@
+/**
+ * Inovex reveal.js Theme
+ */
+
+
+// Default mixins and settings -----------------
+@import "bower_components/reveal.js/css/theme/template/mixins";
+@import "bower_components/reveal.js/css/theme/template/settings";
+// ---------------------------------------------
+
+
+
+// Include theme-specific fonts
+@import url(https://fonts.googleapis.com/css?family=News+Cycle:400,700);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+
+
+// Background of the presentation
+$backgroundColor: #FFFFFF;
+
+// Override theme settings (see bower_components/reveal.js/css/theme/template/settings.scss)
+$mainFont: 'Lato', sans-serif;
+$mainColor: #003c7e;
+$headingFont: 'News Cycle', Impact, sans-serif;
+$headingColor: #000;
+$headingTextShadow: none;
+$headingTextTransform: none;
+$backgroundColor: #fff;
+$linkColor: #003c7e;
+$linkColorHover: lighten( $linkColor, 20% );
+$selectionBackgroundColor: rgba(0, 0, 0, 0.99);
+
+.slides{
+	#title-slide{
+		background-image:url('../img/logo.svg');
+		background-repeat: no-repeat;
+		background-position: center top;
+		background-size: 180px;
+		display : flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		flex-direction: column;
+		padding-top: 250px;
+		height: 600px;
+		>h1 {
+			font-size: 1.8em;
+			margin-bottom: 1px;
+
+			padding-bottom: 5px;
+			flex: 1 0 10%;
+		}
+		>h3 {
+			padding: 40px 10px 10px 10px;
+			font-size: 1.1em;
+			
+			flex: 1 0 70%;
+		}
+		>h3, >h1{
+			color:white;
+			background: $mainColor;
+		}
+	}
+}
+
+
+// Theme template ------------------------------
+@import "bower_components/reveal.js/css/theme/template/theme";
+// ---------------------------------------------

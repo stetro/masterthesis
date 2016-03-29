@@ -1,0 +1,26 @@
+{
+  "name": "thesis-defense",
+  "homepage": "https://github.com/stetro/masterthesis",
+  "description": "slides for my master thesis defense",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "master",
+    "thesis",
+    "slides"
+  ],
+  "authors": [
+    "Steffen Tröster"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "reveal.js": "^3.2.0"
+  }
+}
