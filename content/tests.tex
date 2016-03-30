@@ -26,7 +26,7 @@ Die zweite gewählte Szene, welche in Abbildung \ref{fig:plant-scene} links zu s
   \label{fig:plant-scene}
 \end{figure}
 
-Für beide Szenen sollen alle Kombinationen der Verfahren getestet werden. Somit ergeben sich sechs verschiedene Kombinationen pro Szene, in denen die Pointcloud Projektion, die TSDF Rekonstruktion und die Ebenenrekonstruktion jeweils mit und ohne die Anwendung des Guided Filter auf das Tiefenbild getestet werden. Für alle Kombinationen soll ein gerendertes Bild und ein Tiefenbild mit dem virtuellen Objekt festgehalten werden. Zur Auswertung werden die jeweils gerenderten Ergebnisbilder \(p\) mit einem manuell zugeschnittenen Ergebnisbild  \(q\) für jeden Pixel \(i\) verglichen. Für die Gegenüberstellung wird die Anzahl der abweichenden Pixel wie in Gleichung \ref{eq:diff} bestimmt. Ein Pixel wird nur als Veränderung gewertet, wenn die absolute Differenz der Pixel einen Faktor \(threshold\) übersteigt. Dies verhindert, dass leichte Variationen in der Farbintensität der Umgebung mit in die Wertung eingeht.
+Für beide Szenen sollen alle Kombinationen der Verfahren getestet werden. Somit ergeben sich sechs verschiedene Kombinationen pro Szene, in denen die Pointcloud Projektion, die TSDF Rekonstruktion und die Ebenenrekonstruktion jeweils mit und ohne die Anwendung des Guided Filter auf das Tiefenbild getestet werden. Für alle Kombinationen soll ein gerendertes Bild und ein Tiefenbild mit dem virtuellen Objekt festgehalten werden. Zur Auswertung werden die jeweils gerenderten Ergebnisbilder \(p\) mit einem manuell zugeschnittenen Ergebnisbild  \(q\) für jeden Pixel \(i\) verglichen. Für die Gegenüberstellung wird die Anzahl der abweichenden Pixel wie in Gleichung \ref{eq:diff} bestimmt. Ein Pixel wird nur als Veränderung gewertet, wenn die absolute Differenz der Pixel einen Faktor \(threshold\) übersteigt. Dies verhindert, dass leichte Variationen in der Farbintensität der Umgebung mit in die Wertung eingehen.
 
 \begin{equation} \label{eq:diff}
 d = \sum_i 
@@ -38,9 +38,9 @@ d = \sum_i
 
 \section{Durchführung der Tests}
 
-Die beiden Testszenen konnten wie beschrieben aufgebaut und mit allen Verfahren durchgetestet werden. Hierzu wurde mit der \enquote{Android Debug Bridge} (adb)\footnote{Android Debug Bridge - \url{http://goo.gl/ffH51x} (01.03.16)} eine Videoaufnahme gestartet, in der im Prototypen für jede Szene alle Verfahren durchgeschaltet wurden. Die Verfahren mussten dabei entsprechend zeitnah durchlaufen werden, um einen potentiellen Drift von Project Tangos Motion Tracking so minimal wie möglich zu halten. Denn dieser negative Effekt würden die Ergebnisse stark beeinträchtigen. 
+Die beiden Testszenen konnten wie beschrieben aufgebaut und mit allen Verfahren durchgetestet werden. Hierzu wurde mit der \enquote{Android Debug Bridge} (adb)\footnote{Android Debug Bridge - \url{http://goo.gl/ffH51x} (01.03.16)} eine Videoaufnahme gestartet, in der im Prototypen für jede Szene alle Verfahren durchgeschaltet wurden. Die Verfahren mussten dabei entsprechend zeitnah durchlaufen werden, um einen potentiellen Drift von Project Tangos Motion Tracking so minimal wie möglich zu halten, denn dieser negative Effekt würden die Ergebnisse stark beeinträchtigen. 
 
-Bei der Anwendung des Guided Filters wurde immer der Radius \(r = 24px\) und der Einflussfaktor \(\epsilon = 0.8\) gewählt. Diese Werte versprachen nach einigen manuellen Tests erfolgreiche Ergebnisse. Der Radius wurde so groß gewählt, damit die bei den Rekonstruktionen üblichen Fehler auch weitreichend in den Gewichtungskern einfließen können. Der Einflussfaktors \(\epsilon\) wurde auch größer als in den üblichen Beispielen von \citep{he2010guided} gewählten, damit nur die offensichtlich sichtbaren Kanten im Farbbild nicht vom Weichzeichnen betroffen sind. Denn ein \(\epsilon >> \sigma^2 \) für ein Bildausschnitt \(w_k\) ohne ersichtliche Kante wirkt hier wie ein zweidimensionaler Tiefpass und reduziert das Rauschen.
+Bei der Anwendung des Guided Filters wurde immer der Radius \(r = 24px\) und der Einflussfaktor \(\epsilon = 0.8\) gewählt. Diese Werte versprachen nach einigen manuellen Tests erfolgreiche Ergebnisse. Der Radius wurde so groß gewählt, damit die bei den Rekonstruktionen üblichen Fehler auch weitreichend in den Gewichtungskern einfließen können. Der Einflussfaktor \(\epsilon\) wurde auch größer als in den üblichen Beispielen von \citep{he2010guided} gewählt, damit nur die offensichtlich sichtbaren Kanten im Farbbild nicht vom Weichzeichnen betroffen sind. Denn Ein \(\epsilon >> \sigma^2 \) für einen Bildausschnitt \(w_k\) ohne ersichtliche Kante wirkt hier wie ein zweidimensionaler Tiefpass und reduziert das Rauschen.
 
 Abbildung \ref{fig:static_occlusion} und \ref{fig:plant_occlusion} im Anhang zeigen jeweils die aus dem Video extrahierten Bildausschnitte. Die obere Reihe zeigt die drei tiefengenerierenden Verfahren ohne den Guided Filter und die untere Reihe jeweils mit dem Filter. In der untersten Reihe sind jeweils die Projektionen der generierten Primitiven in der Szene zu sehen, um sich eine Vorstellung der Rekonstruktion machen zu können.
 
@@ -48,7 +48,7 @@ Nach der Ausführung dieser statischen Tests wurde jedes Verfahren zusätzlich m
 
 \section{Auswertung der Ergebnisse}
 
-Der Vergleich der Ergebnisse, welcher mit dem bereits beschriebenen Bilddifferenz Ansatz aus der Gleichung \ref{eq:diff} durchgeführt werden soll, wurde mit Hilfe der OpenCV Bibliothek durchgeführt und ist in Listing \ref{lst:compare} im Anhang zu finden. Für jede Szene wurde ein Referenzbild manuell konstruiert, welches dem idealen Ergebnis entsprechen soll. Zur Konstruktion der Vergleichsbilder wurden Ausschnitte mit leichten Anpassungen aus einigen Ergebnisbildern gewählt und zusammengeschnitten. Diese Referenzbilder sind in Abbildung \ref{fig:reference} oben zu finden. Mit dem Referenzbild wurden alle zuvor passend zugeschnitten Grafiken einer Szene verglichen. Außerdem wurde eine Maske für jede Szene für den Bereich des Ergebnisbildes bestimmt, der überhaupt für die Bestimmung der Differenz in Betracht gezogen wird. Die Masken sind jeweils in Abbildung \ref{fig:reference} unten zu finden.
+Der Vergleich der Ergebnisse, welcher mit dem bereits beschriebenen Bilddifferenz Ansatz aus der Gleichung \ref{eq:diff} durchgeführt werden soll, wurde mit Hilfe der OpenCV Bibliothek durchgeführt und ist in Listing \ref{lst:compare} im Anhang zu finden. Für jede Szene wurde ein Referenzbild manuell konstruiert, welches dem idealen Ergebnis entsprechen soll. Zur Konstruktion der Vergleichsbilder wurden Ausschnitte mit leichten Anpassungen aus einigen Ergebnisbildern gewählt und zusammengeschnitten. Diese Referenzbilder sind in Abbildung \ref{fig:reference} oben zu finden. Mit dem Referenzbild wurden alle zuvor passend zugeschnittenen Grafiken einer Szene verglichen. Außerdem wurde eine Maske für jede Szene für den Bereich des Ergebnisbildes bestimmt, die überhaupt für die Bestimmung der Differenz in Betracht gezogen wird. Die Masken sind jeweils in Abbildung \ref{fig:reference} unten zu finden.
 
 \begin{figure}[h]
   \centering
@@ -57,7 +57,7 @@ Der Vergleich der Ergebnisse, welcher mit dem bereits beschriebenen Bilddifferen
   \label{fig:reference}
 \end{figure}
 
-Der gezeigte Skript zum Verglich der Ergebnisbilder mit den Referenzbildern ergibt neben den Differenzwerten, welche in Tabelle \ref{tab:results} zu finden sind, auch die absoluten Differenzbilder für jedes Verfahren. Diese Ergebnisbilder sind auch im Anhang in Abbildung \ref{fig:static_occlusion_results} zu finden. In der Abbildung werden beide Szenen mit je zwölf Bildern dargestellt, wobei jedes der drei Überlagerungsverfahren (horizontal) mit und ohne Anwendung des Guided Filter (vertikal) festgehalten sind. Sie sind also genau wie die Ergebnisse in Tabelle \ref{tab:results} angeordnet.
+Das gezeigte Skript zum Vergleich der Ergebnisbilder mit den Referenzbildern ergibt neben den Differenzwerten, welche in Tabelle \ref{tab:results} zu finden sind, auch die absoluten Differenzbilder für jedes Verfahren. Diese Ergebnisbilder sind auch im Anhang in Abbildung \ref{fig:static_occlusion_results} zu finden. In der Abbildung werden beide Szenen mit je zwölf Bildern dargestellt, wobei jedes der drei Überlagerungsverfahren (horizontal) mit und ohne Anwendung des Guided Filters (vertikal) festgehalten sind. Sie sind also genau wie die Ergebnisse in Tabelle \ref{tab:results} angeordnet. Diese enthält wiederum die Differenzwerte für jede Kombination der Überlagerungsumsetzungen.
 
 
 \begin{table}[h]
@@ -71,6 +71,6 @@ Der gezeigte Skript zum Verglich der Ergebnisbilder mit den Referenzbildern ergi
 \textbf{Szene 2 + GF} & 67 & 1816 & 1933 \\
 \bottomrule
 \end{tabular}
-\caption{Distanzwert zwischen dem Referenzbild und den Ergebnisbildern in der jeweiligen Szene}
+\caption{Distanzwert zwischen dem Referenzbild und den Ergebnisbildern in der jeweiligen Szene.}
 \label{tab:results}
 \end{table}
