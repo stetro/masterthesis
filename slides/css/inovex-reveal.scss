@@ -19,9 +19,11 @@
 $backgroundColor: #FFFFFF;
 
 // Override theme settings (see bower_components/reveal.js/css/theme/template/settings.scss)
-$mainFont: 'Lato', sans-serif;
+$mainFont: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+//$mainFont: 'News Cycle', Impact, sans-serif;
+$contentColor: #CCCCCC;
 $mainColor: #003c7e;
-$headingFont: 'News Cycle', Impact, sans-serif;
+$headingFont: $mainFont;
 $headingColor: #000;
 $headingTextShadow: none;
 $headingTextTransform: none;
@@ -30,34 +32,107 @@ $linkColor: #003c7e;
 $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: rgba(0, 0, 0, 0.99);
 
-.slides{
-	#title-slide{
-		background-image:url('../img/logo.svg');
-		background-repeat: no-repeat;
-		background-position: center top;
-		background-size: 180px;
-		display : flex;
-		flex-wrap: wrap;
-		justify-content: flex-start;
-		flex-direction: column;
-		padding-top: 250px;
-		height: 600px;
-		>h1 {
-			font-size: 1.8em;
-			margin-bottom: 1px;
+$transparentMainColor: transparentize(white, 0.25);
 
-			padding-bottom: 5px;
-			flex: 1 0 10%;
+.slides {
+	section {
+		text-align: left;
+		div {
+			background-color: $contentColor;
+			color: black;
+			padding: 30px;
 		}
-		>h3 {
-			padding: 40px 10px 10px 10px;
-			font-size: 1.1em;
-			
-			flex: 1 0 70%;
-		}
-		>h3, >h1{
+		h1, h2 {
+			background-color: $mainColor;
 			color:white;
-			background: $mainColor;
+			font-size: 1em;
+			text-align: left;
+			padding: 20px 10px 20px 30px;
+			margin-right: 3em;
+			position: relative;
+			&:after {
+				content: '';
+				width: 3.0em;
+				height:  2em;
+				background-image: url('../img/logo.svg');
+				background-repeat: no-repeat;
+				background-size: 1.6em;
+				background-position: center;
+				position: absolute;
+				right: -3em;
+				top: 0;
+			}
+		}
+		#last-slide, #splash, #title-slide {
+			height: 700px;
+		}
+
+		#last-slide {
+			background-color:none;
+			background-image: url('../img/cologne.jpg') ;
+			background-size: cover;
+			padding: 0;
+			div {
+				background-color: $transparentMainColor;
+				color: black;
+				font-size: 0.6em;
+				text-align: left;
+				width: 30%;
+				height: 70%;
+				padding: 10px;
+				margin: 30px;
+			}
+		}
+		#splash {
+			background-color: $mainColor;
+			color: white;
+			padding: 0;
+			h1 {
+				padding-top: 300px;
+				text-align: center;
+				&:after{
+					content:none;
+				}
+			}
+		}
+		#title-slide {
+			display: flex;
+			flex-direction: column;
+
+			padding: 0;
+		
+			background-image:url('../img/logo.svg');
+			background-repeat: no-repeat;
+			background-position: center 80px;
+			background-size: 130px;
+			background-color:white;
+
+			h1 {
+				margin: 270px 0 1px 0;
+				font-size: 1em;
+				padding: 20px;
+				flex: 0 1 10%;
+				text-align: center;
+				&:after{
+					content: none;
+				}
+			}
+
+			h1 + p, h1 + p + p {
+				font-size: .7em;
+				padding: 50px 30px 0px 30px;
+				flex: 0 1 90%;
+				margin-bottom: 0;
+				margin-top: 0;
+				font-weight: normal;
+				text-align:center;
+			}
+
+			h1, h1 + p, h1 + p + p {
+				flex-grow: 1;
+				background-color: $mainColor;
+				color:white;
+			}
 		}
 	}
 }
