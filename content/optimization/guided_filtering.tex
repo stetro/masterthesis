@@ -1,6 +1,6 @@
 \section{Tiefenanpassungen durch Farbbilder}
 
-Aus allen zuvor beschriebenen Verfahren werden letztendlich Tiefeninformationen, in Form von geometrischen Primitiven oder Punkten im Raum gewonnen. Diese werden passend zur aktuellen Kameraposition als Tiefenbild gerendert und füllen den Z-Buffer für eine entsprechende Aussparungen bei der Überdeckung virtueller Objekte. Auf Grund von Sensorungenauigkeiten und größeren Auflösungen der Rekonstruktionsverfahren können dabei fehlerhafte Tiefeninformationen in den Z-Buffer gelangen, die zu Fehlern bei der Bestimmung der Überdeckung führen können. Dieses Problem ist am Beispiel der Pointcloud Projektion aus Kapitel \ref{sec:pc-projection} in Abbildung \ref{fig:pc-noise} zu erkennen. 
+Aus allen zuvor beschriebenen Verfahren werden letztendlich Tiefeninformationen, in Form von geometrischen Primitiven oder Punkten im Raum gewonnen. Diese werden passend zur aktuellen Kameraposition als Tiefenbild gerendert und füllen den Z-Buffer für entsprechende Aussparungen bei der Überdeckung virtueller Objekte. Auf Grund von Sensorungenauigkeiten und größeren Auflösungen der Rekonstruktionsverfahren können dabei fehlerhafte Tiefeninformationen in den Z-Buffer gelangen, die zu Fehlern bei der Bestimmung der Überdeckung führen können. Dieses Problem ist am Beispiel der Pointcloud Projektion aus Kapitel \ref{sec:pc-projection} in Abbildung \ref{fig:pc-noise} zu erkennen. 
 
 \begin{figure}[h]
   \centering
@@ -19,13 +19,13 @@ Ausgehend von der Eingangsgrafik \(p\), einem Leitbild \(I\) und dem Ergebnisbil
 q_{i} = \sum_j W_{ij}(I)p_j
 \end{equation}
 
-Der Filterkern \(W_{ij}(I)\) vom Guided Filter, zu finden in Gleichung \ref{eq:gf-W}, ist, wie auch beim bilateralen Filter, abhängig von einem Leitbild \(I\), um die Gewichte entsprechend den Kanten des Leitbildes an der Position ermitteln zu können. Die Variablen \(\mu_k\) und \(\sigma^2_k\) beschreiben jeweils den Mittelwert und die Abweichung des Leitbildes im Bildausschnitt \(w_k\). \(|w|\) entspricht der Pixelgröße des Ausschnitts. \citep{he2010guided}
+Der Filterkern \(W_{ij}(I)\) des Guided Filter, zu finden in Gleichung \ref{eq:gf-W}, ist, wie auch beim bilateralen Filter, abhängig von einem Leitbild \(I\), um die Gewichte entsprechend den Kanten des Leitbildes an der Position ermitteln zu können. Die Variablen \(\mu_k\) und \(\sigma^2_k\) beschreiben jeweils den Mittelwert und die Abweichung des Leitbildes im Bildausschnitt \(w_k\). \(|w|\) entspricht der Pixelgröße des Ausschnitts. \citep{he2010guided}
 
 \begin{equation} \label{eq:gf-W}
 W_{ij}(I) = \frac{1}{|w|^2} \sum_{k:(i,j) \in w_k} (1+\frac{(I_i-\mu_k)(I_j-\mu_k)}{\sigma^2_k + \epsilon})
 \end{equation}
 
-Dieser Filterprozess wird auch als eine translationsabhänige Faltung bezeichnet, die üblicherweise aufwändig ist und dessen Berechnungsaufwand abhängig zur Filterkern Größe (\(|w|\)) ist. \citet{he2010guided} stellen jedoch noch eine andere Definition des Filters zur Verfügung, in denen alle Summen der Form \(\sum_i\in w_k f_i\) entsprechen und dadurch mit der Bildintegrationstechnik von \citet{crow1984summed} in \(O(N)\) gelöst werden können. Der Guided Filter wird in der letztendlichen Implementierung nach Gleichung \ref{eq:gf-final} implementiert, in der die Koeffizienten \(\overline{a}_i\) und \(\overline{b}_i\) dem Mittelwert über \(a_k\) aus Gleichung \ref{eq:gf-a} und \(b_k\) aus Gleichung \ref{eq:gf-b} für jedes Fenster \(w_k\) entspricht. So wird auch \(\overline{p}_k\) durch \(\frac{1}{|w|} \sum_{i \in w_k} p_i\) berechnet.
+Dieser Filterprozess wird auch als eine translationsabhängige Faltung bezeichnet, die üblicherweise aufwändig ist und dessen Berechnungsaufwand abhängig zur Filterkern Größe (\(|w|\)) ist. \citet{he2010guided} stellen jedoch noch eine andere Definition des Filters zur Verfügung, in denen alle Summen der Form \(\sum_i\in w_k f_i\) entsprechen und dadurch mit der Bildintegrationstechnik von \citet{crow1984summed} in \(O(N)\) gelöst werden können. Der Guided Filter wird in der letztendlichen Implementierung nach Gleichung \ref{eq:gf-final} implementiert, in der die Koeffizienten \(\overline{a}_i\) und \(\overline{b}_i\) dem Mittelwert über \(a_k\) aus Gleichung \ref{eq:gf-a} und \(b_k\) aus Gleichung \ref{eq:gf-b} für jedes Fenster \(w_k\) entspricht. So wird auch \(\overline{p}_k\) durch \(\frac{1}{|w|} \sum_{i \in w_k} p_i\) berechnet.
 
 \begin{equation} \label{eq:gf-final}
 q_i = \overline{a}_iI_i+\overline{b_i}
