@@ -43,7 +43,9 @@
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=false,captionpos=b}
 \lstset{framextopmargin=50pt,frame=bottomline}
 
+
 \let\endtitlepage\relax
+\let\startbibliography\relax
 
 \clubpenalty = 10000 
 \widowpenalty = 10000 
@@ -55,6 +57,11 @@
 \urlstyle{same}
 
 \raggedbottom
+
+\let\oldbibliography\bibliography% Store \bibliography in \oldbibliography
+\renewcommand{\bibliography}[1]{{%
+  \let\chapter\section% Copy \section over \chapter
+  \oldbibliography{#1}}}% Old \bibliography
 
 %define the default submitted text
 \newcommand{\submittedtext}{{A thesis submitted for the degree of}}
