@@ -40,6 +40,15 @@
 }
 \usepackage{courier}
 
+\usepackage[linktoc=all]{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=false,captionpos=b}
 \lstset{framextopmargin=50pt,frame=bottomline}
 
