@@ -17,6 +17,8 @@
 
 // Background of the presentation
 $backgroundColor: #FFFFFF;
+$darkgray: #5F5F5F;
+$highlight: #F46200;
 
 // Override theme settings (see bower_components/reveal.js/css/theme/template/settings.scss)
 $mainFont: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -34,13 +36,35 @@ $selectionBackgroundColor: rgba(0, 0, 0, 0.99);
 
 $transparentMainColor: transparentize(white, 0.25);
 
-.slides {
+
+span.grid{
+	span.thrid{
+		display: inline !important;
+		float: left;
+
+	}
+}
+.reveal .slides img.no-shadow{
+	box-shadow:none;
+	background:none;
+}
+.reveal .slides {
 	section {
-		text-align: left;
+		img{
+			border:none;
+		}
+		p.cite{
+			font-size: 0.5em;
+			margin-top: -10px;
+			margin-bottom: 10px;
+			text-align: right;
+			margin-right: 30px;
+		}
 		div {
 			background-color: $contentColor;
 			color: black;
 			padding: 30px;
+			margin-top: 0;
 		}
 		h1, h2 {
 			background-color: $mainColor;
@@ -50,6 +74,7 @@ $transparentMainColor: transparentize(white, 0.25);
 			padding: 20px 10px 20px 30px;
 			margin-right: 3em;
 			position: relative;
+			margin-bottom: 0;
 			&:after {
 				content: '';
 				width: 3.0em;
@@ -62,6 +87,10 @@ $transparentMainColor: transparentize(white, 0.25);
 				right: -3em;
 				top: 0;
 			}
+		}
+		h3{
+			font-size: 1em;
+			color:$darkgray;
 		}
 		#last-slide, #splash, #title-slide {
 			height: 700px;
@@ -103,9 +132,22 @@ $transparentMainColor: transparentize(white, 0.25);
 		
 			background-image:url('../img/logo.svg');
 			background-repeat: no-repeat;
-			background-position: center 80px;
+			background-position: 300px 80px;
 			background-size: 130px;
 			background-color:white;
+
+			&:after{
+				content:' ';
+				width: 200px;
+				height: 100px;
+				
+				position: absolute;
+				top: 104px;
+				right: 200px;
+				background-image:url('../img/th-cologne.svg');
+				background-repeat:no-repeat;
+
+			}
 
 			h1 {
 				margin: 270px 0 1px 0;
