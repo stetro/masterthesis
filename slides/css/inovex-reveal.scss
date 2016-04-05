@@ -55,6 +55,11 @@ span.grid{
 		img{
 			border:none;
 		}
+		.formula{
+			background-color: $highlight;
+			color:white;
+			padding: 10px;
+		}
 		p.cite{
 			font-size: 0.7em;
 			margin-top: -10px;
@@ -69,7 +74,7 @@ span.grid{
 			font-weight: bold;
 			box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.18);
 		}
-		div {
+		>div {
 			background-color: $contentColor;
 			color: black;
 			padding: 30px;

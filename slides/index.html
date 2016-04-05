@@ -95,6 +95,47 @@
 
 
 			<section>
+				<h2>Tiefenbild aus Pointcloud Projektion</h2>
+				<section>
+					<div>
+						<h3>Naiver Ansatz</h3>
+						<p>
+							Sensordaten werden direkt auf Tiefenbuffer projiziert <br>
+							<img src="img/pc-demo.png" alt="">
+						</p>
+						<ul>
+							<li>(-) limitierter Sichtbereich</li>
+							<li>(-) starkes Rauschen in Messdaten</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+
+
+			<section>
+				<h2>Ebenenrekonstruktion</h2>
+				<section>
+					<div>
+						<h3>Idealerweise Rekonstruktion der Welt</h3>
+						<p>
+							Für das Tiefenbild werden Ebenen in räumlichen Unterteilungen rekonstruiert <br>
+							<img src="img/plane-demo.png" alt="">
+						</p>
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>RANSAC: RAndom SAmple Consensus</h3>
+						
+						<div class="formula">
+							$$$$
+						</div>
+					</div>
+				</section>
+			</section>
+
+
+			<section>
 				<div id="splash">
 					<h1>Fragen?</h1>
 				</div>
@@ -119,6 +160,7 @@
 			</section>
 		</div>
 	</div>
+	<script src="http://lab.hakim.se/reveal-js/lib/js/head.min.js"></script>
 	<script src="http://lab.hakim.se/reveal-js/js/reveal.js"></script>
 	<script type="text/javascript">
 		Reveal.initialize({
@@ -126,7 +168,10 @@
 			width: 1080,
     		height: 720,
     		margin: 0.1,
-    		center: false
+    		center: false,
+    		dependencies: [
+        		{ src: 'http://lab.hakim.se/reveal-js/plugin/math/math.js', async: true }
+        	]
     	});
 	</script>
 </body>

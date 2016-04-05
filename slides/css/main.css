@@ -15,6 +15,10 @@ span.grid span.thrid {
   font-size: 0.7em; }
   .reveal .slides section img {
     border: none; }
+  .reveal .slides section .formula {
+    background-color: #F46200;
+    color: white;
+    padding: 10px; }
   .reveal .slides section p.cite {
     font-size: 0.7em;
     margin-top: -10px;
@@ -27,7 +31,7 @@ span.grid span.thrid {
     color: white;
     font-weight: bold;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.18); }
-  .reveal .slides section div {
+  .reveal .slides section > div {
     background-color: #CCCCCC;
     color: black;
     padding: 30px;
