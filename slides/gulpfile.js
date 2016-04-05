@@ -8,7 +8,7 @@ gulp.task('default', ['sass']);
 
 gulp.task('sass', function () {
 	gulp.src('css/*.scss')
-		.pipe(sass())
+		.pipe(sass().on('error', sass.logError))
 		.pipe(concat('main.css'))
 		.pipe(gulp.dest('css/'))
 		.pipe(browserSync.stream());

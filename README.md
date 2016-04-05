@@ -1,6 +1,9 @@
 # Masterthesis - Tex [![PDF Status](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/badge.svg)](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/output.pdf)
 
 
+[Presentation Slides](http://stetro.github.io/masterthesis/slides)
+
+
 ### Zusammenfassung
 
 > Optimierung von Augmented Reality Anwendungen durch die Berücksichtigung von Tiefeninformationen mit Googles Project Tango
