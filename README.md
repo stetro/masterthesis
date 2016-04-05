@@ -1,7 +1,6 @@
-# Masterthesis - Tex [![PDF Status](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/badge.svg)](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/output.pdf)
+# Masterthesis - Tex [![PDF Status](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/badge.svg)](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/output.pdf) [Presentation Slides](http://stetro.github.io/masterthesis/slides)
 
 
-[Presentation Slides](http://stetro.github.io/masterthesis/slides)
 
 
 ### Zusammenfassung
