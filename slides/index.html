@@ -105,7 +105,7 @@
 						</p>
 						<ul>
 							<li>(-) limitierter Sichtbereich</li>
-							<li>(-) starkes Rauschen in Messdaten</li>
+							<li>(-) starkes Rauschen in Messdaten immer sichtbar</li>
 						</ul>
 					</div>
 				</section>
@@ -116,20 +116,47 @@
 				<h2>Ebenenrekonstruktion</h2>
 				<section>
 					<div>
-						<h3>Idealerweise Rekonstruktion der Welt</h3>
-						<p>
-							Für das Tiefenbild werden Ebenen in räumlichen Unterteilungen rekonstruiert <br>
-							<img src="img/plane-demo.png" alt="">
-						</p>
+						<h3>Zusammenstellung des Verfahrens</h3>
+						<ul>
+							<li>RANSAC Umsetzung nach Yang u. Förstner (2010)</li>
+							<li>&#8658; 3 Ebenen in Würfel Aufteilung</li>
+							<li>&#8658; lineare Regression nach Hoppe u.a. (1992)</li>
+							<li>Ebenenausbreitung wie im SLAM von Trevor u.a. (2012)</li>
+							<li>&#8658; Bestimmung der konvexe Hülle</li>
+						</ul>	
+						<img src="img/plane-demo.png" alt="">
 					</div>
 				</section>
 				<section>
 					<div>
-						<h3>RANSAC: RAndom SAmple Consensus</h3>
-						
-						<div class="formula">
-							$$$$
-						</div>
+						<h3>Clustering</h3>
+						<img src="img/octree.png" width="90%">
+					</div>
+				</section>
+				<section>
+					<div>
+						<img src="img/polygon-process.png" width="73%">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Umsetzung im Prototypen</h3>
+						<img src="img/plane-demo.png" alt="">
+						<ul>
+							<li>(+) augmentierende Rekonstruktion</li>
+							<li>(+) approximation der Oberflächen (reduziertes Rauschen)</li>
+							<li>(-) False-Positives werden nicht revidiert</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<h2>TSDF Rekonstruktion (Chisel)</h2>
+				<section>
+					<div>
+						<h3>asd</h3>
+						<img src="img/chisel-demo.png" alt="">
 					</div>
 				</section>
 			</section>
