@@ -13,7 +13,7 @@
 				<div id="title-slide">
 					<h1>Master Thesis - Kolloquium</h1>
 					<p>"Optimierung von Augmented Reality Anwendungen durch die Berücksichtigung von Tiefeninformationen mit Googles Project Tango"</p>
-					<p>Steffen Tröster<br>Köln, 20.04.2016<br>Technische Hochschule Köln</p>
+					<p>Steffen Tröster<br>Köln, 04.05.2016<br>Technische Hochschule Köln</p>
 				</div>
 			</section>
 
@@ -172,7 +172,7 @@
 					<div>
 						<h3>Truncated Signed Distance Function</h3>
 						<img src="img/tsdf.png" alt="">
-						<p class="cite">Occupancy Maps a)<br>Truncated Signed Distance Function b), c)<br>Sturm (2014)</p>
+						<p class="cite">2D Occupancy Maps a)<br>2D Truncated Signed Distance Function b), c)<br>Sturm (2014)</p>
 					</div>
 				</section>
 				<section>
@@ -188,6 +188,37 @@
 				<section>
 					<div>
 						<h3>Marching Cubes</h3>
+						<img src="img/marching-cubes.png" alt="">
+						<p class="cite">Raphael u. Karen (2002)</p>
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Umsetzung im Prototypen: OpenChisel</h3>
+						<img src="img/chisel-demo.png" alt="">
+						<ul>
+							<li>(+) augmentierende Rekonstruktion</li>
+							<li>(+) Approximation der Oberflächen (reduziertes Rauschen)</li>
+							<li>(+) Space Carving revidiert False-Positives</li>
+							<li>(+) Lückenlose Oberflächen</li>
+							<li>(-) zu grobe Struktur bei detailreichen Umgebungen </li>
+						</ul>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<h2>Guided Filter</h2>
+				<section>
+					<div>
+						<h3>Voxel und Rauschen erzeugen Fehler</h3>
+						<img src="img/noise.png" alt="" width="80%">
+						<p class="quote">Idee: Eine Filterung auf Bildebene</p>
+					</div>
+				</section>
+				<section>
+					<div>
+						<img src="img/guided-filter.png" alt="" width="80%">
 					</div>
 				</section>
 			</section>
