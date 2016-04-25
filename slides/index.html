@@ -85,7 +85,7 @@
 							<ul>
 								<li>(-) Modellbasierter Ansatz</li>
 								<li>(-) Kantenbasierter Ansatz</li>
-								<li>(+) Allgemeines Tiefenbild ermitteln</li>
+								<li>(+) Tiefenbild einsetzen</li>
 								<li>(+) Rekonstruktion</li>
 							</ul>
 						</p>
@@ -118,7 +118,7 @@
 					<div>
 						<h3>Zusammenstellung des Verfahrens</h3>
 						<ul>
-							<li>RANSAC Umsetzung nach Yang u. Förstner (2010)</li>
+							<li>RANSAC Umsetzung nach Yang u.a. Förstner (2010)</li>
 							<li>&#8658; 3 Ebenen in Würfel Aufteilung</li>
 							<li>&#8658; lineare Regression nach Hoppe u.a. (1992)</li>
 							<li>Ebenenausbreitung wie im SLAM von Trevor u.a. (2012)</li>
@@ -144,19 +144,50 @@
 						<img src="img/plane-demo.png" alt="">
 						<ul>
 							<li>(+) augmentierende Rekonstruktion</li>
-							<li>(+) approximation der Oberflächen (reduziertes Rauschen)</li>
+							<li>(+) Approximation der Oberflächen (reduziertes Rauschen)</li>
 							<li>(-) False-Positives werden nicht revidiert</li>
+							<li>(-) Lücken zwischen den Oberflächen</li>
+							<li>(-) zu grobe Struktur bei detailreichen Umgebungen </li>
 						</ul>
 					</div>
 				</section>
 			</section>
 
 			<section>
-				<h2>TSDF Rekonstruktion (Chisel)</h2>
+				<h2>TSDF Rekonstruktion</h2>
 				<section>
 					<div>
-						<h3>asd</h3>
+						<h3>Chisel - Klingensmith u.a. (2015)</h3>
+						<ul>
+							<li>Optimiertes Verfahren für mobile Endgeräte</li>
+							<li>Anwendung der TSDF Datenstruktur</li>
+							<li>Speicherersparnis durch Spatial Hashing</li>
+							<li>Marching Cubes Rendering</li>
+							<li>Space Carving Funktionalität</li>
+						</ul>
 						<img src="img/chisel-demo.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Truncated Signed Distance Function</h3>
+						<img src="img/tsdf.png" alt="">
+						<p class="cite">Occupancy Maps a)<br>Truncated Signed Distance Function b), c)<br>Sturm (2014)</p>
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Spatial Hashing - Nießner u.a. (2013)</h3>
+						<img src="img/spatial-hashing.png" alt="" width="70%">
+						<p class="quote">
+							$$H(x,y,z) = (x * p_1 \oplus y * p_2 \oplus z * p_3) \mod n$$
+						</p>
+						<p class="cite"> Klingensmith u.a. (2015)</p>
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Marching Cubes</h3>
 					</div>
 				</section>
 			</section>
