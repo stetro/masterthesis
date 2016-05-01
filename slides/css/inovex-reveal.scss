@@ -55,6 +55,9 @@ span.grid{
 
 		img{
 			border:none;
+			&.whiteborder{
+				border:20px solid white;
+			}
 		}
 		.formula{
 			background-color: $highlight;
