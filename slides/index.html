@@ -104,6 +104,7 @@
 							<img src="img/pc-demo.png" alt="">
 						</p>
 						<ul>
+							<li>(+) detailiere Abbildung der Tiefe</li>
 							<li>(-) limitierter Sichtbereich</li>
 							<li>(-) starkes Rauschen in Messdaten immer sichtbar</li>
 						</ul>
@@ -256,19 +257,150 @@
 			<section>
 				<h2>Gegenüberstellung</h2>
 				<section>
-					<div></div>
+					<div>
+						<h3>Statische Testszene #1</h3>
+						<img src="img/scene1.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Statische Testszene #2</h3>
+						<img src="img/scene2.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Vergleich durch Abweichung zur Maske</h3>
+						<img src="img/reference.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Durchführung der Tests #1</h3>
+						<img src="img/static_occlusion.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Durchführung der Tests #2</h3>
+						<img src="img/plant_occlusion.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Bestimmung der Distanz</h3>
+						<img src="img/static_occlusion_results.png" alt="">
+						<img src="img/plant_occlusion_results.png" alt="">
+					</div>
 				</section>
 			</section>
 			
 			<section>
-				<div id="splash">
-					<h1>Demo #2</h1>
-				</div>
+				<h2>Fragestellungen und Optimierungen</h2>
+
+				<section>
+					<div>
+						<h3>Optimierung von <strong>Chisel</strong></h3>
+						<p class="quote">
+							GPU Implementierung
+						</p>
+						<ul>
+							<li>Kleinere Voxel erhöhen den Detailgrad der Rekonstruktion</li>
+							<li>Marching Cubes könnte durch Raycasting ersetzt werden</li>
+						</ul>
+						<img src="img/kinfu.png" alt="" width="60%">
+						<p class="cite">Microsoft Kinect Fusion (2015)</p>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Fragestellungen zum <strong>Guided Filter</strong></h3>
+						<ul>
+							<li>Warum können manche Fehler gegenüber anderen revidiert werden? </li>
+							<li>Wie stark beeinflusst die 8 Bit Umsetzung das Ergebnis? </li>
+							<li>Wie können die Artefakte verhindert werden? </li>
+						</ul>
+						<img src="img/artifacts.png" alt="" width="60%">
+						<h3>Optimierung des <strong>Guided Filter</strong></h3>
+						<p class="quote">Implementierung als OpenGL Fragmentshader</p>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Optimierung der <strong>Tiefenbilder</strong></h3>
+						<p class="quote">Anwendung des Filters vor der Integration in die Rekonstruktion</p>
+						<img src="img/kinfu-filter.jpg" alt="">
+						<p class="cite">Newcombe u.a. (2011)</p>
+						<p>
+							<strong>Alternativ: </strong>Anwendung von anderen Depth-Upsampling Mechnaismen
+						</p>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Shadow Vertex Shader Demo #2</h3>
+						<iframe width="840" height="500" src="https://www.youtube.com/embed/M8tiDMsmDyI" frameborder="0" allowfullscreen></iframe>
+					</div>
+				</section>
+				
+			</section>
+
+			<section>
+
+				<h2>Résumé</h2>
+
+				<section>
+					<div>
+						<h3>Hürden und Probleme</h3>
+						<ul>
+							<li></li>
+							<li>Kompromiss zwischen thematischer Tiefe und Alternativen</li>
+							<li></li>
+						</ul>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Persöhnliche Technische Herausforderungen</h3>
+						
+						<img src="img/tools.png" alt="">
+
+						<ul>
+							<li>Erste Anwendung von OpenGL</li>
+							<li>Android Native Entwicklung</li>
+							<li>Android Crosscompiling (OpenCV, PCL ...)</li>
+							<li>OpenChisel Portierung aus ROS</li>
+						</ul>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Persöhnliche Reflektion</h3>
+						<ul>
+							<li></li>
+							<li>
+								Neue Tango Releases nah an eigener Entwicklung:
+								<ul>
+									<li>AR Examples</li>
+									<li>Raycasting & RANSAC Ebenendetektion</li>
+									<li>Depth Upsampling</li>
+									<li>Bilateral Depth Filtering</li>
+								</ul>
+							</li>
+							<li>Interessantes Feedback aus der  <a href="https://plus.google.com/communities/114537896428695886568">Google+ Community</a></li>
+						</ul>
+					</div>
+				</section>
 			</section>
 
 			<section>
 				<div id="splash">
-					<h1>Fragen?</h1>
+					<h1>Vielen Dank! <br>Fragen?</h1>
 				</div>
 			</section>
 
