@@ -48,6 +48,18 @@ span.grid{
 	box-shadow:none;
 	background:none;
 }
+ul.rating li{
+	list-style:none;
+	.fa-minus-circle{
+		color:$highlight;
+	}
+	.fa-plus-circle{
+		color:green;
+	}
+	.fa-hand-o-right{
+		margin-left: 40px;
+	}
+}
 .reveal .slides {
 	font-size:0.7em;
 

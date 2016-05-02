@@ -11,6 +11,15 @@ span.grid span.thrid {
   box-shadow: none;
   background: none; }
 
+ul.rating li {
+  list-style: none; }
+  ul.rating li .fa-minus-circle {
+    color: #F46200; }
+  ul.rating li .fa-plus-circle {
+    color: green; }
+  ul.rating li .fa-hand-o-right {
+    margin-left: 40px; }
+
 .reveal .slides {
   font-size: 0.7em; }
   .reveal .slides section img {
