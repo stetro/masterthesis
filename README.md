@@ -2,6 +2,8 @@
 
 
 
+* [Thesis](main.pdf) (german)
+* [Technical Report](report.pdf) (english)
 
 ### Zusammenfassung
 
