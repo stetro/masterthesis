@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Master Thesis Kolloquium</title>
 	<link rel="stylesheet" href="http://lab.hakim.se/reveal-js/css/reveal.css">
+	<link rel="stylesheet" href="https://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -82,11 +83,11 @@
 						<p class="quote">Lösungsansatz: Grundsätzlich mithilfe eines Tiefenbildes und dem <br>Z-Buffer, beschrieben im Vorgehen von Wloka u. Anderson (1995)</p>
 						<h3>Ermittlung der Tiefeninformationen</h3>
 						<p>
-							<ul>
-								<li>(-) Modellbasierter Ansatz</li>
-								<li>(-) Kantenbasierter Ansatz</li>
-								<li>(+) Tiefenbild einsetzen</li>
-								<li>(+) Rekonstruktion</li>
+							<ul class="rating">
+								<li><i class="fa fa-minus-circle"></i> Modellbasierter Ansatz</li>
+								<li><i class="fa fa-minus-circle"></i> Kantenbasierter Ansatz</li>
+								<li><i class="fa fa-plus-circle"></i> Tiefenbild einsetzen</li>
+								<li><i class="fa fa-plus-circle"></i> Rekonstruktion</li>
 							</ul>
 						</p>
 					</div>
@@ -103,9 +104,10 @@
 							Sensordaten werden direkt auf Tiefenbuffer projiziert <br>
 							<img src="img/pc-demo.png" alt="">
 						</p>
-						<ul>
-							<li>(-) limitierter Sichtbereich</li>
-							<li>(-) starkes Rauschen in Messdaten immer sichtbar</li>
+						<ul class="rating">
+							<li><i class="fa fa-plus-circle"></i> detailiere Abbildung der Tiefe</li>
+							<li><i class="fa fa-minus-circle"></i> limitierter Sichtbereich</li>
+							<li><i class="fa fa-minus-circle"></i> starkes Rauschen in Messdaten immer sichtbar</li>
 						</ul>
 					</div>
 				</section>
@@ -117,12 +119,12 @@
 				<section>
 					<div>
 						<h3>Zusammenstellung des Verfahrens</h3>
-						<ul>
-							<li>RANSAC Umsetzung nach Yang u.a. Förstner (2010)</li>
-							<li>&#8658; 3 Ebenen in Würfel Aufteilung</li>
-							<li>&#8658; lineare Regression nach Hoppe u.a. (1992)</li>
+						<ul class="rating">
+							<li><strong>RANSAC</strong> Umsetzung nach Yang u.a. Förstner (2010)</li>
+							<li><i class="fa fa-hand-o-right"></i> 3 Ebenen in Würfel Aufteilung</li>
+							<li><i class="fa fa-hand-o-right"></i> lineare Regression nach Hoppe u.a. (1992)</li>
 							<li>Ebenenausbreitung wie im SLAM von Trevor u.a. (2012)</li>
-							<li>&#8658; Bestimmung der konvexe Hülle</li>
+							<li><i class="fa fa-hand-o-right"></i> Bestimmung der konvexe Hülle</li>
 						</ul>	
 						<img src="img/plane-demo.png" alt="">
 					</div>
@@ -142,12 +144,12 @@
 					<div>
 						<h3>Umsetzung im Prototypen</h3>
 						<img src="img/plane-demo.png" alt="">
-						<ul>
-							<li>(+) augmentierende Rekonstruktion</li>
-							<li>(+) Approximation der Oberflächen (reduziertes Rauschen)</li>
-							<li>(-) False-Positives werden nicht revidiert</li>
-							<li>(-) Lücken zwischen den Oberflächen</li>
-							<li>(-) zu grobe Struktur bei detailreichen Umgebungen </li>
+						<ul class="rating">
+							<li><i class="fa fa-plus-circle"></i> augmentierende Rekonstruktion</li>
+							<li><i class="fa fa-plus-circle"></i> Approximation der Oberflächen (reduziertes Rauschen)</li>
+							<li><i class="fa fa-minus-circle"></i> False-Positives werden nicht revidiert</li>
+							<li><i class="fa fa-minus-circle"></i> Lücken zwischen den Oberflächen</li>
+							<li><i class="fa fa-minus-circle"></i> zu grobe Struktur bei detailreichen Umgebungen </li>
 						</ul>
 					</div>
 				</section>
@@ -196,12 +198,12 @@
 					<div>
 						<h3>Umsetzung im Prototypen: OpenChisel</h3>
 						<img src="img/chisel-demo.png" alt="">
-						<ul>
-							<li>(+) augmentierende Rekonstruktion</li>
-							<li>(+) Approximation der Oberflächen (reduziertes Rauschen)</li>
-							<li>(+) Space Carving revidiert False-Positives</li>
-							<li>(+) Lückenlose Oberflächen</li>
-							<li>(-) zu grobe Struktur bei detailreichen Umgebungen </li>
+						<ul class="rating">
+							<li><i class="fa fa-plus-circle"></i> augmentierende Rekonstruktion</li>
+							<li><i class="fa fa-plus-circle"></i> Approximation der Oberflächen (reduziertes Rauschen)</li>
+							<li><i class="fa fa-plus-circle"></i> Space Carving revidiert False-Positives</li>
+							<li><i class="fa fa-plus-circle"></i> Lückenlose Oberflächen</li>
+							<li><i class="fa fa-minus-circle"></i> zu grobe Struktur bei detailreichen Umgebungen </li>
 						</ul>
 					</div>
 				</section>
@@ -218,7 +220,9 @@
 				</section>
 				<section>
 					<div>
-						<h3>Theorie ...</h3>
+						<h3>Filter</h3>
+						<img src="img/gf-theory.png" alt="">
+						<p class="cite">He u.a. (2013)</p>
 					</div>
 				</section>
 				<section>
@@ -229,10 +233,10 @@
 				<section>
 					<div>
 						<img src="/img/gf-demo.png" alt="">
-						<ul>
-							<li>(+) Reduktion von Fehlern</li>
-							<li>(-) Performance Einbußen durch OpenCV Pipeline</li>
-							<li>(-) OpenCV Bildtiefe auf 8 Bit beschränkt</li>
+						<ul class="rating">
+							<li><i class="fa fa-plus-circle"></i> Reduktion von Fehlern</li>
+							<li><i class="fa fa-minus-circle"></i> Performance Einbußen durch OpenCV Pipeline</li>
+							<li><i class="fa fa-minus-circle"></i> OpenCV Bildtiefe auf 8 Bit beschränkt</li>
 						</ul>
 					</div>
 				</section>
@@ -243,11 +247,15 @@
 				<section>
 					<div>
 						<img src="img/prototype.png" alt="" class="whiteborder" width="90%">
+						<p>
+							Zu finden auf <a href="https://github.com/stetro/project-tango-poc"><i class="fa fa-github"></i> GitHub</a>
+						</p>
+						
 					</div>
 				</section>
 				<section>
 					<div>
-						<h3>Demo #1</h3>
+						<h3>Demo <i class="fa fa-youtube"></i></h3>
 						<iframe width="800" height="500" src="https://www.youtube.com/embed/JemHaOV_Zpo" frameborder="0" allowfullscreen></iframe>
 					</div>
 				</section>
@@ -256,19 +264,151 @@
 			<section>
 				<h2>Gegenüberstellung</h2>
 				<section>
-					<div></div>
+					<div>
+						<h3>Statische Testszene #1</h3>
+						<img src="img/scene1.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Statische Testszene #2</h3>
+						<img src="img/scene2.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Vergleich durch Abweichung zur Maske</h3>
+						<img src="img/reference.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Durchführung der Tests #1</h3>
+						<img src="img/static_occlusion.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Durchführung der Tests #2</h3>
+						<img src="img/plant_occlusion.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Bestimmung der Distanz</h3>
+						<img src="img/static_occlusion_results.png" alt="">
+						<img src="img/plant_occlusion_results.png" alt="">
+					</div>
 				</section>
 			</section>
 			
 			<section>
-				<div id="splash">
-					<h1>Demo #2</h1>
-				</div>
+				<h2>Fragestellungen und Optimierungen</h2>
+
+				<section>
+					<div>
+						<h3>Optimierung von <strong>Chisel</strong></h3>
+						<p class="quote">
+							GPU Implementierung
+						</p>
+						<ul>
+							<li>Kleinere Voxel erhöhen den Detailgrad der Rekonstruktion</li>
+							<li>Marching Cubes könnte durch Raycasting ersetzt werden</li>
+						</ul>
+						<img src="img/kinfu.png" alt="" width="60%">
+						<p class="cite">Microsoft Kinect Fusion (2015)</p>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Fragestellungen zum <strong>Guided Filter</strong></h3>
+						<ul>
+							<li>Warum können manche Fehler gegenüber anderen revidiert werden? </li>
+							<li>Wie stark beeinflusst die 8 Bit Umsetzung das Ergebnis? </li>
+							<li>Wie können die Artefakte verhindert werden? </li>
+						</ul>
+						<img src="img/artifacts.png" alt="" width="60%">
+						<h3>Optimierung des <strong>Guided Filter</strong></h3>
+						<p class="quote">Implementierung als OpenGL Fragmentshader</p>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Optimierung der <strong>Tiefenbilder</strong></h3>
+						<p class="quote">Anwendung des Filters vor der Integration in die Rekonstruktion</p>
+						<img src="img/kinfu-filter.jpg" alt="">
+						<p class="cite">Newcombe u.a. (2011)</p>
+						<p>
+							<strong>Alternativ: </strong>Anwendung von anderen Depth-Upsampling Mechnaismen
+						</p>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Shadow Vertex Shader Demo <i class="fa fa-youtube"></i></h3>
+						<iframe width="840" height="500" src="https://www.youtube.com/embed/M8tiDMsmDyI" frameborder="0" allowfullscreen></iframe>
+					</div>
+				</section>
+				
+			</section>
+
+			<section>
+
+				<h2>Résumé</h2>
+
+				<section>
+					<div>
+						<h3>Hürden und Probleme</h3>
+						<ul>
+							<li>Kompromiss zwischen thematischer Tiefe und Alternativen</li>
+							<li>Ebenenrekonstruktion wurde weniger vielversprechend</li>
+							<li>Neue Forschungsgebiete der Echtzeitrekonstruktion</li>
+							<li></li>
+						</ul>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Persöhnliche Technische Herausforderungen</h3>
+						
+						<img src="img/tools.png" alt="">
+
+						<ul>
+							<li>Erste Anwendung von OpenGL</li>
+							<li>Android Native Entwicklung</li>
+							<li>Android Crosscompiling (OpenCV ...)</li>
+							<li>OpenChisel Portierung aus ROS</li>
+						</ul>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Persöhnliche Reflektion</h3>
+						<ul>
+							<li></li>
+							<li>
+								Neue Tango Releases nah an eigener Entwicklung:
+								<ul>
+									<li>AR Examples</li>
+									<li>Raycasting & RANSAC Ebenendetektion</li>
+									<li>Depth Upsampling</li>
+									<li>Bilateral Depth Filtering</li>
+								</ul>
+							</li>
+							<li>Interessantes Feedback aus der  <a href="https://plus.google.com/communities/114537896428695886568">Google+ Community</a></li>
+						</ul>
+					</div>
+				</section>
 			</section>
 
 			<section>
 				<div id="splash">
-					<h1>Fragen?</h1>
+					<h1>Vielen Dank! <br>Fragen?</h1>
 				</div>
 			</section>
 
