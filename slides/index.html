@@ -108,6 +108,7 @@
 							<li><i class="fa fa-plus-circle"></i> detailiere Abbildung der Tiefe</li>
 							<li><i class="fa fa-minus-circle"></i> limitierter Sichtbereich</li>
 							<li><i class="fa fa-minus-circle"></i> starkes Rauschen in Messdaten immer sichtbar</li>
+							<li><i class="fa fa-arrow-right"></i> Einsatz in detailierter und räumlich begrenzter Umgebung mit Filterung (folgt)</li>
 						</ul>
 					</div>
 				</section>
@@ -122,7 +123,6 @@
 						<ul class="rating">
 							<li><strong>RANSAC</strong> Umsetzung nach Yang u.a. Förstner (2010)</li>
 							<li><i class="fa fa-hand-o-right"></i> 3 Ebenen in Würfel Aufteilung</li>
-							<li><i class="fa fa-hand-o-right"></i> lineare Regression nach Hoppe u.a. (1992)</li>
 							<li>Ebenenausbreitung wie im SLAM von Trevor u.a. (2012)</li>
 							<li><i class="fa fa-hand-o-right"></i> Bestimmung der konvexe Hülle</li>
 						</ul>	
@@ -150,6 +150,7 @@
 							<li><i class="fa fa-minus-circle"></i> False-Positives werden nicht revidiert</li>
 							<li><i class="fa fa-minus-circle"></i> Lücken zwischen den Oberflächen</li>
 							<li><i class="fa fa-minus-circle"></i> zu grobe Struktur bei detailreichen Umgebungen </li>
+							<li><i class="fa fa-arrow-right"></i> Einsatz in weitläufiger Umgebung mit Filterung (folgt)</li>
 						</ul>
 					</div>
 				</section>
@@ -204,6 +205,7 @@
 							<li><i class="fa fa-plus-circle"></i> Space Carving revidiert False-Positives</li>
 							<li><i class="fa fa-plus-circle"></i> Lückenlose Oberflächen</li>
 							<li><i class="fa fa-minus-circle"></i> zu grobe Struktur bei detailreichen Umgebungen </li>
+							<li><i class="fa fa-arrow-right"></i> Einsatz in weitläufiger Umgebung (letzte Demo)</li>
 						</ul>
 					</div>
 				</section>
@@ -235,8 +237,9 @@
 						<img src="/img/gf-demo.png" alt="">
 						<ul class="rating">
 							<li><i class="fa fa-plus-circle"></i> Reduktion von Fehlern</li>
-							<li><i class="fa fa-minus-circle"></i> Performance Einbußen durch OpenCV Pipeline</li>
-							<li><i class="fa fa-minus-circle"></i> OpenCV Bildtiefe auf 8 Bit beschränkt</li>
+							<li><i class="fa fa-plus-circle"></i> Schließt Lücken in der Ebenenrekonstruktion</li>
+							<li><i class="fa fa-minus-circle"></i> <i class="fa fa-clock-o"></i> Performance Einbußen durch OpenCV Pipeline</li>
+							<li><i class="fa fa-minus-circle"></i> <i class="fa fa-clock-o"></i> OpenCV Bildtiefe auf 8 Bit beschränkt</li>
 						</ul>
 					</div>
 				</section>
@@ -365,9 +368,10 @@
 						<ul>
 							<li>Kompromiss zwischen thematischer Tiefe und Alternativen</li>
 							<li>Ebenenrekonstruktion wurde weniger vielversprechend</li>
-							<li>Neue Forschungsgebiete der Echtzeitrekonstruktion</li>
-							<li></li>
+							<li>Neue Forschungsgebiete der mobilen Echtzeitrekonstruktion</li>
+							<li>Kein "Glasklares" Ergebnis</li>
 						</ul>
+
 					</div>
 				</section>
 
@@ -390,7 +394,6 @@
 					<div>
 						<h3>Persöhnliche Reflektion</h3>
 						<ul>
-							<li></li>
 							<li>
 								Neue Tango Releases nah an eigener Entwicklung:
 								<ul>
@@ -400,7 +403,7 @@
 									<li>Bilateral Depth Filtering</li>
 								</ul>
 							</li>
-							<li>Interessantes Feedback aus der  <a href="https://plus.google.com/communities/114537896428695886568">Google+ Community</a></li>
+							<li>Interessantes Feedback aus der <a href="https://plus.google.com/communities/114537896428695886568"><i class="fa fa-google-plus"></i> Community</a></li>
 						</ul>
 					</div>
 				</section>
