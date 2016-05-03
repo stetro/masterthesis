@@ -1,9 +1,11 @@
-# Masterthesis - Tex [![PDF Status](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/badge.svg)](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/output.pdf) [Slides](http://stetro.github.io/masterthesis/slides)
-
+# Masterthesis - Tex [![PDF Status](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/badge.svg)](https://www.sharelatex.com/github/repos/stetro/masterthesis/builds/latest/output.pdf) 
 
 
 * [Thesis](main.pdf) (german)
 * [Technical Report](report.pdf) (english)
+* [Slides](http://stetro.github.io/masterthesis/slides) (german)
+* [Prototype Implementation](https://github.com/stetro/project-tango-poc) (english)
+
 
 ### Zusammenfassung
 
