@@ -130,5 +130,7 @@ sympy-plots-for-*.tex/
 .DS_Store
 
 slides/bower_components/
+slides-pitch/bower_components/
 slides/node_modules/
+slides-pitch/node_modules/
 
