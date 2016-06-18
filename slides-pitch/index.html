@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Project Tango - Master Thesis</title>
+	<link rel="stylesheet" href="http://lab.hakim.se/reveal-js/css/reveal.css">
+	<link rel="stylesheet" href="https://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<div id="title-slide">
+					<h1>Project Tango - Master Thesis</h1>
+					<p>"Optimization of augmented reality applications considering the depth information with Googles Project Tango"</p>
+					<p>Steffen Tröster<br>Cologne, Germany, 19.06.2016<br>Cologne University of Applied Sciences</p>
+				</div>
+			</section>
+
+			<section>
+				<h2>Augmented Reality</h2>
+				<section>
+					<div>
+						<h3>Problem & Motivation</h3>
+						<img src="img/occlusion-problem.png">
+					</div>
+				</section>
+				<section>
+					<div>
+						<p class="quote">Solution: Using a Depthmap with the <br>Z-Buffer Method described by Wloka u. Anderson (1995)</p>
+						<h3>Estimation of Depthinformation</h3>
+						<p>
+							<ul class="rating">
+								<li><i class="fa fa-minus-circle"></i> Model Based Estimation</li>
+								<li><i class="fa fa-minus-circle"></i> Edge Based Estimation</li>
+								<li><i class="fa fa-plus-circle"></i> Structured Light Depthmap Usage</li>
+								<li><i class="fa fa-plus-circle"></i> Structured Light Reconstruction</li>
+							</ul>
+						</p>
+					</div>
+				</section>					
+			</section>
+
+
+			<section>
+				<h2>Depthmap from Pointcloud Projection</h2>
+				<section>
+					<div>
+						<h3>Simple Approach</h3>
+						<p>
+							<img src="img/pc-demo.png" alt="">
+						</p>
+						<ul class="rating">
+							<li><i class="fa fa-plus-circle"></i> detailed depth estimation per Tango depth frame</li>
+							<li><i class="fa fa-minus-circle"></i> limited depth</li>
+							<li><i class="fa fa-minus-circle"></i> visible noise</li>
+							<li><i class="fa fa-arrow-right"></i> Can be used in constrained environment </li>
+							<li><i class="fa fa-arrow-right"></i> small distance </li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Demo</h3>
+						<p>
+							<img src="img/pc.png" alt=""><br>
+							<img src="img/pc_render.png" alt="">
+						</p>
+					</div>
+				</section>
+			</section>
+
+
+			<section>
+				<h2>Plane Reconstruction</h2>
+				<section>
+					<div>
+						<h3>own combination of different approaches</h3>
+						<ul class="rating">
+							<li><strong>RANSAC</strong> plane detection by Yang u.a. Förstner (2010)</li>
+							<li><i class="fa fa-hand-o-right"></i> 3 planes in spartial octree cluster</li>
+							<li>plane reconstruction like Trevor u.a. (2012)</li>
+							<li><i class="fa fa-hand-o-right"></i> using the convex hull of supporting points</li>
+						</ul>	
+						<img src="img/plane-demo.png" alt="">
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Prototype implementation </h3>
+						<img src="img/plane-demo.png" alt="">
+						<ul class="rating">
+							<li><i class="fa fa-plus-circle"></i> augmenting reconstruction</li>
+							<li><i class="fa fa-plus-circle"></i> approximation of surfaces (reduces noise)</li>
+							<li><i class="fa fa-minus-circle"></i> keeps false positives </li>
+							<li><i class="fa fa-minus-circle"></i> gaps between planes</li>
+							<li><i class="fa fa-minus-circle"></i> too inaccurate for detailed reconstruction </li>
+							<li><i class="fa fa-arrow-right"></i> Can be used in rough environments</li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Demo</h3>
+						<p>
+							<img src="img/plane.png" alt=""><br>
+							<img src="img/plane_render.png" alt="">
+						</p>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<h2>TSDF Reconstruction</h2>
+				<section>
+					<div>
+						<h3>Chisel - Klingensmith u.a. (2015)</h3>
+						<ul>
+							<li>optimized for mobile environments</li>
+							<li>uses TSDF data structure</li>
+							<li>saves memory because of spartial hashing</li>
+							<li>Marching Cubes rendering</li>
+							<li>corrects itself by Space Carving</li>
+						</ul>
+						<img src="img/chisel-demo.png" alt="">
+					</div>
+				</section>
+				
+				<section>
+					<div>
+						<h3>Prototype implementation: OpenChisel</h3>
+						<img src="img/chisel-demo.png" alt="">
+						<ul class="rating">
+							<li><i class="fa fa-plus-circle"></i> augmenting reconstruction</li>
+							<li><i class="fa fa-plus-circle"></i> surface approximation (reduces noise)</li>
+							<li><i class="fa fa-plus-circle"></i> Space Carving is erasing false-positives</li>
+							<li><i class="fa fa-plus-circle"></i> No gaps</li>
+							<li><i class="fa fa-minus-circle"></i> ztoo inaccurate for detailed reconstruction </li>
+							<li><i class="fa fa-arrow-right"></i> can be used in wide areas</li>
+						</ul>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Demo</h3>
+						<p>
+							<img src="img/tsdf.png" alt=""><br>
+							<img src="img/tsdf_render.png" alt="">
+						</p>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<h2>Guided Filter</h2>
+				<section>
+					<div>
+						<h3>surface approximations and noise is producing errors</h3>
+						<img src="img/noise.png" alt="" width="80%">
+						<p class="quote">Idea: filter on depth image frame buffer</p>
+					</div>
+				</section>
+				<section>
+					<div>
+						<img src="img/guided-filter.png" alt="" width="80%">
+					</div>
+				</section>
+				<section>
+					<div>
+						<img src="img/gf-demo.png" alt="">
+						<ul class="rating">
+							<li><i class="fa fa-plus-circle"></i> reducing noise</li>
+							<li><i class="fa fa-plus-circle"></i> closes gaps of plane reconstrcution</li>
+							<li><i class="fa fa-minus-circle"></i> <i class="fa fa-clock-o"></i> isn't performant because of OpenCV</li>
+							<li><i class="fa fa-minus-circle"></i> <i class="fa fa-clock-o"></i> OpenCV filter is limited to 8 Bit</li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>demo</h3>
+						<p>
+							<img src="img/plant_occlusion.png" alt="">
+						</p>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<h2>Prototyp</h2>
+				<section>
+					<div>
+						<img src="img/prototype.png" alt="" class="whiteborder" width="90%">
+						<p>
+							on <a href="https://github.com/stetro/project-tango-poc"><i class="fa fa-github"></i> GitHub</a>
+						</p>
+						
+					</div>
+				</section>
+				<section>
+					<div>
+						<h3>Demo <i class="fa fa-youtube"></i></h3>
+						<iframe width="800" height="500" src="https://www.youtube.com/embed/JemHaOV_Zpo" frameborder="0" allowfullscreen></iframe>
+					</div>
+				</section>
+			</section>
+	
+			
+			<section>
+				<h2>Open Questions and Optimizations</h2>
+
+				<section>
+					<div>
+						<h3>Optimizing <strong>Plane Reconstruction</strong></h3>
+						<p class="quote">introducitn features of Chisel</p>
+						<ul>
+							<li>Spatial Hashing</li>
+							<li>Space Carving</li>
+							<li>limiting the depth sensing (noise reduction)</li>
+						</ul>
+						<p>How can planes be merged?</p>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Optimizing <strong>Chisel</strong></h3>
+						<p class="quote">
+							GPU Implementierung
+						</p>
+						<ul>
+							<li>small voxel is increasing the level of detail</li>
+							<li>Marching Cubes could be replaced by Raycasting </li>
+						</ul>
+						<img src="img/kinfu.png" alt="" width="60%">
+						<p class="cite">Microsoft Kinect Fusion (2015)</p>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Questions for <strong>Guided Filter</strong></h3>
+						<ul>
+							<li>Some errors can be erased - some couldn't not, why? </li>
+							<li>How to reduce depth artifacts? (8Bit - 16Bit?) </li>
+						</ul>
+						<img src="img/artifacts.png" alt="" width="60%">
+						<h3>Optimization of <strong>Guided Filter</strong></h3>
+						<p class="quote">Implementation as OpenGL Fragmentshader?</p>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Optimization of <strong>Depthinformation</strong></h3>
+						<p class="quote">Applying the filter before the integration into the reconstruction</p>
+						<img src="img/kinfu-filter.jpg" alt="">
+						<p class="cite">Newcombe u.a. (2011)</p>
+						<p>
+							<strong>alternative: </strong>Using more sophisticated Depth-Upsampling techniques
+						</p>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<h3>Shadow Vertex Shader Demo <i class="fa fa-youtube"></i></h3>
+						<iframe width="840" height="500" src="https://www.youtube.com/embed/M8tiDMsmDyI" frameborder="0" allowfullscreen></iframe>
+					</div>
+				</section>
+				
+			</section>
+
+			<section>
+				<div id="splash">
+					<h1>Thanks! <br>
+<br>Q&A</h1>
+				</div>
+			</section>
+
+
+			<section>
+				<div id="last-slide">
+					<h1>Vielen Dank!</h1>
+					<div>
+						Contact <br>
+						<br>
+						Steffen Tröster <br>
+						inovex Lab <br>
+						<br>
+						<br>
+						stroester@inovex.de <br>
+						<br>
+						inovex GmbH <br>
+						Schanzenstraße 6 - 20 <br>
+						51063 Cologne <br>
+						Germany <br>
+						inovex.de
+					</div>
+					
+				</div>
+			</section>
+		</div>
+	</div>
+	<script src="http://lab.hakim.se/reveal-js/lib/js/head.min.js"></script>
+	<script src="http://lab.hakim.se/reveal-js/js/reveal.js"></script>
+	<script type="text/javascript">
+		Reveal.initialize({
+			history: true,
+			width: 1080,
+    		height: 720,
+    		margin: 0.1,
+    		center: false,
+    		transition: 'none',
+    		dependencies: [
+        		{ src: 'http://lab.hakim.se/reveal-js/plugin/math/math.js', async: true }
+        	]
+    	});
+	</script>
+</body>
+</html>
