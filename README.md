@@ -4,6 +4,7 @@
 * [Thesis](main.pdf) (german)
 * [Technical Report](report.pdf) (english)
 * [Slides](http://stetro.github.io/masterthesis/slides) (german)
+* [Tango Meetup Slides](http://stetro.github.io/masterthesis/slides-pitch) (english)
 * [Prototype Implementation](https://github.com/stetro/project-tango-poc) 
 
 
